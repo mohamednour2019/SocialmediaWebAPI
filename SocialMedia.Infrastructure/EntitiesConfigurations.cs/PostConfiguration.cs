@@ -1,0 +1,25 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using SocialMedia.Core.Domain.Entities;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace SocialMedia.Infrastructure.EntitiesConfigurations.cs
+{
+    public class PostConfiguration : IEntityTypeConfiguration<Post>
+    {
+        public void Configure(EntityTypeBuilder<Post> builder)
+        {
+            builder.Property(x=>x.Id).ValueGeneratedNever();
+
+            builder.HasMany(x=>x.Comments).WithOne(x=>x.Post).HasForeignKey(x=>x.PostId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasMany(x=>x.Likes).WithOne(x=>x.Post).HasForeignKey(x=>x.PostId)
+                .OnDelete(DeleteBehavior.Cascade);
+        }
+    }
+}
