@@ -30,16 +30,16 @@ namespace SocialMedia.Presentation.API.ServicesConfigurations
 
             //ef core  and identity registration
              Services.AddDbContext<AppDbContext>();
-             Services.AddIdentity<User, Role>(options =>
-            {
-                options.Password.RequireUppercase = true;
-                options.Password.RequireLowercase = true;
-                options.Password.RequiredLength = 10;
+            Services.AddIdentity<User, Role>(options =>
+           {
+               options.Password.RequireUppercase = true;
+               options.Password.RequireLowercase = true;
+               options.Password.RequiredLength = 10;
 
-            }).AddEntityFrameworkStores<AppDbContext>()
-              .AddUserStore<UserStore<User, Role, AppDbContext, Guid>>()
-              .AddRoleStore<RoleStore<Role, AppDbContext, Guid>>()
-              .AddDefaultTokenProviders();
+           }).AddEntityFrameworkStores<AppDbContext>()
+             .AddUserStore<UserStore<User, Role, AppDbContext, Guid>>()
+             .AddRoleStore<RoleStore<Role, AppDbContext, Guid>>()
+             .AddDefaultTokenProviders();
 
              //auto mapper registration
              Services.AddAutoMapper(typeof(Mapper));

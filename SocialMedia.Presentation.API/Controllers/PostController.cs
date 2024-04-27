@@ -4,10 +4,12 @@ using SocialMedia.Core.DTO_S.RequestDto_S;
 using SocialMedia.Core.DTO_S.ResponseDto_S;
 using SocialMedia.Core.ServicesInterfaces.PostInterfaces;
 using SocialMedia.Presentation.API.ControllerPresenter;
+using SocialMedia.Presentation.API.Filters;
 
 namespace SocialMedia.Presentation.API.Controllers
 {
     [ApiVersion(1.0)]
+    [AuthorizationFilter]
     public class PostController : BaseController
     {
 

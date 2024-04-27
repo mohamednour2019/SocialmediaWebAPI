@@ -3,10 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 using SocialMedia.Core.DTO_S.RequestDto_S;
 using SocialMedia.Core.DTO_S.ResponseDto_S;
 using SocialMedia.Core.ServicesInterfaces.PostInterfaces.CommentInterfaces;
+using SocialMedia.Presentation.API.Filters;
 
 namespace SocialMedia.Presentation.API.Controllers
 {
     [ApiVersion("1.0")]
+    [AuthorizationFilter]
     public class CommentController:BaseController
     {
         [HttpPost]
