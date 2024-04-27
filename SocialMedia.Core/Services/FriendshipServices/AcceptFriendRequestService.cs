@@ -26,9 +26,9 @@ namespace SocialMedia.Core.Services.FriendshipServices
         {
             FriendsRelationship Friendship= await _repository
                 .FindAsync(requestDto.SenderId, requestDto.ReciverId);
-            if(Friendship is not null&&Friendship.Type == FriendshipStatus.FriendRequest.ToString()) {
+            if(Friendship is not null&&Friendship.Type == FriendshipStatus.FriendRequest) {
 
-                Friendship.Type = FriendshipStatus.Friends.ToString();
+                Friendship.Type = FriendshipStatus.Friends;
                 await _unitOfWork.SaveChangeAsync();
             }
             else

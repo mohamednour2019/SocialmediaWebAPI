@@ -22,7 +22,7 @@ namespace SocialMedia.Core.Services.FriendshipServices
         public async Task<AddFriendResponseDto> Perform(AddFriendRequestDto requestDto)
         {
             FriendsRelationship friendRequest = _mapper.Map<FriendsRelationship>(requestDto);
-            friendRequest.Type = FriendshipStatus.FriendRequest.ToString();
+            friendRequest.Type = FriendshipStatus.FriendRequest;
             try
             {
                 await _repository.AddAsync(friendRequest);

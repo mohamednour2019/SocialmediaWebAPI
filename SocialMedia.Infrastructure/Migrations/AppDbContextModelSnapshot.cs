@@ -150,7 +150,7 @@ namespace SocialMedia.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Comment");
+                    b.ToTable("Comment", (string)null);
                 });
 
             modelBuilder.Entity("SocialMedia.Core.Domain.Entities.FirendsRelationship", b =>
@@ -184,7 +184,7 @@ namespace SocialMedia.Infrastructure.Migrations
 
                     b.HasIndex("PostId");
 
-                    b.ToTable("Like");
+                    b.ToTable("Like", (string)null);
                 });
 
             modelBuilder.Entity("SocialMedia.Core.Domain.Entities.Message", b =>
@@ -212,7 +212,7 @@ namespace SocialMedia.Infrastructure.Migrations
 
                     b.HasIndex("SenderId");
 
-                    b.ToTable("Message");
+                    b.ToTable("Message", (string)null);
                 });
 
             modelBuilder.Entity("SocialMedia.Core.Domain.Entities.Post", b =>
@@ -234,7 +234,7 @@ namespace SocialMedia.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Posts");
+                    b.ToTable("Posts", (string)null);
                 });
 
             modelBuilder.Entity("SocialMedia.Core.Domain.Entities.Role", b =>

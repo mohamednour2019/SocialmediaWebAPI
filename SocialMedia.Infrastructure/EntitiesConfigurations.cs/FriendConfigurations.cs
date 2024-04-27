@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SocialMedia.Core.Domain.Entities;
+using SocialMedia.Core.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,10 @@ namespace SocialMedia.Infrastructure.EntitiesConfigurations.cs
         public void Configure(EntityTypeBuilder<FriendsRelationship> builder)
         {
             builder.ToTable("Friends");
+            builder.Property(x => x.Type).HasConversion(
+                x => x.ToString(),
+                x => (FriendshipStatus)Enum.Parse(typeof(FriendshipStatus), x)
+                );
             builder.Property(x=>x.FirstUserId).ValueGeneratedNever();
             builder.Property(x => x.SecondUserId).ValueGeneratedNever();
             builder.HasOne(x => x.FirstUser).WithMany(x => x.FirstUserFriends)

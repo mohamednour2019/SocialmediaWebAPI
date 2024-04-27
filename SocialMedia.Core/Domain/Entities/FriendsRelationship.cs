@@ -1,4 +1,5 @@
 ﻿using Microsoft.Identity.Client;
+using SocialMedia.Core.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -15,6 +16,6 @@ namespace SocialMedia.Core.Domain.Entities
         public User SecondUser { get; set; }
         public Guid SecondUserId {  get; set; }
         [MaxLength(15)]
-        public string? Type {  get; set; }
+        public FriendshipStatus ? Type {  get; set; }
     }
 }
