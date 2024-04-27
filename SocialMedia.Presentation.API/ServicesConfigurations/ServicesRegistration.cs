@@ -6,10 +6,12 @@ using SocialMedia.Core.Domain.RepositoriesInterfaces;
 using SocialMedia.Core.Services.FriendshipServices;
 using SocialMedia.Core.Services.PostServices;
 using SocialMedia.Core.Services.PostServices.CommentServices;
+using SocialMedia.Core.Services.PostServices.LikeServices;
 using SocialMedia.Core.Services.UserServices;
 using SocialMedia.Core.ServicesInterfaces.FriendshipInterfaces;
 using SocialMedia.Core.ServicesInterfaces.PostInterfaces;
 using SocialMedia.Core.ServicesInterfaces.PostInterfaces.CommentInterfaces;
+using SocialMedia.Core.ServicesInterfaces.PostInterfaces.LikeInterfaces;
 using SocialMedia.Core.ServicesInterfaces.UserInterfaces;
 using SocialMedia.Infrastructure.DatabaseContext;
 using SocialMedia.Infrastructure.Mapper;
@@ -83,6 +85,9 @@ namespace SocialMedia.Presentation.API.ServicesConfigurations
             Services.AddScoped<IDeleteCommentService,DeleteCommentService>();
             Services.AddScoped<ICommentRepository,CommentRepository>();
             Services.AddScoped<IUpdateCommentService,UpdateCommentService>();
+            Services.AddScoped<IAddLikeService,AddLikeService>();
+            Services.AddScoped<IUnlikeService,UnlikeService>();
+            Services.AddScoped<IGenericRepository<Like>,GenericRepository<Like>>();
             Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 
