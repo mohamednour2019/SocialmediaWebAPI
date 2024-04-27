@@ -20,6 +20,8 @@ namespace SocialMedia.Core.Domain.Entities
         [Required]
         [Length(0, 500)]
         public string Description { get; set; }
+        
+        public bool IsActive { get; set; }
         public User User { get; set; }  
         public Guid UserId {  get; set; }
     }

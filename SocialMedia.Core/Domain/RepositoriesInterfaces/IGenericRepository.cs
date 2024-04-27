@@ -13,7 +13,6 @@ namespace SocialMedia.Core.Domain.RepositoriesInterfaces
 
         Task<T> FindAsync(params object[] keyValues);
         Task Delete(Guid id);
-
         Task Delete(params object[] keyValues);
     }
 }

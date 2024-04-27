@@ -5,13 +5,16 @@ using SocialMedia.Core.Domain.Entities;
 using SocialMedia.Core.Domain.RepositoriesInterfaces;
 using SocialMedia.Core.Services.FriendshipServices;
 using SocialMedia.Core.Services.PostServices;
+using SocialMedia.Core.Services.PostServices.CommentServices;
 using SocialMedia.Core.Services.UserServices;
 using SocialMedia.Core.ServicesInterfaces.FriendshipInterfaces;
 using SocialMedia.Core.ServicesInterfaces.PostInterfaces;
+using SocialMedia.Core.ServicesInterfaces.PostInterfaces.CommentInterfaces;
 using SocialMedia.Core.ServicesInterfaces.UserInterfaces;
 using SocialMedia.Infrastructure.DatabaseContext;
 using SocialMedia.Infrastructure.Mapper;
 using SocialMedia.Infrastructure.Repositories;
+using SocialMedia.Infrastructure.Repositories.CommentRepository;
 using SocialMedia.Infrastructure.Repositories.Friendship;
 
 namespace SocialMedia.Presentation.API.ServicesConfigurations
@@ -75,6 +78,11 @@ namespace SocialMedia.Presentation.API.ServicesConfigurations
             Services.AddScoped<IAcceptFriendRequestService,AcceptFriendRequestService>();
             Services.AddScoped<IRejectFriendRequestService,RejectFriendRequestService>();   
             Services.AddScoped<IGetFriendRequestsService,GetFriendRequestsService>();
+            Services.AddScoped<IAddCommentService,AddCommentService>();
+            Services.AddScoped<IGenericRepository<Comment>,GenericRepository<Comment>>();
+            Services.AddScoped<IDeleteCommentService,DeleteCommentService>();
+            Services.AddScoped<ICommentRepository,CommentRepository>();
+            Services.AddScoped<IUpdateCommentService,UpdateCommentService>();
             Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 

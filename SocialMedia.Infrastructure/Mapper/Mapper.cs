@@ -61,6 +61,25 @@ namespace SocialMedia.Infrastructure.Mapper
                 .ForMember(dest => dest.FirstUserId, opt => opt.MapFrom(src => src.CurrentUserId))
                 .ForMember(dest => dest.SecondUserId, opt => opt.MapFrom(src => src.FriendId));
 
+            CreateMap<AddCommentRequestDto, Comment>()
+                .ForMember(dest => dest.PostId, opt => opt.MapFrom(src => src.PostId))
+                .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId))
+                .ForMember(dest => dest.Content, opt => opt.MapFrom(src => src.Content));
+
+
+            CreateMap<Comment, AddCommentResponseDto>()
+               .ForMember(dest => dest.PostId, opt => opt.MapFrom(src => src.PostId))
+               .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId))
+               .ForMember(dest => dest.Content, opt => opt.MapFrom(src => src.Content))
+               .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+               .ForMember(dest => dest.DateCreated, opt => opt.MapFrom(src => src.DateCreated));
+
+            CreateMap<Comment, UpdateCommentResponseDto>()
+               .ForMember(dest => dest.PostId, opt => opt.MapFrom(src => src.PostId))
+               .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId))
+               .ForMember(dest => dest.Content, opt => opt.MapFrom(src => src.Content))
+               .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+               .ForMember(dest => dest.DateCreated, opt => opt.MapFrom(src => src.DateCreated));
             //CreateMap<User, GetFriendRequestsResponseDto>()
             //  .ForMember(dest => dest.FriendId, opt => opt.MapFrom(src => src.Id))
             //  .ForMember(dest => dest.FriendFirstName, opt => opt.MapFrom(src => src.FirstName))

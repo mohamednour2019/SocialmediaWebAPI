@@ -9,14 +9,11 @@ using System.Threading.Tasks;
 
 namespace SocialMedia.Infrastructure.EntitiesConfigurations.cs
 {
-    public class CommentConfigurations : IEntityTypeConfiguration<Comment>
+    public class NotificationConfiguration : IEntityTypeConfiguration<Notification>
     {
-        public void Configure(EntityTypeBuilder<Comment> builder)
+        public void Configure(EntityTypeBuilder<Notification> builder)
         {
-            builder.ToTable("Comments");
-            builder.Property(x=>x.UserId).ValueGeneratedNever();
-            builder.Property(x=>x.PostId).ValueGeneratedNever();
-            builder.HasKey(x =>x.Id);
+            builder.Property(x=>x.IsActive).HasDefaultValue(true);
         }
     }
 }
