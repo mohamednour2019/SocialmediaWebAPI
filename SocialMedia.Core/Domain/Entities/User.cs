@@ -28,6 +28,7 @@ namespace SocialMedia.Core.Domain.Entities
         public ICollection<FriendsRelationship>? SecondUserFriends { get; set; }
         public ICollection<Message>? SenderMessages { get; set;}
         public ICollection<Message>? ReciverMessages {  get; set; }
+        public ICollection<Notification>? Notifications { get; set; }
 
     }
 }

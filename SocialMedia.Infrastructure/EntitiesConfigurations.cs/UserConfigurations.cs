@@ -24,6 +24,9 @@ namespace SocialMedia.Infrastructure.EntitiesConfigurations.cs
             builder.HasMany(x => x.Like).WithOne(x => x.User).HasForeignKey(x => x.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            builder.HasMany(x => x.Notifications).WithOne(x => x.User)
+                .HasForeignKey(x => x.UserId);
+
 
         }
     }
