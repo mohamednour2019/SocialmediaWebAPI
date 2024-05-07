@@ -184,7 +184,7 @@ namespace SocialMedia.Infrastructure.Migrations
 
                     b.HasIndex("PostId");
 
-                    b.ToTable("Like", (string)null);
+                    b.ToTable("Like");
                 });
 
             modelBuilder.Entity("SocialMedia.Core.Domain.Entities.Message", b =>
@@ -212,7 +212,7 @@ namespace SocialMedia.Infrastructure.Migrations
 
                     b.HasIndex("SenderId");
 
-                    b.ToTable("Message", (string)null);
+                    b.ToTable("Message");
                 });
 
             modelBuilder.Entity("SocialMedia.Core.Domain.Entities.Notification", b =>
@@ -244,33 +244,7 @@ namespace SocialMedia.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Notifications", (string)null);
-                });
-
-            modelBuilder.Entity("SocialMedia.Core.Domain.Entities.OTP", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("Expiration")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("OTPCode")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
-
-                    b.ToTable("OTP", (string)null);
+                    b.ToTable("Notifications");
                 });
 
             modelBuilder.Entity("SocialMedia.Core.Domain.Entities.Post", b =>
@@ -292,7 +266,7 @@ namespace SocialMedia.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Posts", (string)null);
+                    b.ToTable("Posts");
                 });
 
             modelBuilder.Entity("SocialMedia.Core.Domain.Entities.Role", b =>
@@ -374,6 +348,13 @@ namespace SocialMedia.Infrastructure.Migrations
                     b.Property<string>("NormalizedUserName")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("OTP")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("OtpExpiration")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
@@ -555,17 +536,6 @@ namespace SocialMedia.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("SocialMedia.Core.Domain.Entities.OTP", b =>
-                {
-                    b.HasOne("SocialMedia.Core.Domain.Entities.User", "User")
-                        .WithOne("OTP")
-                        .HasForeignKey("SocialMedia.Core.Domain.Entities.OTP", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("SocialMedia.Core.Domain.Entities.Post", b =>
                 {
                     b.HasOne("SocialMedia.Core.Domain.Entities.User", "User")
@@ -593,9 +563,6 @@ namespace SocialMedia.Infrastructure.Migrations
                     b.Navigation("Like");
 
                     b.Navigation("Notifications");
-
-                    b.Navigation("OTP")
-                        .IsRequired();
 
                     b.Navigation("Posts");
 

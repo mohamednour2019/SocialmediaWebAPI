@@ -26,12 +26,14 @@ namespace SocialMedia.Core.Services.UserServices
         {
             User user = _mapper.Map<User>(requestDto);
             user.Id = new Guid();
+            user.OTP = _generateOtpService.GenerateOTP();
+            user.OtpExpiration = DateTime.Now.AddMinutes(10);
             IdentityResult result = await _userManager.CreateAsync(user, requestDto.Password);
             if (!result.Succeeded)
             {
                 throw new Exception(string.Join('\n', result.Errors.Select(x => x.Description)));
             }
-            await _generateOtpService.GenerateOTP(user.Id);
+  
             return new RegisterResponseDto();
         }
     }
