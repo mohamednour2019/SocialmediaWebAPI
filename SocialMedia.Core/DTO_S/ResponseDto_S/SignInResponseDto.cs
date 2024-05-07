@@ -16,6 +16,8 @@ namespace SocialMedia.Core.DTO_S.ResponseDto_S
         public string LastName { get; set; }
         public DateOnly BirthDate { get; set; }
         public string? Relationship { get; set; }
+
+        public string Gender {  get; set; }
         public List<Post> Posts { get; set; }
         public List<FriendsRelationship> FirstUserFriends { get; set; }
     }

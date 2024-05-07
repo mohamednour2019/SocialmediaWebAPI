@@ -18,6 +18,8 @@ namespace SocialMedia.Infrastructure.EntitiesConfigurations.cs
                 .HasForeignKey(x => x.UserId)
                 .IsRequired(true);
 
+            builder.Property(x => x.ProfilePicture).HasColumnType("image");
+
             builder.HasMany(x=>x.Comments).WithOne(x => x.User) .HasForeignKey(x => x.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
@@ -26,6 +28,8 @@ namespace SocialMedia.Infrastructure.EntitiesConfigurations.cs
 
             builder.HasMany(x => x.Notifications).WithOne(x => x.User)
                 .HasForeignKey(x => x.UserId);
+
+            builder.HasOne(x=>x.OTP).WithOne(x=>x.User).HasForeignKey<OTP>(x => x.UserId);
 
 
         }

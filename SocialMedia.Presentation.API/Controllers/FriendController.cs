@@ -9,7 +9,7 @@ using System.Security.Policy;
 namespace SocialMedia.Presentation.API.Controllers
 {
     [ApiVersion(1.0)]
-    [AuthorizationFilter]
+    //[AuthorizationFilter]
     public class FriendController:BaseController
     {
         [HttpPost]

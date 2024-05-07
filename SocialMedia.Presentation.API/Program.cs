@@ -12,6 +12,10 @@ var app = builder.Build();
 app.UseGlobalExciptionHandler();
 app.UseHsts();
 app.UseRouting();
+app.UseCors(options =>
+{
+    options.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+});
 app.MapControllers();
 app.UseHttpsRedirection();
 app.UseSwagger();

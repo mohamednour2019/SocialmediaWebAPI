@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SocialMedia.Infrastructure.DatabaseContext;
 
@@ -11,9 +12,11 @@ using SocialMedia.Infrastructure.DatabaseContext;
 namespace SocialMedia.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240507045724_add missed properties to user")]
+    partial class addmissedpropertiestouser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -184,7 +187,7 @@ namespace SocialMedia.Infrastructure.Migrations
 
                     b.HasIndex("PostId");
 
-                    b.ToTable("Like", (string)null);
+                    b.ToTable("Like");
                 });
 
             modelBuilder.Entity("SocialMedia.Core.Domain.Entities.Message", b =>
@@ -212,7 +215,7 @@ namespace SocialMedia.Infrastructure.Migrations
 
                     b.HasIndex("SenderId");
 
-                    b.ToTable("Message", (string)null);
+                    b.ToTable("Message");
                 });
 
             modelBuilder.Entity("SocialMedia.Core.Domain.Entities.Notification", b =>
@@ -244,33 +247,7 @@ namespace SocialMedia.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Notifications", (string)null);
-                });
-
-            modelBuilder.Entity("SocialMedia.Core.Domain.Entities.OTP", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("Expiration")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("OTPCode")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
-
-                    b.ToTable("OTP", (string)null);
+                    b.ToTable("Notifications");
                 });
 
             modelBuilder.Entity("SocialMedia.Core.Domain.Entities.Post", b =>
@@ -292,7 +269,7 @@ namespace SocialMedia.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Posts", (string)null);
+                    b.ToTable("Posts");
                 });
 
             modelBuilder.Entity("SocialMedia.Core.Domain.Entities.Role", b =>
@@ -555,17 +532,6 @@ namespace SocialMedia.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("SocialMedia.Core.Domain.Entities.OTP", b =>
-                {
-                    b.HasOne("SocialMedia.Core.Domain.Entities.User", "User")
-                        .WithOne("OTP")
-                        .HasForeignKey("SocialMedia.Core.Domain.Entities.OTP", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("SocialMedia.Core.Domain.Entities.Post", b =>
                 {
                     b.HasOne("SocialMedia.Core.Domain.Entities.User", "User")
@@ -593,9 +559,6 @@ namespace SocialMedia.Infrastructure.Migrations
                     b.Navigation("Like");
 
                     b.Navigation("Notifications");
-
-                    b.Navigation("OTP")
-                        .IsRequired();
 
                     b.Navigation("Posts");
 

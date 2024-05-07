@@ -4,11 +4,13 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using SocialMedia.Core.Domain.Entities;
 using SocialMedia.Core.Domain.RepositoriesInterfaces;
 using SocialMedia.Core.Services.FriendshipServices;
+using SocialMedia.Core.Services.OTPServices;
 using SocialMedia.Core.Services.PostServices;
 using SocialMedia.Core.Services.PostServices.CommentServices;
 using SocialMedia.Core.Services.PostServices.LikeServices;
 using SocialMedia.Core.Services.UserServices;
 using SocialMedia.Core.ServicesInterfaces.FriendshipInterfaces;
+using SocialMedia.Core.ServicesInterfaces.OTP;
 using SocialMedia.Core.ServicesInterfaces.PostInterfaces;
 using SocialMedia.Core.ServicesInterfaces.PostInterfaces.CommentInterfaces;
 using SocialMedia.Core.ServicesInterfaces.PostInterfaces.LikeInterfaces;
@@ -89,8 +91,9 @@ namespace SocialMedia.Presentation.API.ServicesConfigurations
             Services.AddScoped<IUnlikeService,UnlikeService>();
             Services.AddScoped<IGenericRepository<Like>,GenericRepository<Like>>();
             Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            Services.AddScoped<IGenerateOtpService, GenerateOtpService>();
 
-
+            Services.AddCors();
             return Services;
         }
     }

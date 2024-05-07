@@ -22,13 +22,14 @@ namespace SocialMedia.Infrastructure.Mapper
                 .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.PhoneNumber))
                 .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Email))
                 .ForMember(dest => dest.BirthDate, opt => opt.MapFrom(src => src.BirthDate))
-                .ForMember(dest => dest.Relationship, opt => opt.MapFrom(src => src.Relationship));
+                .ForMember(dest => dest.Gender, opt => opt.MapFrom(src => src.Gender));
 
             CreateMap<User, SignInResponseDto>()
                 .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.FirstName))
                 .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.LastName))
                 .ForMember(dest => dest.BirthDate, opt => opt.MapFrom(src => src.BirthDate))
                 .ForMember(dest => dest.Relationship, opt => opt.MapFrom(src => src.Relationship))
+                .ForMember(dest => dest.Gender, opt => opt.MapFrom(src => src.Gender))
                 .ForMember(dest => dest.Posts, opt => opt.MapFrom(src => src.Posts))
                 .ForMember(dest => dest.FirstUserFriends, opt => opt.MapFrom(src => src.FirstUserFriends))
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id));

@@ -8,6 +8,6 @@ namespace SocialMedia.Core.DTO_S.ResponseDto_S
 {
     public class RegisterResponseDto
     {
-        public bool succeded;
+        public string succeded { get; set; } = "Successfully Registered!";
     }
 }
