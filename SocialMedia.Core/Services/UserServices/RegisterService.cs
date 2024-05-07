@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using SocialMedia.Core.Domain.Entities;
 using SocialMedia.Core.DTO_S.RequestDto_S;
 using SocialMedia.Core.DTO_S.ResponseDto_S;
+using SocialMedia.Core.ServicesInterfaces;
 using SocialMedia.Core.ServicesInterfaces.OTP;
 using SocialMedia.Core.ServicesInterfaces.UserInterfaces;
 
@@ -14,9 +15,13 @@ namespace SocialMedia.Core.Services.UserServices
         private UserManager<User> _userManager;
         private IMapper _mapper;
         private IGenerateOtpService _generateOtpService;
+        private ISendEmailService _sendEmailService;
         public RegisterService(UserManager<User> userManager
-            , IMapper mapper,IGenerateOtpService generateOtpService)
+            , IMapper mapper,IGenerateOtpService generateOtpService
+            ,ISendEmailService sendEmailService)
         {
+            _sendEmailService = sendEmailService;
+            _userManager = userManager;
             _generateOtpService = generateOtpService;
             _userManager = userManager;
             _mapper = mapper;
@@ -33,6 +38,7 @@ namespace SocialMedia.Core.Services.UserServices
             {
                 throw new Exception(string.Join('\n', result.Errors.Select(x => x.Description)));
             }
+            _sendEmailService.SendEmail(user.OTP, user.Email);
   
             return new RegisterResponseDto();
         }

@@ -3,14 +3,17 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using SocialMedia.Core.Domain.Entities;
 using SocialMedia.Core.Domain.RepositoriesInterfaces;
+using SocialMedia.Core.Services;
 using SocialMedia.Core.Services.FriendshipServices;
 using SocialMedia.Core.Services.OTPServices;
 using SocialMedia.Core.Services.PostServices;
 using SocialMedia.Core.Services.PostServices.CommentServices;
 using SocialMedia.Core.Services.PostServices.LikeServices;
 using SocialMedia.Core.Services.UserServices;
+using SocialMedia.Core.ServicesInterfaces;
 using SocialMedia.Core.ServicesInterfaces.FriendshipInterfaces;
 using SocialMedia.Core.ServicesInterfaces.OTP;
+using SocialMedia.Core.ServicesInterfaces.OTPInterfaces;
 using SocialMedia.Core.ServicesInterfaces.PostInterfaces;
 using SocialMedia.Core.ServicesInterfaces.PostInterfaces.CommentInterfaces;
 using SocialMedia.Core.ServicesInterfaces.PostInterfaces.LikeInterfaces;
@@ -29,6 +32,7 @@ namespace SocialMedia.Presentation.API.ServicesConfigurations
         {
             //add controllers
              Services.AddControllers();
+             Services.AddHttpClient();
 
             //ef core  and identity registration
              Services.AddDbContext<AppDbContext>();
@@ -92,6 +96,9 @@ namespace SocialMedia.Presentation.API.ServicesConfigurations
             Services.AddScoped<IGenericRepository<Like>,GenericRepository<Like>>();
             Services.AddScoped<IUnitOfWork, UnitOfWork>();
             Services.AddScoped<IGenerateOtpService, GenerateOtpService>();
+            Services.AddScoped<IVerifyOtpService,VerifyOtpService>();   
+            Services.AddScoped<IGenericRepository<User>,GenericRepository<User>>();
+            Services.AddScoped<ISendEmailService,SendEmailService>();
 
             Services.AddCors();
             return Services;

@@ -9,6 +9,7 @@ namespace SocialMedia.Core.Services.OTPServices
 {
     public class VerifyOtpService : IVerifyOtpService
     {
+
         private IGenericRepository<User> _repository;
         private IUnitOfWork _unitOfWork;
         public VerifyOtpService(IGenericRepository<User> repository
@@ -19,6 +20,7 @@ namespace SocialMedia.Core.Services.OTPServices
         public async Task<VerifyOtpResponseDto> Perform(VerifyOtpRequestDto requestDto)
         {
             User user = await _repository.FindAsync(requestDto.UserId);
+            if (user is null) throw new Exception("user not found"!);
             if (user.OtpExpiration < DateTime.Now)
             {
                 throw new InvalidOperationException("otp has been expired!");
