@@ -29,6 +29,14 @@ namespace SocialMedia.Core.Services.FriendshipServices
             if(Friendship is not null&&Friendship.Type == FriendshipStatus.FriendRequest) {
 
                 Friendship.Type = FriendshipStatus.Friends;
+                FriendsRelationship firend = new FriendsRelationship()
+                {
+                    SecondUserId = requestDto.SenderId,
+                    FirstUserId = requestDto.ReciverId,
+                    Type = FriendshipStatus.Friends
+
+                };
+                await _repository.AddAsync(firend);
                 await _unitOfWork.SaveChangeAsync();
             }
             else

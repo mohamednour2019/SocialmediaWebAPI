@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.Data.SqlClient;
+using SendGrid.Helpers.Mail;
 using SocialMedia.Core.Domain.Entities;
 using SocialMedia.Core.DTO_S.RequestDto_S;
 using SocialMedia.Core.DTO_S.ResponseDto_S;
@@ -30,8 +31,6 @@ namespace SocialMedia.Infrastructure.Mapper
                 .ForMember(dest => dest.BirthDate, opt => opt.MapFrom(src => src.BirthDate))
                 .ForMember(dest => dest.Relationship, opt => opt.MapFrom(src => src.Relationship))
                 .ForMember(dest => dest.Gender, opt => opt.MapFrom(src => src.Gender))
-                .ForMember(dest => dest.Posts, opt => opt.MapFrom(src => src.Posts))
-                .ForMember(dest => dest.FirstUserFriends, opt => opt.MapFrom(src => src.FirstUserFriends))
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id));
 
 
@@ -89,6 +88,22 @@ namespace SocialMedia.Infrastructure.Mapper
                 .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId))
                 .ForMember(dest => dest.PostId, opt => opt.MapFrom(src => src.PostId));
 
+            CreateMap<Post, GetUserPostsResponseDto>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId))
+                .ForMember(dest => dest.Content, opt => opt.MapFrom(src => src.Content))
+                .ForMember(dest => dest.DateTime, opt => opt.MapFrom(src => src.DateTime))
+                .ForMember(dest => dest.Likes, opt => opt.MapFrom(src => src.Likes))
+                .ForMember(dest => dest.Comments, opt => opt.MapFrom(src => src.Comments));
+
+
+            CreateMap<Post, GetNewsFeedPostsResponseDto>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId))
+                .ForMember(dest => dest.Content, opt => opt.MapFrom(src => src.Content))
+                .ForMember(dest => dest.DateTime, opt => opt.MapFrom(src => src.DateTime))
+                .ForMember(dest => dest.Likes, opt => opt.MapFrom(src => src.Likes))
+                .ForMember(dest => dest.Comments, opt => opt.MapFrom(src => src.Comments));
             //CreateMap<User, GetFriendRequestsResponseDto>()
             //  .ForMember(dest => dest.FriendId, opt => opt.MapFrom(src => src.Id))
             //  .ForMember(dest => dest.FriendFirstName, opt => opt.MapFrom(src => src.FirstName))

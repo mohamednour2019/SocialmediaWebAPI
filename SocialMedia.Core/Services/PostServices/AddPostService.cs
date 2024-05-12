@@ -14,7 +14,7 @@ namespace SocialMedia.Core.Services.PostServices
         {
         }
 
-        public async Task<AddPostResponseDto> Perform(AddPostRequestDto requestDto)
+        public async Task<ResponseModel<AddPostResponseDto>> Perform(AddPostRequestDto requestDto)
         {
             Post post = _mapper.Map<Post>(requestDto);
             post.Id = Guid.NewGuid();
@@ -28,7 +28,12 @@ namespace SocialMedia.Core.Services.PostServices
                 throw new Exception(ex.Message);
             }
             AddPostResponseDto responseDto = _mapper.Map<AddPostResponseDto>(post);
-            return responseDto;
+            return new ResponseModel<AddPostResponseDto>()
+            {
+                Success = true,
+                Message = null,
+                Data = responseDto
+            };
         }
     }
 }

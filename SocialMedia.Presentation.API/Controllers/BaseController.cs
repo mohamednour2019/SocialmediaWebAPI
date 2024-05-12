@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SocialMedia.Presentation.API.ControllerPresenter;
+using SocialMedia.Presentation.API.Filters;
 
 namespace SocialMedia.Presentation.API.Controllers
 {
+    //[RequestDtoValidationActionFilter]
     [Route("api/v{version:apiVersion}/[Controller]")]
     [ApiController]
     public class BaseController:ControllerBase

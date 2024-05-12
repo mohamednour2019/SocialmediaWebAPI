@@ -19,7 +19,6 @@ namespace SocialMedia.Core.Domain.Entities
         [Required(ErrorMessage ="User Should Provide Birthdate!")]
         public DateOnly BirthDate {  get; set; }
 
-
         public string Gender {  get; set; }
 
         public string? Education { get; set; }

@@ -7,9 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SocialMedia.Core.ServicesInterfaces.PostInterfaces
+namespace SocialMedia.Core.ServicesInterfaces.OTPInterfaces
 {
-    public interface IAddPostService : IGenericService<AddPostRequestDto, ResponseModel<AddPostResponseDto>>
+    public interface IUpdateOtpService:IGenericService<UpdateOtpRequestDto,ResponseModel<UpdateOtpResponseDto>>
     {
     }
 }

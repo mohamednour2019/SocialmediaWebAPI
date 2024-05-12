@@ -1,12 +1,13 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using SocialMedia.Core.Domain.Entities;
+using SocialMedia.SharedKernel.CustomExceptions;
 using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace SocialMedia.Presentation.API.Middlewares
 {
-    // You may need to install the Microsoft.AspNetCore.Http.Abstractions package into your project
     public class GlobalExciptionHandlerMiddleware
     {
         private readonly RequestDelegate _next;
@@ -24,30 +25,27 @@ namespace SocialMedia.Presentation.API.Middlewares
             }
             catch(Exception ex)
             {
-                httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                var response = new ResponseModel<object>
+                {
+                    Success = false,
+                    Data = null
+                };
                 httpContext.Response.ContentType = "application/json";
 
-
-                if (ex.InnerException is not null)
+                if (ex is ViolenceValidationException)
                 {
-                    var body = JsonSerializer.Serialize(new
-                    {
-                        Error = true,
-                        ErrorMessage = "Sorry! Something Wrong Occured in Our Servers."
-                    });
-                    await httpContext.Response.WriteAsync(body);
+                    httpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    response.Message=new List<string>() {ex.Message};
                 }
-
-                if(ex.Message is not null)
+                else
                 {
-                    var body = JsonSerializer.Serialize(new
-                    {
-                        Error = true,
-                        ErrorMessage = ex.Message
-                    });
-                    await httpContext.Response.WriteAsync(body);
+                    httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                    response.Message = new List<string>() {"Sorry, Something Went Wrong Please Try Again Later."};
                 }
-            
+                string responseBody = JsonSerializer.Serialize(response);
+                await httpContext.Response.WriteAsync(responseBody);
+
+
             }
         }
     }

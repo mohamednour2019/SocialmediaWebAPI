@@ -1,21 +1,19 @@
-﻿using SocialMedia.Core.Domain.Entities;
-using SocialMedia.Core.Domain.RepositoriesInterfaces;
+﻿using SocialMedia.Core.DTO_S.ResponseDto_S;
 using SocialMedia.Core.ServicesInterfaces.OTP;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace SocialMedia.Core.Services.OTPServices
 {
-    public class GenerateOtpService:IGenerateOtpService
+    public class GenerateOtpService : IGenerateOtpService
     {
         Random generator = new Random();
 
-        public string GenerateOTP()
-        => generator.Next(100000, 999999 + 1).ToString();
+        public GenerateOtpResponseDto GenerateOTP()
+        => new GenerateOtpResponseDto()
+        {
+            OTP = generator.Next(100000, 999999 + 1).ToString(),
+            ExpireyDate = DateTime.Now.AddMinutes(10)
+        };
 
         
     }

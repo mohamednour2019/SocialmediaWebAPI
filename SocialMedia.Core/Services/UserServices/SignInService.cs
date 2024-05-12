@@ -4,6 +4,7 @@ using SocialMedia.Core.Domain.Entities;
 using SocialMedia.Core.DTO_S.RequestDto_S;
 using SocialMedia.Core.DTO_S.ResponseDto_S;
 using SocialMedia.Core.ServicesInterfaces.UserInterfaces;
+using SocialMedia.SharedKernel.CustomExceptions;
 
 namespace SocialMedia.Core.Services.UserServices
 {
@@ -18,25 +19,30 @@ namespace SocialMedia.Core.Services.UserServices
             _signInManager = signInManager;
             _mapper = mapper;
         }
-        public async Task<SignInResponseDto> Perform(SignInRequestDto requestDto)
+        public async Task<ResponseModel<SignInResponseDto>> Perform(SignInRequestDto requestDto)
         {
             User? user = await _userManager.FindByEmailAsync(requestDto.UserName);
             if (user is not null)
             {
                 SignInResult signInResult = await _signInManager.PasswordSignInAsync(requestDto.UserName
                , requestDto.Password
-               , isPersistent: requestDto.StaySignIn
-               , lockoutOnFailure: true);
+               , isPersistent: false
+               , lockoutOnFailure: false);
                 if (!signInResult.Succeeded)
                 {
-                    throw new Exception("incorrect password!");
+                    throw new ViolenceValidationException("incorrect password!");
                 }
                 SignInResponseDto response = _mapper.Map<SignInResponseDto>(user);
-                return response;
+                return new ResponseModel<SignInResponseDto>()
+                {
+                    Success = true,
+                    Message = new List<string>() { "successfully signed in!" },
+                    Data = response
+                };
             }
             else
             {
-                throw new Exception("user not registered!");
+                throw new ViolenceValidationException("user not registered!");
             }
         }
     }

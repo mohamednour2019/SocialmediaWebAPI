@@ -9,7 +9,8 @@ using System.Threading.Tasks;
 
 namespace SocialMedia.Core.ServicesInterfaces.PostInterfaces
 {
-    public interface IAddPostService : IGenericService<AddPostRequestDto, ResponseModel<AddPostResponseDto>>
+    public interface IGetNewsFeedPostsService:IGenericService<GetNewsFeedPostsRequestDto
+        ,ResponseModel<List<GetNewsFeedPostsResponseDto>>>
     {
     }
 }

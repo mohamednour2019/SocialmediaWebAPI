@@ -1,6 +1,7 @@
 ﻿using Asp.Versioning;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
 using SocialMedia.Core.Domain.Entities;
 using SocialMedia.Core.Domain.RepositoriesInterfaces;
 using SocialMedia.Core.Services;
@@ -23,6 +24,8 @@ using SocialMedia.Infrastructure.Mapper;
 using SocialMedia.Infrastructure.Repositories;
 using SocialMedia.Infrastructure.Repositories.CommentRepository;
 using SocialMedia.Infrastructure.Repositories.Friendship;
+using SocialMedia.Infrastructure.Repositories.PostRepository;
+using SocialMedia.Presentation.API.Filters;
 
 namespace SocialMedia.Presentation.API.ServicesConfigurations
 {
@@ -30,9 +33,14 @@ namespace SocialMedia.Presentation.API.ServicesConfigurations
     {
         public static IServiceCollection RegisterServices(this IServiceCollection Services)
         {
+
             //add controllers
-             Services.AddControllers();
+            Services.AddControllers().ConfigureApiBehaviorOptions(options =>
+            {
+                options.InvalidModelStateResponseFactory = context => RequestDtoValidationActionFilter.OnActionExecuting(context);
+            });
              Services.AddHttpClient();
+
 
             //ef core  and identity registration
              Services.AddDbContext<AppDbContext>();
@@ -72,7 +80,6 @@ namespace SocialMedia.Presentation.API.ServicesConfigurations
             });
 
 
-
             //custom services registration
             Services.AddScoped<IRegisterService, RegisterService>();
             Services.AddScoped<ISignInService, SignInService>();
@@ -99,9 +106,14 @@ namespace SocialMedia.Presentation.API.ServicesConfigurations
             Services.AddScoped<IVerifyOtpService,VerifyOtpService>();   
             Services.AddScoped<IGenericRepository<User>,GenericRepository<User>>();
             Services.AddScoped<ISendEmailService,SendEmailService>();
-
+            Services.AddScoped<IUpdateOtpService,UpdateOtpService>();
+            Services.AddScoped<IGetUserPostsService,GetUserPostsService>();
+            Services.AddScoped<IPostRepository, PostRepository>();
+            Services.AddScoped<IGetNewsFeedPostsService,GetNewsFeedPostsService>();
+            Services.AddScoped<IAddSelfRelationFriendshipService,AddSelfRelationFriendshipService>();
             Services.AddCors();
             return Services;
         }
+
     }
 }

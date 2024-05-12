@@ -3,6 +3,7 @@ using SocialMedia.Core.Domain.RepositoriesInterfaces;
 using SocialMedia.Core.DTO_S.RequestDto_S;
 using SocialMedia.Core.DTO_S.ResponseDto_S;
 using SocialMedia.Core.ServicesInterfaces.OTPInterfaces;
+using SocialMedia.SharedKernel.CustomExceptions;
 
 
 namespace SocialMedia.Core.Services.OTPServices
@@ -17,24 +18,29 @@ namespace SocialMedia.Core.Services.OTPServices
             _repository = repository;
             _unitOfWork = unitOfWork;
         }
-        public async Task<VerifyOtpResponseDto> Perform(VerifyOtpRequestDto requestDto)
+        public async Task<ResponseModel<VerifyOtpResponseDto>> Perform(VerifyOtpRequestDto requestDto)
         {
             User user = await _repository.FindAsync(requestDto.UserId);
-            if (user is null) throw new Exception("user not found"!);
+            if (user is null) throw new ViolenceValidationException("user not found"!);
             if (user.OtpExpiration < DateTime.Now)
             {
-                throw new InvalidOperationException("otp has been expired!");
+                throw new ViolenceValidationException("otp has been expired!");
             }
             else if(user.OtpExpiration > DateTime.Now && user.OTP != requestDto.OTPCode)
             {
-                throw new InvalidOperationException("invalid otp!");
+                throw new ViolenceValidationException("invalid otp!");
             }
             else
             {
                 user.EmailConfirmed = true;
                 await _unitOfWork.SaveChangeAsync();
             }
-            return new VerifyOtpResponseDto();
+            return new ResponseModel<VerifyOtpResponseDto>()
+            {
+                Success = true,
+                Message = new List<string>() {"user has been verified successfully!"},
+                Data = null
+            };
 
         }
     }

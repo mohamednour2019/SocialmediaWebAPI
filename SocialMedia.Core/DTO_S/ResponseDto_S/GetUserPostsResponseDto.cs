@@ -8,14 +8,13 @@ using System.Threading.Tasks;
 
 namespace SocialMedia.Core.DTO_S.ResponseDto_S
 {
-    public class SignInResponseDto
+    public class GetUserPostsResponseDto
     {
-
         public Guid Id { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public DateOnly BirthDate { get; set; }
-        public string? Relationship { get; set; }
-        public string Gender {  get; set; }
+        public string Content { get; set; }
+        public DateTime DateTime { get; set; }
+        public Guid? UserId { get; set; }
+        public ICollection<Comment>? Comments { get; set; }
+        public ICollection<Like>? Likes { get; set; }
     }
 }
