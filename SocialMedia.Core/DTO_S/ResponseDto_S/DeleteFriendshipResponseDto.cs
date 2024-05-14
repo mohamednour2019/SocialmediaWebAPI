@@ -6,10 +6,7 @@ using System.Threading.Tasks;
 
 namespace SocialMedia.Core.DTO_S.ResponseDto_S
 {
-    public class GetFriendRequestsResponseDto
+    public class DeleteFriendshipResponseDto
     {
-        public List<SignInResponseDto> FriendRequests {  get; set; }
-
-        //image
     }
 }

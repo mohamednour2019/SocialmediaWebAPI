@@ -5,11 +5,6 @@ using SocialMedia.Core.Domain.RepositoriesInterfaces;
 using SocialMedia.Core.DTO_S.RequestDto_S;
 using SocialMedia.Core.DTO_S.ResponseDto_S;
 using SocialMedia.Core.ServicesInterfaces.FriendshipInterfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SocialMedia.Core.Services.FriendshipServices
 {
@@ -22,7 +17,7 @@ namespace SocialMedia.Core.Services.FriendshipServices
         {
             _unitOfWork = unitOfWork;
         }
-        public async Task<AcceptFirendRequestReaponseDto> Perform(AcceptFriendRequestRequestDto requestDto)
+        public async Task<ResponseModel<AcceptFirendRequestReaponseDto>> Perform(AcceptFriendRequestRequestDto requestDto)
         {
             FriendsRelationship Friendship= await _repository
                 .FindAsync(requestDto.SenderId, requestDto.ReciverId);
@@ -45,7 +40,12 @@ namespace SocialMedia.Core.Services.FriendshipServices
             }
 
 
-            return new AcceptFirendRequestReaponseDto();
+            return new ResponseModel<AcceptFirendRequestReaponseDto>()
+            {
+                Data = null,
+                Message = new List<string>() { "friend has been added to your Friends List" },
+                Success = true
+            };
         }
     }
 }

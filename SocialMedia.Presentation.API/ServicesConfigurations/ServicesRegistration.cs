@@ -91,8 +91,8 @@ namespace SocialMedia.Presentation.API.ServicesConfigurations
             Services.AddScoped<IGenericRepository<FriendsRelationship>,GenericRepository<FriendsRelationship>>();
             Services.AddScoped<IFriendshipRepository,FriendshipRepository>();
             Services.AddScoped<IAcceptFriendRequestService,AcceptFriendRequestService>();
-            Services.AddScoped<IRejectFriendRequestService,RejectFriendRequestService>();   
-            Services.AddScoped<IGetFriendRequestsService,GetFriendRequestsService>();
+            Services.AddScoped<IUnfriendService,UnfriendService>();   
+            Services.AddScoped<IRejectFriendRequestService,RejectFriendRequestService>();
             Services.AddScoped<IAddCommentService,AddCommentService>();
             Services.AddScoped<IGenericRepository<Comment>,GenericRepository<Comment>>();
             Services.AddScoped<IDeleteCommentService,DeleteCommentService>();
@@ -111,6 +111,7 @@ namespace SocialMedia.Presentation.API.ServicesConfigurations
             Services.AddScoped<IPostRepository, PostRepository>();
             Services.AddScoped<IGetNewsFeedPostsService,GetNewsFeedPostsService>();
             Services.AddScoped<IAddSelfRelationFriendshipService,AddSelfRelationFriendshipService>();
+            Services.AddScoped<IGetFriendsGenericService,GetFriendsGenericService>();
             Services.AddCors();
             return Services;
         }

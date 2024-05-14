@@ -1,4 +1,6 @@
-﻿using SocialMedia.Core.DTO_S.RequestDto_S;
+﻿using Azure;
+using SocialMedia.Core.Domain.Entities;
+using SocialMedia.Core.DTO_S.RequestDto_S;
 using SocialMedia.Core.DTO_S.ResponseDto_S;
 using System;
 using System.Collections.Generic;
@@ -8,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace SocialMedia.Core.ServicesInterfaces.FriendshipInterfaces
 {
-    public interface IRejectFriendRequestService:IGenericService<RejectFriendRequestRequestDto,RejectFriendRequestResponseDto>
+    public interface  IRejectFriendRequestService:IGenericService<DeleteFriendshipRequestDto,ResponseModel<DeleteFriendshipResponseDto>>
     {
     }
 }

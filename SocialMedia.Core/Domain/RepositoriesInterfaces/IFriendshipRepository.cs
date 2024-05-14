@@ -1,4 +1,5 @@
 ﻿using SocialMedia.Core.Domain.Entities;
+using SocialMedia.Core.Domain.Enums;
 using SocialMedia.Core.DTO_S.RequestDto_S;
 using System;
 using System.Collections.Generic;
@@ -10,8 +11,10 @@ namespace SocialMedia.Core.Domain.RepositoriesInterfaces
 {
     public interface IFriendshipRepository
     {
-        Task<List<User>> GetFriendRequests(Guid userId);
+        Task<List<User>> GetFriendWithType(Guid userId,FriendshipStatus type);
 
         Task<FriendsRelationship?> GetFriendShipStatus(AddFriendRequestDto requestDto);
+
+        //Task DeleteFriendWithType(DeleteFriendshipRequestDto requestDto, FriendshipStatus type);
     }
 }

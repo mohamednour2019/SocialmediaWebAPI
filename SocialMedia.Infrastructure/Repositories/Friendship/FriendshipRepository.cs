@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SocialMedia.Core.Domain.Entities;
+using SocialMedia.Core.Domain.Enums;
 using SocialMedia.Core.Domain.RepositoriesInterfaces;
 using SocialMedia.Core.DTO_S.RequestDto_S;
 using SocialMedia.Infrastructure.DatabaseContext;
@@ -18,9 +19,9 @@ namespace SocialMedia.Infrastructure.Repositories.Friendship
         {
             _context = context;
         }
-        public async Task<List<User>> GetFriendRequests(Guid userId)
+        public async Task<List<User>> GetFriendWithType(Guid userId,FriendshipStatus type)
             => await _context.Friends?.Include(x => x.FirstUser)
-               .Where(x => x.SecondUserId == userId)
+               .Where(x => x.SecondUserId == userId&&x.Type==type&&x.FirstUserId!=userId)
                ?.Select(x => x.FirstUser)?.ToListAsync()!;
 
         public async Task<FriendsRelationship?> GetFriendShipStatus(AddFriendRequestDto requestDto)
@@ -34,5 +35,6 @@ namespace SocialMedia.Infrastructure.Repositories.Friendship
             }
             return friendsRelationship;
         }
+
     }
 }
