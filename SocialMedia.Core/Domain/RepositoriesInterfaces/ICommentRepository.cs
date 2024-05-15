@@ -11,5 +11,6 @@ namespace SocialMedia.Core.Domain.RepositoriesInterfaces
     public interface ICommentRepository
     {
         Task<Comment> FindAsyncWithDependent(Guid id, string dependent);
+
     }
 }

@@ -13,5 +13,7 @@ namespace SocialMedia.Core.Domain.RepositoriesInterfaces
         Task AddPost(Post post);
         Task<List<Post>> GetPostsAsync(Guid userId);
         Task<List<Post>> GetNewsFeedPostsAsync(Guid userId);
+
+        Task<Post> GetPostAsync(Guid postId);
     }
 }

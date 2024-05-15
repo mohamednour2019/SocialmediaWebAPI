@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SocialMedia.Core.Domain.Entities;
 using SocialMedia.Core.Domain.RepositoriesInterfaces;
+using SocialMedia.Core.DTO_S.RequestDto_S;
 using SocialMedia.Infrastructure.DatabaseContext;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,8 @@ namespace SocialMedia.Infrastructure.Repositories.CommentRepository
         {
             _context= context;
         }
+
+
         public async Task<Comment> FindAsyncWithDependent(Guid id, string dependent)
         {
             Comment ?comment = await _context.Comments.Include(dependent)

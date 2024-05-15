@@ -36,7 +36,7 @@ namespace SocialMedia.Presentation.API.Controllers
           await _presenter.Handle(new DeletePostRequestDto() { PostId=id}, addPostService);
 
 
-        [HttpGet("{userId}")]
+        [HttpGet("profile/{userId}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseModel<List<GetUserPostsResponseDto>>))]
 
         public async Task<IActionResult> getUserPosts(Guid userId
@@ -48,5 +48,11 @@ namespace SocialMedia.Presentation.API.Controllers
         public async Task<IActionResult> getNewsFeedPosts(Guid userId
             , [FromServices]IGetNewsFeedPostsService getNewsFeedPostsService)=>
             await _presenter.Handle(new GetNewsFeedPostsRequestDto() { UserId =userId},getNewsFeedPostsService);
+
+        [HttpGet("{postId}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseModel<GetUserPostsResponseDto>))]
+        public async Task<IActionResult> getPost(Guid postId, [FromServices] IGetPostService getPostService)
+            => await _presenter.Handle(postId, getPostService);
+
     }
 }

@@ -7,16 +7,23 @@ using SocialMedia.Core.ServicesInterfaces.PostInterfaces.CommentInterfaces;
 
 namespace SocialMedia.Core.Services.PostServices.CommentServices
 {
-    public class AddCommentService : GenericService<Comment>, IAddCommentService
+    public class AddCommentService :IAddCommentService
     {
-        public AddCommentService(IMapper mapper,IGenericRepository<Comment>repository)
-            :base(mapper,repository)
+        private IGenericRepository<Comment> _repository;
+        private IGenericRepository<User> _userRepository;
+        private IMapper _mapper;
+        public AddCommentService(IMapper mapper,IGenericRepository<Comment>repository,
+            IGenericRepository<User> userRepository)
         {
-            
+            _repository=repository;
+            _userRepository = userRepository;
+            _mapper=mapper;
         }
-        public async Task<AddCommentResponseDto> Perform(AddCommentRequestDto requestDto)
+        public async Task<ResponseModel<AddCommentResponseDto>> Perform(AddCommentRequestDto requestDto)
         {
             Comment comment=_mapper.Map<Comment>(requestDto);
+            User user = await _userRepository.FindAsync(requestDto.UserId);
+            comment.User= user;
             comment.Id = Guid.NewGuid();
             comment.DateCreated = DateTime.Now;
             try
@@ -27,7 +34,12 @@ namespace SocialMedia.Core.Services.PostServices.CommentServices
                 throw new Exception("Something Went Wrong!");
             }
             AddCommentResponseDto responseDto = _mapper.Map<AddCommentResponseDto>(comment);
-            return responseDto;
+            return new ResponseModel<AddCommentResponseDto>()
+            {
+                Success = true,
+                Message = null,
+                Data = responseDto
+            };
         }
     }
 }

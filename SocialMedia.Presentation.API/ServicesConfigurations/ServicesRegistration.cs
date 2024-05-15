@@ -112,6 +112,7 @@ namespace SocialMedia.Presentation.API.ServicesConfigurations
             Services.AddScoped<IGetNewsFeedPostsService,GetNewsFeedPostsService>();
             Services.AddScoped<IAddSelfRelationFriendshipService,AddSelfRelationFriendshipService>();
             Services.AddScoped<IGetFriendsGenericService,GetFriendsGenericService>();
+            Services.AddScoped<IGetPostService,GetPostService>();
             Services.AddCors();
             return Services;
         }

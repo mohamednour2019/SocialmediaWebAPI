@@ -6,6 +6,7 @@ using SocialMedia.Infrastructure.DatabaseContext;
 using System.Security.Cryptography.X509Certificates;
 using BenchmarkDotNet;
 using BenchmarkDotNet.Attributes;
+using Microsoft.Diagnostics.Tracing.Parsers.Tpl;
 
 namespace SocialMedia.Infrastructure.Repositories.PostRepository
 {
@@ -20,6 +21,27 @@ namespace SocialMedia.Infrastructure.Repositories.PostRepository
         public async Task AddPost(Post post)
             => await _context.Posts.AddAsync(post);
 
+        public async Task<Post> GetPostAsync(Guid postId) =>
+                 await _context.Posts
+                .Include(x => x.Likes)
+                .Include(x => x.Comments)
+                .ThenInclude(x => x.User)
+                .Include(x => x.User)
+                 .Select(x=>new
+                 Post()
+                 {
+                     Id = x.Id,
+                     UserId = x.UserId,
+                     Likes = x.Likes.Select(x => new Like() { UserId = x.UserId, PostId = x.PostId }).ToList(),
+                     Content = x.Content,
+                     DateTime = x.DateTime,
+                     User = new User() { FirstName = x.User.FirstName, LastName = x.User.LastName, ProfilePicture = x.User.ProfilePicture },
+                     Comments = x.Comments.Select(x => new Comment() { Id = x.Id, DateCreated = x.DateCreated, UserId = x.UserId, Content = x.Content, PostId = x.PostId, User = new User() { FirstName = x.User.FirstName, LastName = x.User.LastName, ProfilePicture = x.User.ProfilePicture } }).ToList()
+
+                 })
+                .FirstOrDefaultAsync(x => x.Id == postId);
+
+
         public async Task<List<Post>> GetPostsAsync(Guid userId) =>
             await _context.Posts
                 .Include(x => x.Likes)
@@ -27,12 +49,13 @@ namespace SocialMedia.Infrastructure.Repositories.PostRepository
                 .Where(x => x.UserId == userId)
                 .Select(x=>new Post()
                 {
-                   Id       = x.Id,
-                   UserId   = x.UserId,
-                   Likes    = x.Likes.Select(x=>new Like() { UserId=x.UserId,PostId=x.PostId}).ToList(),
-                   Content  = x.Content,
-                   DateTime = x.DateTime,
-                   Comments = x.Comments.Select(x=>new Comment() { Id=x.Id,DateCreated=x.DateCreated,UserId=x.UserId,Content=x.Content,PostId=x.PostId}).ToList()
+                    Id = x.Id,
+                    UserId = x.UserId,
+                    Likes = x.Likes.Select(x => new Like() { UserId = x.UserId, PostId = x.PostId }).ToList(),
+                    Content = x.Content,
+                    DateTime = x.DateTime,
+                    User = new User() { FirstName = x.User.FirstName, LastName = x.User.LastName, ProfilePicture = x.User.ProfilePicture },
+                    Comments = x.Comments.Select(x => new Comment() { Id = x.Id, DateCreated = x.DateCreated, UserId = x.UserId, Content = x.Content, PostId = x.PostId, User = new User() { FirstName = x.User.FirstName, LastName = x.User.LastName, ProfilePicture = x.User.ProfilePicture } }).ToList()
                 })
                 .OrderByDescending(x => x.DateTime)
                 .ToListAsync();
@@ -53,7 +76,8 @@ namespace SocialMedia.Infrastructure.Repositories.PostRepository
                 Likes    = x.Likes.Select(x => new Like() { UserId = x.UserId, PostId = x.PostId }).ToList(),
                 Content  = x.Content,
                 DateTime = x.DateTime,
-                Comments = x.Comments.Select(x => new Comment() { Id = x.Id, DateCreated = x.DateCreated, UserId = x.UserId, Content = x.Content, PostId = x.PostId }).ToList()
+                User     = new User(){FirstName=x.User.FirstName, LastName=x.User.LastName, ProfilePicture= x.User.ProfilePicture},
+                Comments = x.Comments.Select(x => new Comment() { Id = x.Id, DateCreated = x.DateCreated, UserId = x.UserId, Content = x.Content, PostId = x.PostId, User = new User() { FirstName = x.User.FirstName, LastName = x.User.LastName, ProfilePicture = x.User.ProfilePicture } }).ToList()
             }))
             .OrderByDescending(x => x.DateTime);
 

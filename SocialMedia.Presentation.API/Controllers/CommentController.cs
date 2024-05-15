@@ -1,5 +1,6 @@
 ﻿using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
+using SocialMedia.Core.Domain.Entities;
 using SocialMedia.Core.DTO_S.RequestDto_S;
 using SocialMedia.Core.DTO_S.ResponseDto_S;
 using SocialMedia.Core.ServicesInterfaces.PostInterfaces.CommentInterfaces;
@@ -11,7 +12,7 @@ namespace SocialMedia.Presentation.API.Controllers
     public class CommentController:BaseController
     {
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(AddCommentResponseDto))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseModel<AddCommentResponseDto>))]
         public async Task<IActionResult>addComment(AddCommentRequestDto requestDto,
             [FromServices]IAddCommentService addCommentService)=>
             await _presenter.Handle(requestDto, addCommentService);

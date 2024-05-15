@@ -12,15 +12,17 @@ using System.Threading.Tasks;
 
 namespace SocialMedia.Core.Services.PostServices.LikeServices
 {
-    public  class UnlikeService:GenericService<Like>,IUnlikeService
+    public  class UnlikeService:IUnlikeService
     {
+        private IMapper _mapper;
+        private IGenericRepository<Like> _repository;
         public UnlikeService(IMapper mapper, IGenericRepository<Like> repository)
-            : base(mapper, repository)
         {
-
+            _repository=repository;
+            _mapper=mapper;
         }
 
-        public async Task<UnlikeResponseDto> Perform(UnlikeRequestDto requestDto)
+        public async Task<ResponseModel<AddLikeResponseDto>> Perform(UnlikeRequestDto requestDto)
         {
             try
             {
@@ -30,7 +32,7 @@ namespace SocialMedia.Core.Services.PostServices.LikeServices
                 throw new Exception("Something Went Wrong!");
             }
 
-            return new UnlikeResponseDto();
+            return new ResponseModel<AddLikeResponseDto>() { Success = true };
         }
     }
 }

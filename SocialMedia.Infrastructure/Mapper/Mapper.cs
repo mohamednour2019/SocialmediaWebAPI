@@ -88,6 +88,12 @@ namespace SocialMedia.Infrastructure.Mapper
                .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId))
                .ForMember(dest => dest.Content, opt => opt.MapFrom(src => src.Content))
                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+               .ForMember(dest => dest.User, opt => opt.MapFrom(src => new User()
+               {
+                   FirstName=src.User.FirstName,
+                   LastName=src.User.LastName,
+                   ProfilePicture=src.User.ProfilePicture
+               }))
                .ForMember(dest => dest.DateCreated, opt => opt.MapFrom(src => src.DateCreated));
 
             CreateMap<Comment, UpdateCommentResponseDto>()
@@ -110,6 +116,7 @@ namespace SocialMedia.Infrastructure.Mapper
                 .ForMember(dest => dest.Content, opt => opt.MapFrom(src => src.Content))
                 .ForMember(dest => dest.DateTime, opt => opt.MapFrom(src => src.DateTime))
                 .ForMember(dest => dest.Likes, opt => opt.MapFrom(src => src.Likes))
+                .ForMember(dest => dest.User, opt => opt.MapFrom(src => src.User))
                 .ForMember(dest => dest.Comments, opt => opt.MapFrom(src => src.Comments));
 
 
@@ -119,6 +126,7 @@ namespace SocialMedia.Infrastructure.Mapper
                 .ForMember(dest => dest.Content, opt => opt.MapFrom(src => src.Content))
                 .ForMember(dest => dest.DateTime, opt => opt.MapFrom(src => src.DateTime))
                 .ForMember(dest => dest.Likes, opt => opt.MapFrom(src => src.Likes))
+                .ForMember(dest => dest.User, opt => opt.MapFrom(src => src.User))
                 .ForMember(dest => dest.Comments, opt => opt.MapFrom(src => src.Comments));
             //CreateMap<User, GetFriendRequestsResponseDto>()
             //  .ForMember(dest => dest.FriendId, opt => opt.MapFrom(src => src.Id))

@@ -12,14 +12,16 @@ using System.Threading.Tasks;
 
 namespace SocialMedia.Core.Services.PostServices.LikeServices
 {
-    public class AddLikeService : GenericService<Like>, IAddLikeService
+    public class AddLikeService : IAddLikeService
     {
+        private IMapper _mapper;
+        private IGenericRepository<Like> _repository;
         public AddLikeService(IMapper mapper,IGenericRepository<Like>repository)
-            :base(mapper,repository)
         {
-            
+            _mapper = mapper;
+            _repository = repository;
         }
-        public async Task<AddLikeResponseDto> Perform(AddLikeRequestDto requestDto)
+        public async Task<ResponseModel<AddLikeResponseDto>> Perform(AddLikeRequestDto requestDto)
         {
             Like like = _mapper.Map<Like>(requestDto);
             try
@@ -30,7 +32,7 @@ namespace SocialMedia.Core.Services.PostServices.LikeServices
                 throw new Exception("Something Went Wrong!");
             }
 
-            return new AddLikeResponseDto();
+            return new ResponseModel<AddLikeResponseDto>() { Success = true };
         }
     }
 }
