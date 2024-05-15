@@ -8,7 +8,6 @@ using SocialMedia.Presentation.API.Filters;
 namespace SocialMedia.Presentation.API.Controllers
 {
     [ApiVersion("1.0")]
-    [AuthorizationFilter]
     public class CommentController:BaseController
     {
         [HttpPost]
