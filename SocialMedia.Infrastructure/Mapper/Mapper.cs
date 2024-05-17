@@ -67,9 +67,7 @@ namespace SocialMedia.Infrastructure.Mapper
 
 
             CreateMap<Post, UpdatePostResponseDto>()
-                .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId))
                 .ForMember(dest => dest.Content, opt => opt.MapFrom(src => src.Content))
-                .ForMember(dest => dest.DateTime, opt => opt.MapFrom(src => src.DateTime))
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id));
 
 

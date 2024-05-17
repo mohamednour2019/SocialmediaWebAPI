@@ -20,13 +20,13 @@ namespace SocialMedia.Presentation.API.Controllers
             await _presenter.Handle(requestDto, addPostService);
 
 
-        [HttpPut("{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UpdatePostResponseDto))]
+        [HttpPatch("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseModel<UpdatePostResponseDto>))]
         public async Task<IActionResult> update(UpdatePostRequestDto requestDto, Guid id
-          , [FromServices] IUpdatePostService addPostService) {
-            requestDto.PostId = id;
-            return await _presenter.Handle(requestDto, addPostService);
-        }
+          , [FromServices] IUpdatePostService addPostService)=>
+            await _presenter.Handle(new UpdatePostRequestDto() 
+            { PostId = id,Content = requestDto.Content}, addPostService);
+
 
 
         [HttpDelete("{id}")]
