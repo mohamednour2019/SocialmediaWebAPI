@@ -30,7 +30,7 @@ namespace SocialMedia.Presentation.API.Controllers
 
 
         [HttpDelete("{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(DeletePostResponseDto))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseModel<DeletePostResponseDto>))]
         public async Task<IActionResult> delete(Guid id
           , [FromServices] IDeletePostService addPostService) =>
           await _presenter.Handle(new DeletePostRequestDto() { PostId=id}, addPostService);

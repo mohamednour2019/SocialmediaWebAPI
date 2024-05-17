@@ -51,11 +51,24 @@ namespace SocialMedia.Infrastructure.Repositories.PostRepository
                 {
                     Id = x.Id,
                     UserId = x.UserId,
-                    Likes = x.Likes.Select(x => new Like() { UserId = x.UserId, PostId = x.PostId }).ToList(),
+                    Likes = x.Likes.Select(x => new Like() {PostId = x.PostId,
+                        UserId=x.UserId,
+                        User=new User()
+                        {
+                            FirstName = x.User.FirstName,
+                            LastName = x.User.LastName,
+                            ProfilePicture = x.User.ProfilePicture
+                        }
+                    }).ToList(),
                     Content = x.Content,
                     DateTime = x.DateTime,
                     User = new User() { FirstName = x.User.FirstName, LastName = x.User.LastName, ProfilePicture = x.User.ProfilePicture },
-                    Comments = x.Comments.Select(x => new Comment() { Id = x.Id, DateCreated = x.DateCreated, UserId = x.UserId, Content = x.Content, PostId = x.PostId, User = new User() { FirstName = x.User.FirstName, LastName = x.User.LastName, ProfilePicture = x.User.ProfilePicture } }).ToList()
+                    Comments = x.Comments.Select(x => new Comment() 
+                    { Id = x.Id, DateCreated = x.DateCreated, UserId = x.UserId
+                        , Content = x.Content, PostId = x.PostId
+                        , User = new User() 
+                        { FirstName = x.User.FirstName, LastName = x.User.LastName
+                            , ProfilePicture = x.User.ProfilePicture } }).ToList()
                 })
                 .OrderByDescending(x => x.DateTime)
                 .ToListAsync();
@@ -73,7 +86,17 @@ namespace SocialMedia.Infrastructure.Repositories.PostRepository
             {
                 Id       = x.Id,
                 UserId   = x.UserId,
-                Likes    = x.Likes.Select(x => new Like() { UserId = x.UserId, PostId = x.PostId }).ToList(),
+                Likes = x.Likes.Select(x => new Like()
+                {
+                    PostId = x.PostId,
+                    UserId = x.UserId,
+                    User = new User()
+                    {
+                        FirstName = x.User.FirstName,
+                        LastName = x.User.LastName,
+                        ProfilePicture = x.User.ProfilePicture
+                    }
+                }).ToList(),
                 Content  = x.Content,
                 DateTime = x.DateTime,
                 User     = new User(){FirstName=x.User.FirstName, LastName=x.User.LastName, ProfilePicture= x.User.ProfilePicture},

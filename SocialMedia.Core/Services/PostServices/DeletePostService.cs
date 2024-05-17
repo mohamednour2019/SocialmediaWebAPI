@@ -12,17 +12,24 @@ using System.Threading.Tasks;
 
 namespace SocialMedia.Core.Services.PostServices
 {
-    public class DeletePostService : GenericService<Post>, IDeletePostService
+    public class DeletePostService :IDeletePostService
     {
+        private IMapper _mapper;
+        private IGenericRepository<Post> _repository;
         public DeletePostService(IMapper mapper,IGenericRepository<Post>repository)
-            :base(mapper,repository)
         {
-            
+            _mapper = mapper;
+            _repository = repository;
         }
-        public async Task<DeletePostResponseDto> Perform(DeletePostRequestDto requestDto)
+        public async Task<ResponseModel<DeletePostResponseDto>> Perform(DeletePostRequestDto requestDto)
         {
            await _repository.Delete(requestDto.PostId);
-           return new DeletePostResponseDto() { PostId = requestDto.PostId };
+            return new ResponseModel<DeletePostResponseDto>
+            {
+                Success = true,
+                Message = new List<string>() { "post has been deleted!" },
+                Data = new DeletePostResponseDto() { PostId = requestDto.PostId }
+            };
         }
     }
 }

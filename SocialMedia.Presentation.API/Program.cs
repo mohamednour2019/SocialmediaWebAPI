@@ -1,4 +1,6 @@
 
+using Microsoft.AspNetCore.SignalR;
+using SocialMedia.Core.Services.HubServices;
 using SocialMedia.Presentation.API.Middlewares;
 using SocialMedia.Presentation.API.ServicesConfigurations;
 
@@ -6,6 +8,7 @@ using SocialMedia.Presentation.API.ServicesConfigurations;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.RegisterServices();
 var app = builder.Build();
+app.MapHub<NotificationHubService>("/notificationHub");
 // Configure the HTTP request pipeline.
 app.UseGlobalExciptionHandler();
 app.UseHsts();
@@ -16,6 +19,7 @@ app.UseCors(options =>
 });
 app.MapControllers();
 app.UseHttpsRedirection();
+
 app.UseSwagger();
 app.UseSwaggerUI(options =>
 {
