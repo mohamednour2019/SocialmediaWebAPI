@@ -1,4 +1,5 @@
 ﻿using Microsoft.Identity.Client;
+using SocialMedia.Core.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -13,15 +14,15 @@ namespace SocialMedia.Core.Domain.Entities
         [Required]
         public Guid Id { get; set; }
         [Required]
-        public DateTime DateTime { get; set; }
+        public DateTime? DateTime { get; set; }
         [Required]
         [Length(0,50)]
-        public string Title { get; set; }
+        public NotificationType? NotificationType { get; set; }
         [Required]
         [Length(0, 500)]
-        public string Description { get; set; }
-        
-        public bool IsActive { get; set; }
+        public byte[]? NotificationImage { get; set; }
+        public Guid? PostId {  get; set; }
+        public string? EmmiterName {  get; set; }
         public User User { get; set; }  
         public Guid UserId {  get; set; }
     }

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using SocialMedia.Core.Domain.Entities;
 using SocialMedia.Core.DTO_S.RequestDto_S;
 using SocialMedia.Core.DTO_S.ResponseDto_S;
+using SocialMedia.Core.Services.SSEServices;
 using SocialMedia.Core.ServicesInterfaces.UserInterfaces;
 using SocialMedia.SharedKernel.CustomExceptions;
 
@@ -33,6 +34,7 @@ namespace SocialMedia.Core.Services.UserServices
                     throw new ViolenceValidationException("incorrect password!");
                 }
                 SignInResponseDto response = _mapper.Map<SignInResponseDto>(user);
+                await SendLiveNotificationService.SendNotification(user.Id, "hello man");
                 return new ResponseModel<SignInResponseDto>()
                 {
                     Success = true,

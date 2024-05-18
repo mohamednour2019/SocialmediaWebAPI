@@ -24,6 +24,7 @@ namespace SocialMedia.Core.Services.PostServices.LikeServices
         public async Task<ResponseModel<AddLikeResponseDto>> Perform(AddLikeRequestDto requestDto)
         {
             Like like = _mapper.Map<Like>(requestDto);
+            like.NotificationId = Guid.NewGuid();
             try
             {
                 await _repository.AddAsync(like);

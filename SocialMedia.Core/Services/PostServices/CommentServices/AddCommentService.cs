@@ -25,6 +25,7 @@ namespace SocialMedia.Core.Services.PostServices.CommentServices
             User user = await _userRepository.FindAsync(requestDto.UserId);
             comment.User= user;
             comment.Id = Guid.NewGuid();
+            comment.NotificationId=Guid.NewGuid();
             comment.DateCreated = DateTime.Now;
             try
             {

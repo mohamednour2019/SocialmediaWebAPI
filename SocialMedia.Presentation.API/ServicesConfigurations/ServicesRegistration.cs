@@ -11,6 +11,7 @@ using SocialMedia.Core.Services.OTPServices;
 using SocialMedia.Core.Services.PostServices;
 using SocialMedia.Core.Services.PostServices.CommentServices;
 using SocialMedia.Core.Services.PostServices.LikeServices;
+using SocialMedia.Core.Services.SSEServices;
 using SocialMedia.Core.Services.UserServices;
 using SocialMedia.Core.ServicesInterfaces;
 using SocialMedia.Core.ServicesInterfaces.FriendshipInterfaces;
@@ -20,6 +21,7 @@ using SocialMedia.Core.ServicesInterfaces.OTPInterfaces;
 using SocialMedia.Core.ServicesInterfaces.PostInterfaces;
 using SocialMedia.Core.ServicesInterfaces.PostInterfaces.CommentInterfaces;
 using SocialMedia.Core.ServicesInterfaces.PostInterfaces.LikeInterfaces;
+using SocialMedia.Core.ServicesInterfaces.SSEInterfaces;
 using SocialMedia.Core.ServicesInterfaces.UserInterfaces;
 using SocialMedia.Infrastructure.DatabaseContext;
 using SocialMedia.Infrastructure.Mapper;
@@ -117,6 +119,8 @@ namespace SocialMedia.Presentation.API.ServicesConfigurations
             Services.AddScoped<IGetPostService,GetPostService>();
             Services.AddSignalR();
             Services.AddSingleton<INotificationHubService, NotificationHubService>();
+            Services.AddScoped<ISendLiveNotificationService,SendLiveNotificationService>();
+
             Services.AddCors();
             return Services;
         }

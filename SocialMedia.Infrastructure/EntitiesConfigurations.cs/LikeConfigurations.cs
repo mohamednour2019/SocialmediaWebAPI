@@ -13,6 +13,7 @@ namespace SocialMedia.Infrastructure.EntitiesConfigurations.cs
     {
         public void Configure(EntityTypeBuilder<Like> builder)
         {
+            builder.ToTable("Likes");
             builder.Property(x => x.UserId).ValueGeneratedNever();
             builder.Property(x => x.PostId).ValueGeneratedNever();
             builder.HasKey(x => new { x.UserId, x.PostId });

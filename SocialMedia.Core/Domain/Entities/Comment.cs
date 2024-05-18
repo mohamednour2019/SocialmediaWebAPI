@@ -18,5 +18,7 @@ namespace SocialMedia.Core.Domain.Entities
         public Guid PostId { get; set; }
         public User User { get; set; }
         public Guid UserId { get; set; }
+
+        public Guid? NotificationId {  get; set; }
     }
 }
