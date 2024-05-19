@@ -25,37 +25,42 @@ namespace SocialMedia.Core.Services.SSEServices
 
             HttpResponse userResponse = context.Response;
             _connections[UserConnectionId] = userResponse;
+            await Task.Delay(-1, context.RequestAborted);
 
-            try
-            {
-                await Task.Delay(-1, context.RequestAborted);
-            }
-            finally
-            {
-                _connections.TryRemove(UserConnectionId, out _);
-            }
+            //try
+            //{
+
+            //}
+            //finally
+            //{
+            //    //_connections.TryRemove(UserConnectionId, out _);
+            //}
         }
 
-        public static async Task SendNotification(Guid userId, ResponseModel<GetNotificationResponseDto>notificationResponse)
+        public static async Task SendNotification(Guid userId
+            , ResponseModel<GetNotificationResponseDto>notificationResponse)
         {
             if (_connections.TryGetValue(userId, out HttpResponse response))
             {
-                if (!response.HttpContext.RequestAborted.IsCancellationRequested)
-                {
-                    try {
-                        string jsonData = JsonSerializer.Serialize(notificationResponse);
-                        await response.WriteAsync($"data:{jsonData}\n\n");
-                        await response.Body.FlushAsync();
-                    }
-                    catch (Exception ex)
-                    {
-                        _connections.TryRemove(userId, out _);
-                    }
-                }
-                else
-                {
-                    _connections.TryRemove(userId, out _);
-                }
+                string jsonData = JsonSerializer.Serialize(notificationResponse);
+                await response.WriteAsync($"data:{jsonData}\n\n");
+                await response.Body.FlushAsync();
+                //try
+                //{
+                   
+                //}
+                //catch (Exception ex)
+                //{
+                //    _connections.TryRemove(userId, out _);
+                //}
+                //if (!response.HttpContext.RequestAborted.IsCancellationRequested)
+                //{
+                    
+                //}
+                //else
+                //{
+                //    _connections.TryRemove(userId, out _);
+                //}
             }
         }
 

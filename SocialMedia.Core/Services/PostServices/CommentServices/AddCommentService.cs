@@ -39,8 +39,12 @@ namespace SocialMedia.Core.Services.PostServices.CommentServices
                 throw new Exception("Something Went Wrong!");
             }
             AddCommentResponseDto responseDto = _mapper.Map<AddCommentResponseDto>(comment);
-            var notification=await _notificationService.Perform(comment.NotificationId);
-            await SendLiveNotificationService.SendNotification(notification.Data.UserId,notification);
+            try
+            {
+                var notification = await _notificationService.Perform(comment.NotificationId);
+                await SendLiveNotificationService.SendNotification(notification.Data.UserId, notification);
+            }catch(Exception ex) { }
+
             return new ResponseModel<AddCommentResponseDto>()
             {
                 Success = true,

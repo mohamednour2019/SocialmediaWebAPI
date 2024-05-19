@@ -37,8 +37,12 @@ namespace SocialMedia.Core.Services.PostServices.LikeServices
             {
                 throw new Exception("Something Went Wrong!");
             }
-            var notification = await _notificationService.Perform(like.NotificationId);
-            await SendLiveNotificationService.SendNotification(notification.Data.UserId, notification);
+            try
+            {
+                var notification = await _notificationService.Perform(like.NotificationId);
+                await SendLiveNotificationService.SendNotification(notification.Data.UserId, notification);
+            }
+            catch(Exception ex) { }
             return new ResponseModel<AddLikeResponseDto>() { Success = true };
         }
     }
