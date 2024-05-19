@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SocialMedia.Core.Domain.Entities;
+using SocialMedia.Core.DTO_S.RequestDto_S;
+using SocialMedia.Core.DTO_S.ResponseDto_S;
+using SocialMedia.Core.ServicesInterfaces.NotificatinosInterfaces;
 using SocialMedia.Core.ServicesInterfaces.SSEInterfaces;
 using System.Collections.Concurrent;
 
@@ -16,6 +19,11 @@ namespace SocialMedia.Presentation.API.Controllers
           await sendLiveNotificationService.Connect(HttpContext, UserConnectionId);
         }
 
+
+        [HttpGet("list/{userId}")]
+        [ProducesResponseType(StatusCodes.Status200OK,Type =typeof(ResponseModel<List<GetNotificationResponseDto>>))]
+        public async Task<IActionResult> getNotifications(Guid userId, [FromServices]IGetNotificationsService getNotificationsService)
+            =>await _presenter.Handle(new GetNotificationsRequestDto() { UserId=userId}, getNotificationsService);
 
 
 

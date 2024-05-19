@@ -30,6 +30,7 @@ using SocialMedia.Infrastructure.Mapper;
 using SocialMedia.Infrastructure.Repositories;
 using SocialMedia.Infrastructure.Repositories.CommentRepository;
 using SocialMedia.Infrastructure.Repositories.Friendship;
+using SocialMedia.Infrastructure.Repositories.NotificationRepository;
 using SocialMedia.Infrastructure.Repositories.PostRepository;
 using SocialMedia.Presentation.API.Filters;
 
@@ -124,6 +125,8 @@ namespace SocialMedia.Presentation.API.ServicesConfigurations
             Services.AddScoped<ISendLiveNotificationService,SendLiveNotificationService>();
             Services.AddScoped<IGenericRepository<Notification>,GenericRepository<Notification>>();
             Services.AddScoped<IGetNotificationService,GetNotificationService>();
+            Services.AddScoped<INotificationRepository, NotificationRepository>();
+            Services.AddScoped<IGetNotificationsService,GetNotificationsService>();
             Services.AddCors();
             return Services;
         }
