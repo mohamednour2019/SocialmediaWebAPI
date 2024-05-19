@@ -126,6 +126,16 @@ namespace SocialMedia.Infrastructure.Mapper
                 .ForMember(dest => dest.Likes, opt => opt.MapFrom(src => src.Likes))
                 .ForMember(dest => dest.User, opt => opt.MapFrom(src => src.User))
                 .ForMember(dest => dest.Comments, opt => opt.MapFrom(src => src.Comments));
+
+
+            CreateMap<Notification, GetNotificationResponseDto>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId))
+                .ForMember(dest => dest.PostId, opt => opt.MapFrom(src => src.PostId))
+                .ForMember(dest => dest.NotificationType, opt => opt.MapFrom(src => src.NotificationType))
+                .ForMember(dest => dest.NotificationImage, opt => opt.MapFrom(src => src.NotificationImage))
+                .ForMember(dest => dest.EmmiterName, opt => opt.MapFrom(src => src.EmmiterName))
+                .ForMember(dest => dest.DateTime, opt => opt.MapFrom(src => src.DateTime));
             //CreateMap<User, GetFriendRequestsResponseDto>()
             //  .ForMember(dest => dest.FriendId, opt => opt.MapFrom(src => src.Id))
             //  .ForMember(dest => dest.FriendFirstName, opt => opt.MapFrom(src => src.FirstName))

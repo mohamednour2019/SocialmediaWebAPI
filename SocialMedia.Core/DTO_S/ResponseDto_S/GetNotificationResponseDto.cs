@@ -1,4 +1,4 @@
-﻿using Microsoft.Identity.Client;
+﻿using SocialMedia.Core.Domain.Entities;
 using SocialMedia.Core.Domain.Enums;
 using System;
 using System.Collections.Generic;
@@ -7,17 +7,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SocialMedia.Core.Domain.Entities
+namespace SocialMedia.Core.DTO_S.ResponseDto_S
 {
-    public class Notification
+    public class GetNotificationResponseDto
     {
         public Guid Id { get; set; }
         public DateTime? DateTime { get; set; }
         public NotificationType? NotificationType { get; set; }
         public byte[]? NotificationImage { get; set; }
-        public Guid? PostId {  get; set; }
-        public string? EmmiterName {  get; set; }
-        public User User { get; set; }  
-        public Guid UserId {  get; set; }
+        public Guid? PostId { get; set; }
+        public string? EmmiterName { get; set; }
+        public Guid UserId { get; set; }
     }
 }

@@ -12,8 +12,8 @@ using SocialMedia.Infrastructure.DatabaseContext;
 namespace SocialMedia.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240518220740_changeLikesTableName")]
-    partial class changeLikesTableName
+    [Migration("20240519000631_mergedMigration")]
+    partial class mergedMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -141,6 +141,9 @@ namespace SocialMedia.Infrastructure.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
+                    b.Property<Guid>("NotificationId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid>("PostId")
                         .HasColumnType("uniqueidentifier");
 
@@ -181,6 +184,9 @@ namespace SocialMedia.Infrastructure.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("PostId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("NotificationId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("UserId", "PostId");
@@ -225,18 +231,15 @@ namespace SocialMedia.Infrastructure.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("DateTime")
-                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<string>("EmmiterName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<byte[]>("NotificationImage")
-                        .IsRequired()
                         .HasColumnType("varbinary(max)");
 
                     b.Property<string>("NotificationType")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid?>("PostId")

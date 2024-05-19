@@ -12,8 +12,8 @@ using SocialMedia.Infrastructure.DatabaseContext;
 namespace SocialMedia.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240518223144_addNotificaitonIdProperty for Comment Entity")]
-    partial class addNotificaitonIdPropertyforCommentEntity
+    [Migration("20240519000836_commentTrigger")]
+    partial class commentTrigger
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -186,6 +186,9 @@ namespace SocialMedia.Infrastructure.Migrations
                     b.Property<Guid>("PostId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("NotificationId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("UserId", "PostId");
 
                     b.HasIndex("PostId");
@@ -228,18 +231,15 @@ namespace SocialMedia.Infrastructure.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("DateTime")
-                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<string>("EmmiterName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<byte[]>("NotificationImage")
-                        .IsRequired()
                         .HasColumnType("varbinary(max)");
 
                     b.Property<string>("NotificationType")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid?>("PostId")

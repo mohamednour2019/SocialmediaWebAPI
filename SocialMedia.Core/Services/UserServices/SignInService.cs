@@ -34,7 +34,6 @@ namespace SocialMedia.Core.Services.UserServices
                     throw new ViolenceValidationException("incorrect password!");
                 }
                 SignInResponseDto response = _mapper.Map<SignInResponseDto>(user);
-                await SendLiveNotificationService.SendNotification(user.Id, "hello man");
                 return new ResponseModel<SignInResponseDto>()
                 {
                     Success = true,

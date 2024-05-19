@@ -12,8 +12,8 @@ using SocialMedia.Infrastructure.DatabaseContext;
 namespace SocialMedia.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240518223545_AddNullableToNotificationIdOnComment")]
-    partial class AddNullableToNotificationIdOnComment
+    [Migration("20240519004735_make NotificationId of like NotNULLable")]
+    partial class makeNotificationIdoflikeNotNULLable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -141,7 +141,7 @@ namespace SocialMedia.Infrastructure.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("NotificationId")
+                    b.Property<Guid>("NotificationId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("PostId")
@@ -186,6 +186,9 @@ namespace SocialMedia.Infrastructure.Migrations
                     b.Property<Guid>("PostId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("NotificationId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("UserId", "PostId");
 
                     b.HasIndex("PostId");
@@ -228,18 +231,15 @@ namespace SocialMedia.Infrastructure.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("DateTime")
-                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<string>("EmmiterName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<byte[]>("NotificationImage")
-                        .IsRequired()
                         .HasColumnType("varbinary(max)");
 
                     b.Property<string>("NotificationType")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid?>("PostId")

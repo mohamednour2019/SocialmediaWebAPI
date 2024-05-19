@@ -1,11 +1,14 @@
 ﻿using Microsoft.AspNetCore.Http;
 using SocialMedia.Core.Domain.Entities;
+using SocialMedia.Core.DTO_S.ResponseDto_S;
+using SocialMedia.Core.ServicesInterfaces.NotificatinosInterfaces;
 using SocialMedia.Core.ServicesInterfaces.SSEInterfaces;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
@@ -33,15 +36,15 @@ namespace SocialMedia.Core.Services.SSEServices
             }
         }
 
-        public static async Task SendNotification(Guid userId, string message)
+        public static async Task SendNotification(Guid userId, ResponseModel<GetNotificationResponseDto>notificationResponse)
         {
             if (_connections.TryGetValue(userId, out HttpResponse response))
             {
                 if (!response.HttpContext.RequestAborted.IsCancellationRequested)
                 {
-                    try
-                    {
-                        await response.WriteAsync($"data: {message}\n\n");
+                    try {
+                        string jsonData = JsonSerializer.Serialize(notificationResponse);
+                        await response.WriteAsync($"data:{jsonData}\n\n");
                         await response.Body.FlushAsync();
                     }
                     catch (Exception ex)
