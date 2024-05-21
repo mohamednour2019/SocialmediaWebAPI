@@ -5,21 +5,20 @@ using SocialMedia.Core.Domain.RepositoriesInterfaces;
 using SocialMedia.Core.DTO_S.RequestDto_S;
 using SocialMedia.Core.DTO_S.ResponseDto_S;
 using SocialMedia.Core.ServicesInterfaces.FriendshipInterfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using SocialMedia.SharedKernel.CustomExceptions;
+
 
 namespace SocialMedia.Core.Services.FriendshipServices
 {
-    public class AddFriendService :GenericService<FriendsRelationship>, IAddFriendService
+    public class AddFriendService :IAddFriendService
     {
-        public AddFriendService(IMapper mapper,IGenericRepository<FriendsRelationship>repository)
-            :base(mapper,repository)
+        private IMapper _mapper;
+        private IGenericRepository<FriendsRelationship> _repository;
+        public AddFriendService(IMapper mapper
+            ,IGenericRepository<FriendsRelationship>repository)
         {
         }
-        public async Task<AddFriendResponseDto> Perform(AddFriendRequestDto requestDto)
+        public async Task<ResponseModel<AddFriendResponseDto>> Perform(AddFriendRequestDto requestDto)
         {
             FriendsRelationship friendRequest = _mapper.Map<FriendsRelationship>(requestDto);
             friendRequest.Type = FriendshipStatus.FriendRequest;
@@ -28,8 +27,9 @@ namespace SocialMedia.Core.Services.FriendshipServices
                 await _repository.AddAsync(friendRequest);
             }catch(Exception ex)
             {
-                throw new Exception("Friend Request Already Sent!");
+                throw new ViolenceValidationException("Friend Request Already Sent!");
             }
+
             //FriendsRelationship ? friendsRelationship = 
             //    await _friendshipRepository.GetFriendShipStatus(requestDto);
             //if(friendsRelationship is null) {
@@ -41,7 +41,8 @@ namespace SocialMedia.Core.Services.FriendshipServices
             //    friendsRelationship.Type = "Friends";
             //    await _unitOfWork.SaveChangeAsync();
             //}
-            return new AddFriendResponseDto();
+
+            return new ResponseModel<AddFriendResponseDto>();
 
         }
     }
