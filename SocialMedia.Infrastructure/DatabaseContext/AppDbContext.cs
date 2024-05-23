@@ -18,6 +18,9 @@ namespace SocialMedia.Infrastructure.DatabaseContext
 
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Notification> Notifications { get; set; }
+        public DbSet<MessengerHub> MessengerHub { get; set; }
+        
+        public DbSet<Message> Messages { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

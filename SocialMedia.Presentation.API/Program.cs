@@ -8,7 +8,7 @@ using SocialMedia.Presentation.API.ServicesConfigurations;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.RegisterServices();
 var app = builder.Build();
-app.MapHub<NotificationHubService>("/notificationHub");
+app.MapHub<MessengerHubService>("/messenger");
 // Configure the HTTP request pipeline.
 app.UseGlobalExciptionHandler();
 app.UseHsts();

@@ -13,6 +13,7 @@ namespace SocialMedia.Infrastructure.EntitiesConfigurations.cs
     {
         public void Configure(EntityTypeBuilder<Message> builder)
         {
+            builder.ToTable("Messages");
             builder.Property(x=>x.SenderId).ValueGeneratedNever();
             builder.Property(x=>x.ReciverId).ValueGeneratedNever();
 

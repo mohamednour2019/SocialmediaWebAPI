@@ -136,10 +136,14 @@ namespace SocialMedia.Infrastructure.Mapper
                 .ForMember(dest => dest.NotificationImage, opt => opt.MapFrom(src => src.NotificationImage))
                 .ForMember(dest => dest.EmmiterName, opt => opt.MapFrom(src => src.EmmiterName))
                 .ForMember(dest => dest.DateTime, opt => opt.MapFrom(src => src.DateTime));
-            //CreateMap<User, GetFriendRequestsResponseDto>()
-            //  .ForMember(dest => dest.FriendId, opt => opt.MapFrom(src => src.Id))
-            //  .ForMember(dest => dest.FriendFirstName, opt => opt.MapFrom(src => src.FirstName))
-            //  .ForMember(dest => dest.FriendLastName, opt => opt.MapFrom(src => src.LastName));
+
+            CreateMap<Message, GetChatMessegesResponseDto>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.CreatedDate, opt => opt.MapFrom(src => src.CreatedDate))
+                .ForMember(dest => dest.Content, opt => opt.MapFrom(src => src.Content))
+                .ForMember(dest => dest.ReceiverId, opt => opt.MapFrom(src => src.ReciverId))
+                .ForMember(dest => dest.SenderId, opt => opt.MapFrom(src => src.SenderId));
+
         }
     }
 }

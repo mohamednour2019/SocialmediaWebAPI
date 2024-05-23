@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SocialMedia.Infrastructure.DatabaseContext;
 
@@ -11,9 +12,11 @@ using SocialMedia.Infrastructure.DatabaseContext;
 namespace SocialMedia.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240523164108_MessengerHubTable")]
+    partial class MessengerHubTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -218,7 +221,7 @@ namespace SocialMedia.Infrastructure.Migrations
 
                     b.HasIndex("SenderId");
 
-                    b.ToTable("Messages", (string)null);
+                    b.ToTable("Message");
                 });
 
             modelBuilder.Entity("SocialMedia.Core.Domain.Entities.MessengerHub", b =>

@@ -37,6 +37,7 @@ namespace SocialMedia.Core.Domain.Entities
         public ICollection<Message>? SenderMessages { get; set;}
         public ICollection<Message>? ReciverMessages {  get; set; }
         public ICollection<Notification>? Notifications { get; set; }
+        public MessengerHub MessengerHub { get; set; }
         public string OTP { get; set; }
         public DateTime OtpExpiration { get; set; }
 

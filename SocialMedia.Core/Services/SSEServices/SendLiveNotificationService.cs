@@ -20,21 +20,11 @@ namespace SocialMedia.Core.Services.SSEServices
         public async Task Connect(HttpContext context,Guid UserConnectionId)
         {
             context.Response.Headers.Add("Content-Type", "text/event-stream");
-            context.Response.Headers.Add("Cache-Control", "no-cache");
-            context.Response.Headers.Add("Connection", "keep-alive");
-
             HttpResponse userResponse = context.Response;
             _connections[UserConnectionId] = userResponse;
-            await Task.Delay(-1, context.RequestAborted);
+            await Task.Delay(-1,context.RequestAborted);
 
-            //try
-            //{
-
-            //}
-            //finally
-            //{
-            //    //_connections.TryRemove(UserConnectionId, out _);
-            //}
+ 
         }
 
         public static async Task SendNotification(Guid userId
