@@ -54,7 +54,7 @@ namespace SocialMedia.Presentation.API.ServicesConfigurations
 
 
             //ef core  and identity registration
-             Services.AddDbContext<AppDbContext>();
+            Services.AddDbContext<AppDbContext>();
             Services.AddIdentity<User, Role>(options =>
            {
                options.Password.RequireUppercase = true;
@@ -131,13 +131,17 @@ namespace SocialMedia.Presentation.API.ServicesConfigurations
             Services.AddScoped<IGetNotificationService,GetNotificationService>();
             Services.AddScoped<INotificationRepository, NotificationRepository>();
             Services.AddScoped<IGetNotificationsService,GetNotificationsService>();
-            Services.AddScoped<IMessengerHubRepository,MessengerHubRepository>();
-            Services.AddScoped<IAddMessageService,AddMessegeService>();
+
+
             Services.AddScoped<IGenericRepository<Message>,GenericRepository<Message>>();
             Services.AddScoped<IMessegesRepository,MessegesRepository>();   
             Services.AddScoped<IGetChatMessegesService,GetChatMessegesService>();
             Services.AddScoped<IGenericRepository<MessengerHub>,GenericRepository<MessengerHub>>();
             Services.AddScoped<ILogoutService,LogoutService>();
+            Services.AddScoped<IMessengerHubRepository, MessengerHubRepository>();
+            Services.AddScoped<IAddMessageService, AddMessegeService>();
+            Services.AddScoped<IMessengerHubService,MessengerHubService>();
+            Services.AddScoped<IGetUserService,GetUserService>();
             Services.AddCors();
             return Services;
         }

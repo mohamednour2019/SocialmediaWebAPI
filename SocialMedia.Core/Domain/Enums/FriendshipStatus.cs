@@ -10,6 +10,7 @@ namespace SocialMedia.Core.Domain.Enums
     { 
         FriendRequest=0,
         Friends=1,
-        Blocked=2
+        Blocked=2,
+        NotFriends=3
     }
 }

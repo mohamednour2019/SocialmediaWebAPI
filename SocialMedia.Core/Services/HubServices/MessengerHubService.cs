@@ -43,7 +43,12 @@ namespace SocialMedia.Core.Services.HubServices
                 await _messengerHubRepository.AddConnectionAsync(newConnection);
             }catch(Exception ex) {}     
         }
-
+        public override async Task OnDisconnectedAsync(Exception exception)
+        {
+            var HttpContext = _contextAccessor.HttpContext;
+            Guid userId = Guid.Parse(HttpContext.Request.Query["userId"].ToString());
+            await _messengerHubRepository.DeleteConnectionAsync(userId);
+        }
         public async Task<string> SendMessage(Guid recieverId,Guid senderId,string message)
         {
             MessengerHub recieverConnection= await _messengerHubRepository.GetConnectionAsync(recieverId);

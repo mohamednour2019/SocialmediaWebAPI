@@ -6,6 +6,7 @@ using SocialMedia.Core.Domain.Enums;
 using SocialMedia.Core.DTO_S.RequestDto_S;
 using SocialMedia.Core.DTO_S.ResponseDto_S;
 using SocialMedia.Core.ServicesInterfaces.FriendshipInterfaces;
+using SocialMedia.Core.ServicesInterfaces.UserInterfaces;
 using SocialMedia.Presentation.API.Filters;
 using System.Security.Policy;
 
@@ -56,5 +57,13 @@ namespace SocialMedia.Presentation.API.Controllers
         [FromServices] IRejectFriendRequestService rejectFriendRequestService) =>
         await _presenter.Handle(requestDto, rejectFriendRequestService);
 
+
+        [HttpGet("user/{requestedUserId}/status/{currentUserId}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseModel<GetUserResponseDto>))]
+        public async Task<IActionResult> getUser(Guid requestedUserId, Guid currentUserId,
+            [FromServices] IGetUserService getUserService) =>
+            await _presenter.Handle(new GetUserRequestDto() 
+            { CurrentUserId = currentUserId, RequestedUserId = requestedUserId }
+            , getUserService);
     }
 }
