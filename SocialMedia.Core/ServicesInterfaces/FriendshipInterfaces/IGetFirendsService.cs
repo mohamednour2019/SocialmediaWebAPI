@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SocialMedia.Core.ServicesInterfaces.FriendshipInterfaces
 {
-    public interface IGetFriendsGenericService:IGenericService<GetFriendGenericRequestDto,ResponseModel<List<GetFriendGenericResposneDto>>>
+    public interface IGetFirendsService:IGenericService<Guid,ResponseModel<List<GetFriendGenericResposneDto>>>
     {
     }
 }

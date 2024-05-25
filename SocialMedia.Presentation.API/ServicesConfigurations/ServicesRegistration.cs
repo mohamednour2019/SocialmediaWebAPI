@@ -122,7 +122,7 @@ namespace SocialMedia.Presentation.API.ServicesConfigurations
             Services.AddScoped<IPostRepository, PostRepository>();
             Services.AddScoped<IGetNewsFeedPostsService,GetNewsFeedPostsService>();
             Services.AddScoped<IAddSelfRelationFriendshipService,AddSelfRelationFriendshipService>();
-            Services.AddScoped<IGetFriendsGenericService,GetFriendsGenericService>();
+            Services.AddScoped<IGetFirendsService,GetFirendsService>();
             Services.AddScoped<IGetPostService,GetPostService>();
             Services.AddSignalR();
             Services.AddSingleton<INotificationHubService, NotificationHubService>();
@@ -141,7 +141,9 @@ namespace SocialMedia.Presentation.API.ServicesConfigurations
             Services.AddScoped<IMessengerHubRepository, MessengerHubRepository>();
             Services.AddScoped<IAddMessageService, AddMessegeService>();
             Services.AddScoped<IMessengerHubService,MessengerHubService>();
-            Services.AddScoped<IGetUserService,GetUserService>();
+            Services.AddScoped<IGetUserService, GetUserService>();
+            Services.AddScoped<IGetFriendRequests, GetFriendRequests>();
+            Services.AddScoped<IGetFriendSuggestionsService,GetFriendSuggestionsService>();
             Services.AddCors();
             return Services;
         }

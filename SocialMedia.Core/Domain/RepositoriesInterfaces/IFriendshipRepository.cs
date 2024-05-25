@@ -11,10 +11,13 @@ namespace SocialMedia.Core.Domain.RepositoriesInterfaces
 {
     public interface IFriendshipRepository
     {
-        Task<List<User>> GetFriendWithType(Guid userId,FriendshipStatus type);
+        Task<List<User>> GetUserFriends(Guid userId);
 
         Task<FriendsRelationship?> GetFriendShipStatus(AddFriendRequestDto requestDto);
+        Task<List<User>> GetFriendRequests(Guid userId);
+        Task<List<User>> GetFirendSuggestions(Guid userId);
 
+        Task RemoveFriendAsync(Guid FirstUserId, Guid SecondUserId);
         //Task DeleteFriendWithType(DeleteFriendshipRequestDto requestDto, FriendshipStatus type);
     }
 }

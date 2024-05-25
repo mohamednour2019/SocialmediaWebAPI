@@ -17,6 +17,8 @@ namespace SocialMedia.Core.Services.FriendshipServices
         public AddFriendService(IMapper mapper
             ,IGenericRepository<FriendsRelationship>repository)
         {
+            _mapper = mapper;
+            _repository = repository;
         }
         public async Task<ResponseModel<AddFriendResponseDto>> Perform(AddFriendRequestDto requestDto)
         {
@@ -29,18 +31,6 @@ namespace SocialMedia.Core.Services.FriendshipServices
             {
                 throw new ViolenceValidationException("Friend Request Already Sent!");
             }
-
-            //FriendsRelationship ? friendsRelationship = 
-            //    await _friendshipRepository.GetFriendShipStatus(requestDto);
-            //if(friendsRelationship is null) {
-            //    FriendsRelationship friendRequest= _mapper.Map<FriendsRelationship>(requestDto);
-            //    friendRequest.Type = "FriendRequest";
-            //    await _repository.AddAsync(friendRequest);
-            //}
-            //else if(friendsRelationship.Type == "FriendRequest") {
-            //    friendsRelationship.Type = "Friends";
-            //    await _unitOfWork.SaveChangeAsync();
-            //}
 
             return new ResponseModel<AddFriendResponseDto>();
 

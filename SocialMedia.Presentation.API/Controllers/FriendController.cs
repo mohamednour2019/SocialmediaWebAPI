@@ -7,8 +7,7 @@ using SocialMedia.Core.DTO_S.RequestDto_S;
 using SocialMedia.Core.DTO_S.ResponseDto_S;
 using SocialMedia.Core.ServicesInterfaces.FriendshipInterfaces;
 using SocialMedia.Core.ServicesInterfaces.UserInterfaces;
-using SocialMedia.Presentation.API.Filters;
-using System.Security.Policy;
+
 
 namespace SocialMedia.Presentation.API.Controllers
 {
@@ -25,19 +24,19 @@ namespace SocialMedia.Presentation.API.Controllers
 
         [HttpGet("requests/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseModel<List<GetFriendGenericResposneDto>>))]
-        public async Task<IActionResult> getFriendRequests(Guid id, [BindNever] GetFriendGenericRequestDto requestDto
-            , [FromServices] IGetFriendsGenericService getFriendRequestsService) =>
-            await _presenter.Handle(new GetFriendGenericRequestDto() {UserId= id, Status=FriendshipStatus.FriendRequest,Message="requests" }, getFriendRequestsService);
+        public async Task<IActionResult> getFriendRequests(Guid id
+            , [FromServices] IGetFriendRequests getFriendRequestsService) =>
+            await _presenter.Handle(id, getFriendRequestsService);
 
 
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseModel<List<GetFriendGenericResposneDto>>))]
-        public async Task<IActionResult> getFriends(Guid id, [BindNever]GetFriendGenericRequestDto requestDto
-            , [FromServices] IGetFriendsGenericService getFriendRequestsService) =>
-            await _presenter.Handle(new GetFriendGenericRequestDto() { UserId = id, Status = FriendshipStatus.Friends, Message = "friends" }, getFriendRequestsService);
+        public async Task<IActionResult> getFriends(Guid id
+            , [FromServices] IGetFirendsService getFriendRequestsService) =>
+            await _presenter.Handle(id, getFriendRequestsService);
 
 
-        [HttpPut]
+        [HttpPatch]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseModel<AcceptFirendRequestReaponseDto>))]
         public async Task<IActionResult> acceptFriend(AcceptFriendRequestRequestDto requestDto,
             [FromServices]IAcceptFriendRequestService acceptFriendRequestService)=>
@@ -65,5 +64,12 @@ namespace SocialMedia.Presentation.API.Controllers
             await _presenter.Handle(new GetUserRequestDto() 
             { CurrentUserId = currentUserId, RequestedUserId = requestedUserId }
             , getUserService);
+
+
+        [HttpGet("suggestions/{userId}")]
+        [ProducesResponseType(StatusCodes.Status200OK,Type =typeof(ResponseModel<List<GetFriendsSuggestionsResponseDto>>))]
+        public async Task<IActionResult> getSuggestions(Guid userId
+            , [FromServices]IGetFriendSuggestionsService getFriendSuggestionsService)
+            =>await _presenter.Handle(userId, getFriendSuggestionsService);   
     }
 }

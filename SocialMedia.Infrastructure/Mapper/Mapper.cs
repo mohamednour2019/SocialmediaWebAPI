@@ -88,9 +88,9 @@ namespace SocialMedia.Infrastructure.Mapper
                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                .ForMember(dest => dest.User, opt => opt.MapFrom(src => new User()
                {
-                   FirstName=src.User.FirstName,
-                   LastName=src.User.LastName,
-                   ProfilePicture=src.User.ProfilePicture
+                   FirstName = src.User.FirstName,
+                   LastName = src.User.LastName,
+                   ProfilePicture = src.User.ProfilePicture
                }))
                .ForMember(dest => dest.DateCreated, opt => opt.MapFrom(src => src.DateCreated));
 
@@ -154,6 +154,11 @@ namespace SocialMedia.Infrastructure.Mapper
                 .ForMember(dest => dest.Work, opt => opt.MapFrom(src => src.Work))
                 .ForMember(dest => dest.Education, opt => opt.MapFrom(src => src.Education))
                 .ForMember(dest => dest.ProfilePicture, opt => opt.MapFrom(src => src.ProfilePicture));
+
+           CreateMap<User,GetFriendsSuggestionsResponseDto>()
+                .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.FirstName))
+                .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.LastName))
+                .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.Id));
 
         }
     }

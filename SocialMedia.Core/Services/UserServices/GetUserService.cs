@@ -34,6 +34,13 @@ namespace SocialMedia.Core.Services.UserServices
             FriendsRelationship? relationship=await _friendshipRepository
                 .GetFriendShipStatus(new AddFriendRequestDto { CurrentUserId = requestDto.CurrentUserId
                 , FriendId = requestDto.RequestedUserId });
+            if(relationship is null)
+            {
+                relationship = new FriendsRelationship()
+                {
+                    Type = FriendshipStatus.NotFriends
+                };
+            }
             response.FriendsRelationship = relationship;
 
             return new ResponseModel<GetUserResponseDto>()
