@@ -160,6 +160,11 @@ namespace SocialMedia.Infrastructure.Mapper
                 .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.LastName))
                 .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.Id));
 
+            CreateMap<User, SearchUserResponseDto>()
+                .ForMember(dest => dest.UserId, otp => otp.MapFrom(src => src.Id))
+                .ForMember(dest => dest.FirstName, otp => otp.MapFrom(src => src.FirstName))
+                .ForMember(dest => dest.LastName, otp => otp.MapFrom(src => src.LastName));
+
         }
     }
 }

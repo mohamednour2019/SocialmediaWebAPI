@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SocialMedia.Core.Domain.Comparer;
 using SocialMedia.Core.Domain.Entities;
 using SocialMedia.Core.Domain.Enums;
 using SocialMedia.Core.Domain.RepositoriesInterfaces;

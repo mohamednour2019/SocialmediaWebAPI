@@ -36,6 +36,7 @@ using SocialMedia.Infrastructure.Repositories.MessegesRepository;
 using SocialMedia.Infrastructure.Repositories.MessengerHubRepository;
 using SocialMedia.Infrastructure.Repositories.NotificationRepository;
 using SocialMedia.Infrastructure.Repositories.PostRepository;
+using SocialMedia.Infrastructure.Repositories.UserRepository;
 using SocialMedia.Presentation.API.Filters;
 
 namespace SocialMedia.Presentation.API.ServicesConfigurations
@@ -144,6 +145,8 @@ namespace SocialMedia.Presentation.API.ServicesConfigurations
             Services.AddScoped<IGetUserService, GetUserService>();
             Services.AddScoped<IGetFriendRequests, GetFriendRequests>();
             Services.AddScoped<IGetFriendSuggestionsService,GetFriendSuggestionsService>();
+            Services.AddScoped<IUserRepository,UserRepository>();
+            Services.AddScoped<ISearchUserService,SearchUserService>();
             Services.AddCors();
             return Services;
         }

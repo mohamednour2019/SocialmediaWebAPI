@@ -1,4 +1,5 @@
-﻿using SocialMedia.Core.Domain.Enums;
+﻿using SocialMedia.Core.Domain.Entities;
+using SocialMedia.Core.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,7 @@ namespace SocialMedia.Core.Domain.RepositoriesInterfaces
 {
     public interface IUserRepository
     {
-        Task<FriendshipStatus> GetFriendshipStatusAsync(Guid currentUserId,Guid requestedUserId);
+
+        Task<List<User>> SearchUserAsync(params string []keyWords);
     }
 }
