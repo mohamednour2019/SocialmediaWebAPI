@@ -151,6 +151,7 @@ namespace SocialMedia.Presentation.API.ServicesConfigurations
             Services.AddScoped<ISearchUserService,SearchUserService>();
             Services.AddScoped<IUploadImageServie,UploadImageServie>();
             Services.AddScoped<IAddProfilePictureService,AddProfilePictureService>();
+            Services.AddScoped<IAddCoverPictureService,AddCoverPictureService>();   
             Services.AddCors();
             return Services;
         }
