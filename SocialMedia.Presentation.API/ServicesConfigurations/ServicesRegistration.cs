@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using SocialMedia.Core.Domain.Entities;
 using SocialMedia.Core.Domain.RepositoriesInterfaces;
 using SocialMedia.Core.Services;
+using SocialMedia.Core.Services.AzureBlobServices;
 using SocialMedia.Core.Services.FriendshipServices;
 using SocialMedia.Core.Services.HubServices;
 using SocialMedia.Core.Services.MessegesServices;
@@ -16,6 +17,7 @@ using SocialMedia.Core.Services.PostServices.LikeServices;
 using SocialMedia.Core.Services.SSEServices;
 using SocialMedia.Core.Services.UserServices;
 using SocialMedia.Core.ServicesInterfaces;
+using SocialMedia.Core.ServicesInterfaces.AzureBlobInterfaces;
 using SocialMedia.Core.ServicesInterfaces.FriendshipInterfaces;
 using SocialMedia.Core.ServicesInterfaces.HubInterfaces;
 using SocialMedia.Core.ServicesInterfaces.MessegesInterfaces;
@@ -147,6 +149,8 @@ namespace SocialMedia.Presentation.API.ServicesConfigurations
             Services.AddScoped<IGetFriendSuggestionsService,GetFriendSuggestionsService>();
             Services.AddScoped<IUserRepository,UserRepository>();
             Services.AddScoped<ISearchUserService,SearchUserService>();
+            Services.AddScoped<IUploadImageServie,UploadImageServie>();
+            Services.AddScoped<IAddProfilePictureService,AddProfilePictureService>();
             Services.AddCors();
             return Services;
         }

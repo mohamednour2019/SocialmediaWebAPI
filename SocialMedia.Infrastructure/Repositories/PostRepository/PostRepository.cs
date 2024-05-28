@@ -32,6 +32,7 @@ namespace SocialMedia.Infrastructure.Repositories.PostRepository
                  {
                      Id = x.Id,
                      UserId = x.UserId,
+                     ImageUrl = x.ImageUrl,
                      Likes = x.Likes.Select(x => new Like() { UserId = x.UserId, PostId = x.PostId }).ToList(),
                      Content = x.Content,
                      DateTime = x.DateTime,
@@ -51,6 +52,7 @@ namespace SocialMedia.Infrastructure.Repositories.PostRepository
                 {
                     Id = x.Id,
                     UserId = x.UserId,
+                    ImageUrl=x.ImageUrl,
                     Likes = x.Likes.Select(x => new Like() {PostId = x.PostId,
                         UserId=x.UserId,
                         User=new User()
@@ -86,6 +88,7 @@ namespace SocialMedia.Infrastructure.Repositories.PostRepository
             {
                 Id       = x.Id,
                 UserId   = x.UserId,
+                ImageUrl = x.ImageUrl,
                 Likes = x.Likes.Select(x => new Like()
                 {
                     PostId = x.PostId,

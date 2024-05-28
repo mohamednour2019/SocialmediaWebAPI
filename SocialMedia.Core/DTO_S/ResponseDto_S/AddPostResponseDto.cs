@@ -17,5 +17,7 @@ namespace SocialMedia.Core.DTO_S.ResponseDto_S
         public DateTime DateTime { get; set; }
 
         public Guid UserId { get; set; }
+
+        public string ImageUrl {  get; set; }
     }
 }

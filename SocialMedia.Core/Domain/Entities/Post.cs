@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -20,7 +21,7 @@ namespace SocialMedia.Core.Domain.Entities
 
         public User User { get; set; }
         public Guid UserId { get; set; }
-
+        public string? ImageUrl {  get; set; }
         public ICollection<Comment>?Comments { get; set; }
         public ICollection<Like>?Likes { get; set; }
 

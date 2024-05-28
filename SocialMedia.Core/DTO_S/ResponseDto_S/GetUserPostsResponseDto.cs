@@ -15,6 +15,7 @@ namespace SocialMedia.Core.DTO_S.ResponseDto_S
         public DateTime DateTime { get; set; }
         public Guid? UserId { get; set; }
         public User User { get; set; }
+        public string? ImageUrl { get; set; }
         public ICollection<Comment>? Comments { get; set; }
         public ICollection<Like>? Likes { get; set; }
     }

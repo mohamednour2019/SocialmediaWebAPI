@@ -25,7 +25,8 @@ namespace SocialMedia.Core.Domain.Entities
 
         public string? Work {  get; set; }
 
-        public byte[]? ProfilePicture { get; set; }
+        public string? ProfilePicture { get; set; }
+        public string? CoverPictureUrl {  get; set; }
 
         [MaxLength(20)]
         public string? Relationship {  get; set; }

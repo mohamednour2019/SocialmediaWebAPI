@@ -52,6 +52,5 @@ namespace SocialMedia.Infrastructure.Repositories
             return result;
         }
 
-
     }
 }

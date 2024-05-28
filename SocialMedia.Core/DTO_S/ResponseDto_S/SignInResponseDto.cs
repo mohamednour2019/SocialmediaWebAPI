@@ -22,6 +22,7 @@ namespace SocialMedia.Core.DTO_S.ResponseDto_S
 
         public string? Work { get; set; }
 
-        public byte[]? ProfilePicture { get; set; }
+        public string? ProfilePictureUrl { get; set; }
+        public string? CoverPictureUrl { get; set; }
     }
 }

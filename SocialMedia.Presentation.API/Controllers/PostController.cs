@@ -15,7 +15,7 @@ namespace SocialMedia.Presentation.API.Controllers
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(AddPostResponseDto))]
-        public async Task<IActionResult> add(AddPostRequestDto requestDto
+        public async Task<IActionResult> add([FromForm]AddPostRequestDto requestDto
             , [FromServices] IAddPostService addPostService) =>
             await _presenter.Handle(requestDto, addPostService);
 

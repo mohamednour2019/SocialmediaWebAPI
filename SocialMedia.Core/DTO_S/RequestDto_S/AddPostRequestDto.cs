@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -14,5 +15,7 @@ namespace SocialMedia.Core.DTO_S.RequestDto_S
 
         [Required(ErrorMessage = "Post Should Have Content!")]
         public string Content { get; set; }
+
+        public IFormFile? Image {  get; set; }
     }
 }
