@@ -19,7 +19,33 @@ namespace SocialMedia.Infrastructure.Repositories.NotificationRepository
             _appDbContext=context;
             _set=_appDbContext.Set<Notification>();
         }
+
+        public async Task<Notification>GetNotification(Guid NotificationId)
+        {
+            Notification notification=await _set.FindAsync(NotificationId);
+            User emmiter=await _appDbContext.Users.FindAsync(notification.EmmiterId);
+            notification.NotificationImage = emmiter.ProfilePicture;
+            return notification;
+        }
         public async Task<List<Notification>> GetNotifications(Guid userId)
-            =>await _set.Where(x=>x.UserId == userId).ToListAsync();
+        {
+            List<Notification> notifications=
+                await _set.Where(x=> x.UserId == userId)
+                .Join(_appDbContext.Users,x=>x.EmmiterId,x=>x.Id,
+                (notification,user)=> new Notification()
+                {
+                    Id = notification.Id,
+                    EmmiterId = notification.EmmiterId,
+                    DateTime = notification.DateTime,
+                    NotificationType = notification.NotificationType,
+                    PostId = notification.PostId,
+                    User = notification.User,
+                    UserId = notification.UserId,
+                    EmmiterName = notification.EmmiterName,
+                    NotificationImage = user.ProfilePicture
+                }).ToListAsync();
+            return notifications;   
+        }
+
     }
 }

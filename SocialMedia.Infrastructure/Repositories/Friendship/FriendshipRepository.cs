@@ -26,7 +26,7 @@ namespace SocialMedia.Infrastructure.Repositories.Friendship
             .Select(x => x.FirstUser)?.ToListAsync()!;
 
         public async Task<List<User>>GetFriendRequests(Guid userId)=>
-            await _context.Friends.Where(x=>x.SecondUserId==userId&&x.FirstUserId!=userId&&x.Type==FriendshipStatus.FriendRequest)
+            await _context.Friends.Where(x=>x.SecondUserId==userId&&x.Type==FriendshipStatus.FriendRequest)
             .Select(x => x.FirstUser)?.ToListAsync()!;
 
         public async Task<FriendsRelationship?> GetFriendShipStatus(AddFriendRequestDto requestDto)

@@ -12,8 +12,8 @@ using SocialMedia.Infrastructure.DatabaseContext;
 namespace SocialMedia.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240519000836_commentTrigger")]
-    partial class commentTrigger
+    [Migration("20240529175502_LikeNotificationTrigger")]
+    partial class LikeNotificationTrigger
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -141,7 +141,7 @@ namespace SocialMedia.Infrastructure.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("NotificationId")
+                    b.Property<Guid?>("NotificationId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("PostId")
@@ -221,7 +221,21 @@ namespace SocialMedia.Infrastructure.Migrations
 
                     b.HasIndex("SenderId");
 
-                    b.ToTable("Message");
+                    b.ToTable("Messages", (string)null);
+                });
+
+            modelBuilder.Entity("SocialMedia.Core.Domain.Entities.MessengerHub", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ConnectionId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("MessengerHub");
                 });
 
             modelBuilder.Entity("SocialMedia.Core.Domain.Entities.Notification", b =>
@@ -233,11 +247,11 @@ namespace SocialMedia.Infrastructure.Migrations
                     b.Property<DateTime?>("DateTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<Guid?>("EmmiterId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("EmmiterName")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<byte[]>("NotificationImage")
-                        .HasColumnType("varbinary(max)");
 
                     b.Property<string>("NotificationType")
                         .HasColumnType("nvarchar(max)");
@@ -266,6 +280,9 @@ namespace SocialMedia.Infrastructure.Migrations
 
                     b.Property<DateTime>("DateTime")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
@@ -321,6 +338,9 @@ namespace SocialMedia.Infrastructure.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("CoverPictureUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Education")
                         .HasColumnType("nvarchar(max)");
 
@@ -373,8 +393,8 @@ namespace SocialMedia.Infrastructure.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<byte[]>("ProfilePicture")
-                        .HasColumnType("image");
+                    b.Property<string>("ProfilePicture")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Relationship")
                         .HasMaxLength(20)
@@ -533,6 +553,17 @@ namespace SocialMedia.Infrastructure.Migrations
                     b.Navigation("Sender");
                 });
 
+            modelBuilder.Entity("SocialMedia.Core.Domain.Entities.MessengerHub", b =>
+                {
+                    b.HasOne("SocialMedia.Core.Domain.Entities.User", "User")
+                        .WithOne("MessengerHub")
+                        .HasForeignKey("SocialMedia.Core.Domain.Entities.MessengerHub", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("SocialMedia.Core.Domain.Entities.Notification", b =>
                 {
                     b.HasOne("SocialMedia.Core.Domain.Entities.User", "User")
@@ -569,6 +600,9 @@ namespace SocialMedia.Infrastructure.Migrations
                     b.Navigation("FirstUserFriends");
 
                     b.Navigation("Like");
+
+                    b.Navigation("MessengerHub")
+                        .IsRequired();
 
                     b.Navigation("Notifications");
 

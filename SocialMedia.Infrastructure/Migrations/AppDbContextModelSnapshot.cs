@@ -138,7 +138,7 @@ namespace SocialMedia.Infrastructure.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("NotificationId")
+                    b.Property<Guid?>("NotificationId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("PostId")
@@ -183,7 +183,7 @@ namespace SocialMedia.Infrastructure.Migrations
                     b.Property<Guid>("PostId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("NotificationId")
+                    b.Property<Guid?>("NotificationId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("UserId", "PostId");
@@ -244,11 +244,14 @@ namespace SocialMedia.Infrastructure.Migrations
                     b.Property<DateTime?>("DateTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<Guid?>("EmmiterId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("EmmiterName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<byte[]>("NotificationImage")
-                        .HasColumnType("varbinary(max)");
+                    b.Property<string>("NotificationImage")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NotificationType")
                         .HasColumnType("nvarchar(max)");
@@ -390,8 +393,8 @@ namespace SocialMedia.Infrastructure.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<byte[]>("ProfilePicture")
-                        .HasColumnType("image");
+                    b.Property<string>("ProfilePicture")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Relationship")
                         .HasMaxLength(20)

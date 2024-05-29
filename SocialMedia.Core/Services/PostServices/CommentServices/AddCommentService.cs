@@ -14,10 +14,13 @@ namespace SocialMedia.Core.Services.PostServices.CommentServices
         private IGetNotificationService _notificationService;
         private IGenericRepository<Comment> _repository;
         private IGenericRepository<User> _userRepository;
+        private IGenericRepository<Post> _postRepository;
         private IMapper _mapper;
         public AddCommentService(IMapper mapper,IGenericRepository<Comment>repository,
-            IGenericRepository<User> userRepository,IGetNotificationService notificationService)
+            IGenericRepository<User> userRepository,IGetNotificationService notificationService
+            ,IGenericRepository<Post> postRepository)
         {
+            _postRepository= postRepository;
             _notificationService=notificationService;
             _repository=repository;
             _userRepository = userRepository;
@@ -29,22 +32,38 @@ namespace SocialMedia.Core.Services.PostServices.CommentServices
             User user = await _userRepository.FindAsync(requestDto.UserId);
             comment.User= user;
             comment.Id = Guid.NewGuid();
-            comment.NotificationId=Guid.NewGuid();
             comment.DateCreated = DateTime.Now;
-            try
+            Post post = await _postRepository.FindAsync(requestDto.PostId);
+            if (post.UserId != requestDto.UserId)
             {
-                await _repository.AddAsync(comment);
-            }catch (Exception ex)
+                comment.NotificationId = Guid.NewGuid();
+                try
+                {
+                    await _repository.AddAsync(comment);
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Something Went Wrong!");
+                }
+                try
+                {
+                    var notification = await _notificationService.Perform((Guid)comment.NotificationId);
+                    await SendLiveNotificationService.SendNotification(notification.Data.UserId, notification);
+                }
+                catch (Exception ex) { }
+            }
+            else
             {
-                throw new Exception("Something Went Wrong!");
+                try
+                {
+                    await _repository.AddAsync(comment);
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Something Went Wrong!");
+                }
             }
             AddCommentResponseDto responseDto = _mapper.Map<AddCommentResponseDto>(comment);
-            try
-            {
-                var notification = await _notificationService.Perform(comment.NotificationId);
-                await SendLiveNotificationService.SendNotification(notification.Data.UserId, notification);
-            }catch(Exception ex) { }
-
             return new ResponseModel<AddCommentResponseDto>()
             {
                 Success = true,

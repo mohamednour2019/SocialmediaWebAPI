@@ -14,7 +14,7 @@ namespace SocialMedia.Core.DTO_S.ResponseDto_S
         public Guid Id { get; set; }
         public DateTime? DateTime { get; set; }
         public NotificationType? NotificationType { get; set; }
-        public byte[]? NotificationImage { get; set; }
+        public string? ProfilePictureUrl { get; set; }
         public Guid? PostId { get; set; }
         public string? EmmiterName { get; set; }
         public Guid UserId { get; set; }

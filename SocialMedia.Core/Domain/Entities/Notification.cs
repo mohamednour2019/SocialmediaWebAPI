@@ -14,9 +14,10 @@ namespace SocialMedia.Core.Domain.Entities
         public Guid Id { get; set; }
         public DateTime? DateTime { get; set; }
         public NotificationType? NotificationType { get; set; }
-        public byte[]? NotificationImage { get; set; }
         public Guid? PostId {  get; set; }
+        public string? NotificationImage {  get; set; }
         public string? EmmiterName {  get; set; }
+        public Guid? EmmiterId {  get; set; }
         public User User { get; set; }  
         public Guid UserId {  get; set; }
     }

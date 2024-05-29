@@ -10,5 +10,6 @@ namespace SocialMedia.Core.Domain.RepositoriesInterfaces
     public interface INotificationRepository
     {
         Task<List<Notification>>GetNotifications(Guid userId);
+        Task<Notification> GetNotification(Guid NotificationId);
     }
 }

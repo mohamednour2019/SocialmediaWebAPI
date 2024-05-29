@@ -5,14 +5,14 @@
 namespace SocialMedia.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class AddPostImageProperty : Migration
+    public partial class addNotificaitonImage : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
-                name: "ImageUrl",
-                table: "Posts",
+                name: "NotificationImage",
+                table: "Notifications",
                 type: "nvarchar(max)",
                 nullable: true);
         }
@@ -21,8 +21,8 @@ namespace SocialMedia.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "ImageUrl",
-                table: "Posts");
+                name: "NotificationImage",
+                table: "Notifications");
         }
     }
 }

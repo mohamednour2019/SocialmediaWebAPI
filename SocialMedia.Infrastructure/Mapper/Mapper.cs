@@ -47,7 +47,7 @@ namespace SocialMedia.Infrastructure.Mapper
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
             .ForMember(dest => dest.Work, opt => opt.MapFrom(src => src.Work))
             .ForMember(dest => dest.Education, opt => opt.MapFrom(src => src.Education))
-            .ForMember(dest => dest.ProfilePicture, opt => opt.MapFrom(src => src.ProfilePicture));
+            .ForMember(dest => dest.ProfilePictureUrl, opt => opt.MapFrom(src => src.ProfilePicture));
 
 
 
@@ -137,7 +137,7 @@ namespace SocialMedia.Infrastructure.Mapper
                 .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId))
                 .ForMember(dest => dest.PostId, opt => opt.MapFrom(src => src.PostId))
                 .ForMember(dest => dest.NotificationType, opt => opt.MapFrom(src => src.NotificationType))
-                .ForMember(dest => dest.NotificationImage, opt => opt.MapFrom(src => src.NotificationImage))
+                .ForMember(dest => dest.ProfilePictureUrl, opt => opt.MapFrom(src => src.NotificationImage))
                 .ForMember(dest => dest.EmmiterName, opt => opt.MapFrom(src => src.EmmiterName))
                 .ForMember(dest => dest.DateTime, opt => opt.MapFrom(src => src.DateTime));
 
@@ -157,7 +157,7 @@ namespace SocialMedia.Infrastructure.Mapper
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Work, opt => opt.MapFrom(src => src.Work))
                 .ForMember(dest => dest.Education, opt => opt.MapFrom(src => src.Education))
-                .ForMember(dest => dest.ProfilePicture, opt => opt.MapFrom(src => src.ProfilePicture));
+                .ForMember(dest => dest.ProfilePictureUrl, opt => opt.MapFrom(src => src.ProfilePicture));
 
            CreateMap<User,GetFriendsSuggestionsResponseDto>()
                 .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.FirstName))
