@@ -1,9 +1,9 @@
 ﻿
 using Microsoft.Extensions.Configuration;
-using SocialMedia.Core.ServicesInterfaces;
 using SendGrid;
 using SendGrid.Helpers.Mail;
-namespace SocialMedia.Core.Services
+using SocialMedia.Core.ServicesInterfaces.EmailInterfaces;
+namespace SocialMedia.Core.Services.EmailServices
 {
     public class SendEmailService : ISendEmailService
     {

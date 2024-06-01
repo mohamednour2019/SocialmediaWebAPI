@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SocialMedia.Core.ServicesInterfaces
+namespace SocialMedia.Core.ServicesInterfaces.EmailInterfaces
 {
     public interface ISendEmailService
     {

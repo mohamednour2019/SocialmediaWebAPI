@@ -9,7 +9,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.RegisterServices();
 var app = builder.Build();
 app.MapHub<MessengerHubService>("/messenger");
-// Configure the HTTP request pipeline.
 app.UseGlobalExciptionHandler();
 app.UseHsts();
 app.UseRouting();

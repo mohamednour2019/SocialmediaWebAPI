@@ -4,8 +4,8 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using SocialMedia.Core.Domain.Entities;
 using SocialMedia.Core.Domain.RepositoriesInterfaces;
-using SocialMedia.Core.Services;
 using SocialMedia.Core.Services.AzureBlobServices;
+using SocialMedia.Core.Services.EmailServices;
 using SocialMedia.Core.Services.FriendshipServices;
 using SocialMedia.Core.Services.HubServices;
 using SocialMedia.Core.Services.MessegesServices;
@@ -16,8 +16,8 @@ using SocialMedia.Core.Services.PostServices.CommentServices;
 using SocialMedia.Core.Services.PostServices.LikeServices;
 using SocialMedia.Core.Services.SSEServices;
 using SocialMedia.Core.Services.UserServices;
-using SocialMedia.Core.ServicesInterfaces;
 using SocialMedia.Core.ServicesInterfaces.AzureBlobInterfaces;
+using SocialMedia.Core.ServicesInterfaces.EmailInterfaces;
 using SocialMedia.Core.ServicesInterfaces.FriendshipInterfaces;
 using SocialMedia.Core.ServicesInterfaces.HubInterfaces;
 using SocialMedia.Core.ServicesInterfaces.MessegesInterfaces;
@@ -45,116 +45,124 @@ namespace SocialMedia.Presentation.API.ServicesConfigurations
 {
     public static class ServicesRegistration
     {
-        public static IServiceCollection RegisterServices(this IServiceCollection Services)
+        public static IServiceCollection RegisterServices(this IServiceCollection services)
         {
-
-            //add controllers
-            Services.AddControllers().ConfigureApiBehaviorOptions(options =>
+            // Add controllers with custom model state validation
+            services.AddControllers().ConfigureApiBehaviorOptions(options =>
             {
-                options.InvalidModelStateResponseFactory = context => RequestDtoValidationActionFilter.OnActionExecuting(context);
+                options.InvalidModelStateResponseFactory = context =>
+                    RequestDtoValidationActionFilter.OnActionExecuting(context);
             });
-             Services.AddHttpClient();
 
+            // Add HttpClient
+            services.AddHttpClient();
 
-            //ef core  and identity registration
-            Services.AddDbContext<AppDbContext>();
-            Services.AddIdentity<User, Role>(options =>
-           {
-               options.Password.RequireUppercase = true;
-               options.Password.RequireLowercase = true;
-               options.Password.RequiredLength = 10;
-
-           }).AddEntityFrameworkStores<AppDbContext>()
-             .AddUserStore<UserStore<User, Role, AppDbContext, Guid>>()
-             .AddRoleStore<RoleStore<Role, AppDbContext, Guid>>()
-             .AddDefaultTokenProviders();
-
-             //auto mapper registration
-             Services.AddAutoMapper(typeof(Mapper));
-
-
-             //swagger configuration registration
-             Services.AddEndpointsApiExplorer();
-             Services.AddSwaggerGen(options =>
+            // EF Core and Identity registration
+            services.AddDbContext<AppDbContext>();
+            services.AddIdentity<User, Role>(options =>
             {
-                options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo()
+                options.Password.RequiredLength = 10;
+            })
+            .AddEntityFrameworkStores<AppDbContext>()
+            .AddUserStore<UserStore<User, Role, AppDbContext, Guid>>()
+            .AddRoleStore<RoleStore<Role, AppDbContext, Guid>>()
+            .AddDefaultTokenProviders();
+
+            // AutoMapper registration
+            services.AddAutoMapper(typeof(Mapper));
+
+            // Swagger configuration registration
+            services.AddEndpointsApiExplorer();
+            services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
                 {
                     Title = "Social Media API v1",
                     Version = "v1"
                 });
             });
-             Services.AddApiVersioning(options =>
+
+            // API versioning registration
+            services.AddApiVersioning(options =>
             {
                 options.DefaultApiVersion = new Asp.Versioning.ApiVersion(1, 0);
                 options.ApiVersionReader = new UrlSegmentApiVersionReader();
-            }).AddApiExplorer(options =>
+            })
+            .AddApiExplorer(options =>
             {
                 options.GroupNameFormat = "'v'VVV";
                 options.SubstituteApiVersionInUrl = true;
             });
 
+            // Custom services registration
+            RegisterCustomServices(services);
 
-            //custom services registration
-            Services.AddScoped<IRegisterService, RegisterService>();
-            Services.AddScoped<ISignInService, SignInService>();
-            Services.AddScoped<IAddPostService,AddPostService>();
-            Services.AddScoped<IUpdatePostService,UpdatePostService>(); 
-            Services.AddScoped<IDeletePostService, DeletePostService>();
-            Services.AddScoped<IAddFriendService,AddFriendService>();
-            Services.AddScoped<IGenericRepository<Post>,GenericRepository<Post>>();
-            Services.AddScoped<IGenericRepository<FriendsRelationship>,GenericRepository<FriendsRelationship>>();
-            Services.AddScoped<IFriendshipRepository,FriendshipRepository>();
-            Services.AddScoped<IAcceptFriendRequestService,AcceptFriendRequestService>();
-            Services.AddScoped<IUnfriendService,UnfriendService>();   
-            Services.AddScoped<IRejectFriendRequestService,RejectFriendRequestService>();
-            Services.AddScoped<IAddCommentService,AddCommentService>();
-            Services.AddScoped<IGenericRepository<Comment>,GenericRepository<Comment>>();
-            Services.AddScoped<IDeleteCommentService,DeleteCommentService>();
-            Services.AddScoped<ICommentRepository,CommentRepository>();
-            Services.AddScoped<IUpdateCommentService,UpdateCommentService>();
-            Services.AddScoped<IAddLikeService,AddLikeService>();
-            Services.AddScoped<IUnlikeService,UnlikeService>();
-            Services.AddScoped<IGenericRepository<Like>,GenericRepository<Like>>();
-            Services.AddScoped<IUnitOfWork, UnitOfWork>();
-            Services.AddScoped<IGenerateOtpService, GenerateOtpService>();
-            Services.AddScoped<IVerifyOtpService,VerifyOtpService>();   
-            Services.AddScoped<IGenericRepository<User>,GenericRepository<User>>();
-            Services.AddScoped<ISendEmailService,SendEmailService>();
-            Services.AddScoped<IUpdateOtpService,UpdateOtpService>();
-            Services.AddScoped<IGetUserPostsService,GetUserPostsService>();
-            Services.AddScoped<IPostRepository, PostRepository>();
-            Services.AddScoped<IGetNewsFeedPostsService,GetNewsFeedPostsService>();
-            Services.AddScoped<IAddSelfRelationFriendshipService,AddSelfRelationFriendshipService>();
-            Services.AddScoped<IGetFirendsService,GetFirendsService>();
-            Services.AddScoped<IGetPostService,GetPostService>();
-            Services.AddSignalR();
-            Services.AddSingleton<INotificationHubService, NotificationHubService>();
-            Services.AddScoped<ISendLiveNotificationService,SendLiveNotificationService>();
-            Services.AddScoped<IGenericRepository<Notification>,GenericRepository<Notification>>();
-            Services.AddScoped<IGetNotificationService,GetNotificationService>();
-            Services.AddScoped<INotificationRepository, NotificationRepository>();
-            Services.AddScoped<IGetNotificationsService,GetNotificationsService>();
+            // SignalR registration
+            services.AddSignalR();
+            services.AddSingleton<INotificationHubService, NotificationHubService>();
 
+            // CORS registration
+            services.AddCors();
 
-            Services.AddScoped<IGenericRepository<Message>,GenericRepository<Message>>();
-            Services.AddScoped<IMessegesRepository,MessegesRepository>();   
-            Services.AddScoped<IGetChatMessegesService,GetChatMessegesService>();
-            Services.AddScoped<IGenericRepository<MessengerHub>,GenericRepository<MessengerHub>>();
-            Services.AddScoped<ILogoutService,LogoutService>();
-            Services.AddScoped<IMessengerHubRepository, MessengerHubRepository>();
-            Services.AddScoped<IAddMessageService, AddMessegeService>();
-            Services.AddScoped<IMessengerHubService,MessengerHubService>();
-            Services.AddScoped<IGetUserService, GetUserService>();
-            Services.AddScoped<IGetFriendRequests, GetFriendRequests>();
-            Services.AddScoped<IGetFriendSuggestionsService,GetFriendSuggestionsService>();
-            Services.AddScoped<IUserRepository,UserRepository>();
-            Services.AddScoped<ISearchUserService,SearchUserService>();
-            Services.AddScoped<IUploadImageServie,UploadImageServie>();
-            Services.AddScoped<IAddProfilePictureService,AddProfilePictureService>();
-            Services.AddScoped<IAddCoverPictureService,AddCoverPictureService>();   
-            Services.AddCors();
-            return Services;
+            return services;
         }
 
+        private static void RegisterCustomServices(IServiceCollection services)
+        {
+            services.AddScoped<IRegisterService, RegisterService>();
+            services.AddScoped<ISignInService, SignInService>();
+            services.AddScoped<IAddPostService, AddPostService>();
+            services.AddScoped<IUpdatePostService, UpdatePostService>();
+            services.AddScoped<IDeletePostService, DeletePostService>();
+            services.AddScoped<IAddFriendService, AddFriendService>();
+            services.AddScoped<IGenericRepository<Post>, GenericRepository<Post>>();
+            services.AddScoped<IGenericRepository<FriendsRelationship>, GenericRepository<FriendsRelationship>>();
+            services.AddScoped<IFriendshipRepository, FriendshipRepository>();
+            services.AddScoped<IAcceptFriendRequestService, AcceptFriendRequestService>();
+            services.AddScoped<IUnfriendService, UnfriendService>();
+            services.AddScoped<IRejectFriendRequestService, RejectFriendRequestService>();
+            services.AddScoped<IAddCommentService, AddCommentService>();
+            services.AddScoped<IGenericRepository<Comment>, GenericRepository<Comment>>();
+            services.AddScoped<IDeleteCommentService, DeleteCommentService>();
+            services.AddScoped<ICommentRepository, CommentRepository>();
+            services.AddScoped<IUpdateCommentService, UpdateCommentService>();
+            services.AddScoped<IAddLikeService, AddLikeService>();
+            services.AddScoped<IUnlikeService, UnlikeService>();
+            services.AddScoped<IGenericRepository<Like>, GenericRepository<Like>>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IGenerateOtpService, GenerateOtpService>();
+            services.AddScoped<IVerifyOtpService, VerifyOtpService>();
+            services.AddScoped<IGenericRepository<User>, GenericRepository<User>>();
+            services.AddScoped<ISendEmailService, SendEmailService>();
+            services.AddScoped<IUpdateOtpService, UpdateOtpService>();
+            services.AddScoped<IGetUserPostsService, GetUserPostsService>();
+            services.AddScoped<IPostRepository, PostRepository>();
+            services.AddScoped<IGetNewsFeedPostsService, GetNewsFeedPostsService>();
+            services.AddScoped<IAddSelfRelationFriendshipService, AddSelfRelationFriendshipService>();
+            services.AddScoped<IGetFirendsService, GetFirendsService>();
+            services.AddScoped<IGetPostService, GetPostService>();
+            services.AddScoped<ISendLiveNotificationService, SendLiveNotificationService>();
+            services.AddScoped<IGenericRepository<Notification>, GenericRepository<Notification>>();
+            services.AddScoped<IGetNotificationService, GetNotificationService>();
+            services.AddScoped<INotificationRepository, NotificationRepository>();
+            services.AddScoped<IGetNotificationsService, GetNotificationsService>();
+            services.AddScoped<IGenericRepository<Message>, GenericRepository<Message>>();
+            services.AddScoped<IMessegesRepository, MessegesRepository>();
+            services.AddScoped<IGetChatMessegesService, GetChatMessegesService>();
+            services.AddScoped<IGenericRepository<MessengerHub>, GenericRepository<MessengerHub>>();
+            services.AddScoped<ILogoutService, LogoutService>();
+            services.AddScoped<IMessengerHubRepository, MessengerHubRepository>();
+            services.AddScoped<IAddMessageService, AddMessegeService>();
+            services.AddScoped<IMessengerHubService, MessengerHubService>();
+            services.AddScoped<IGetUserService, GetUserService>();
+            services.AddScoped<IGetFriendRequests, GetFriendRequests>();
+            services.AddScoped<IGetFriendSuggestionsService, GetFriendSuggestionsService>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<ISearchUserService, SearchUserService>();
+            services.AddScoped<IUploadImageServie, UploadImageServie>();
+            services.AddScoped<IAddProfilePictureService, AddProfilePictureService>();
+            services.AddScoped<IAddCoverPictureService, AddCoverPictureService>();
+        }
     }
+
 }
