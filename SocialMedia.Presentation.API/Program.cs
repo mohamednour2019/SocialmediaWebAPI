@@ -1,30 +1,11 @@
-
-using Microsoft.AspNetCore.SignalR;
-using SocialMedia.Core.Services.HubServices;
-using SocialMedia.Presentation.API.Middlewares;
+using SocialMedia.Presentation.API.Initializer;
 using SocialMedia.Presentation.API.ServicesConfigurations;
 
-
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.RegisterServices();
+builder.Services.RegisterServices(builder.Configuration);
+
 var app = builder.Build();
-app.MapHub<MessengerHubService>("/messenger");
-app.UseGlobalExciptionHandler();
-app.UseHsts();
-app.UseRouting();
-app.UseCors(options =>
-{
-    options.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
-});
-app.MapControllers();
-app.UseHttpsRedirection();
-
-app.UseSwagger();
-app.UseSwaggerUI(options =>
-{
-    options.SwaggerEndpoint("/swagger/v1/swagger.json", "Social Media API v1");
-});
-
- app.Run();
+app.Initialize();
+app.Run();
 
 

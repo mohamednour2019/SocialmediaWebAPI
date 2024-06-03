@@ -1,7 +1,10 @@
 ﻿using Asp.Versioning;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using SocialMedia.Core.Domain.Entities;
 using SocialMedia.Core.Domain.RepositoriesInterfaces;
 using SocialMedia.Core.Services.AzureBlobServices;
@@ -16,6 +19,7 @@ using SocialMedia.Core.Services.PostServices.CommentServices;
 using SocialMedia.Core.Services.PostServices.LikeServices;
 using SocialMedia.Core.Services.SSEServices;
 using SocialMedia.Core.Services.UserServices;
+using SocialMedia.Core.ServicesInterfaces;
 using SocialMedia.Core.ServicesInterfaces.AzureBlobInterfaces;
 using SocialMedia.Core.ServicesInterfaces.EmailInterfaces;
 using SocialMedia.Core.ServicesInterfaces.FriendshipInterfaces;
@@ -40,12 +44,13 @@ using SocialMedia.Infrastructure.Repositories.NotificationRepository;
 using SocialMedia.Infrastructure.Repositories.PostRepository;
 using SocialMedia.Infrastructure.Repositories.UserRepository;
 using SocialMedia.Presentation.API.Filters;
+using System.Text;
 
 namespace SocialMedia.Presentation.API.ServicesConfigurations
 {
     public static class ServicesRegistration
     {
-        public static IServiceCollection RegisterServices(this IServiceCollection services)
+        public static IServiceCollection RegisterServices(this IServiceCollection services,IConfiguration configuration)
         {
             // Add controllers with custom model state validation
             services.AddControllers().ConfigureApiBehaviorOptions(options =>
@@ -103,6 +108,14 @@ namespace SocialMedia.Presentation.API.ServicesConfigurations
 
             // CORS registration
             services.AddCors();
+
+
+            //Add Authentication and Authorization
+            var Audeience = configuration["JWT:Audeience"];
+            var Issuer = configuration["JWT:Issuer"];
+            var key = configuration["JWT:SecurityKey"];
+            AddCustomAuthentication(services,Audeience, Issuer, key);
+            AddCustomAuthorization(services);
 
             return services;
         }
@@ -162,6 +175,42 @@ namespace SocialMedia.Presentation.API.ServicesConfigurations
             services.AddScoped<IUploadImageServie, UploadImageServie>();
             services.AddScoped<IAddProfilePictureService, AddProfilePictureService>();
             services.AddScoped<IAddCoverPictureService, AddCoverPictureService>();
+        }
+
+        public static void AddCustomAuthentication(IServiceCollection services, string Audience,string Issuer,string key)
+        {
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidateActor = true,
+                    ValidateIssuer = true,
+                    ValidateLifetime = true,
+                    ValidAudience = Audience,
+                    ValidIssuer = Issuer,
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key))
+                };
+            });
+        }
+
+        public static void AddCustomAuthorization(IServiceCollection services)
+        {
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("authenticated", policy =>
+                {
+                    policy.RequireAuthenticatedUser();
+                });
+                options.AddPolicy("RiverUser", policy =>
+                {
+                    policy.RequireRole("RiverUser");
+                });
+            });
         }
     }
 

@@ -29,11 +29,12 @@ namespace SocialMedia.Core.Services.TokenHanlderService
                 new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.Iat,DateTime.UtcNow.ToString()),
                 new Claim(ClaimTypes.NameIdentifier,user.Email.ToString()),
-                new Claim(ClaimTypes.Name,user.FirstName+" "+user.LastName)
+                new Claim(ClaimTypes.Name,user.FirstName+" "+user.LastName),
+                new Claim(ClaimTypes.Role,"RiverUser")
             };
 
             //security key for hashing
-            byte[] securityKey = Encoding.ASCII.GetBytes(_configuration["JWT:SecurityKey"]);
+            byte[] securityKey = Encoding.UTF8.GetBytes(_configuration["JWT:SecurityKey"]!);
             SymmetricSecurityKey symmetricSecurityKey = new SymmetricSecurityKey(securityKey);
 
 
