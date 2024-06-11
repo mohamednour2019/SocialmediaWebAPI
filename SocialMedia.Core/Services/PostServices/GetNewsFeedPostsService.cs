@@ -16,26 +16,18 @@ namespace SocialMedia.Core.Services.PostServices
     public class GetNewsFeedPostsService : IGetNewsFeedPostsService
     {
         private IPostRepository _repository;
-        private IMapper _mapper;
-        public GetNewsFeedPostsService(IPostRepository repository,IMapper mapper)
+        public GetNewsFeedPostsService(IPostRepository repository)
         {
-            _mapper = mapper;
             _repository = repository;
         }
         public async Task<ResponseModel<List<GetNewsFeedPostsResponseDto>>> Perform(GetNewsFeedPostsRequestDto requestDto)
         {
-            List<Post>?posts = await _repository.GetNewsFeedPostsAsync(requestDto.UserId);
-            List<GetNewsFeedPostsResponseDto> postsResponse=null;
-            if (posts is not null)
-            {
-                postsResponse = _mapper.Map<List<GetNewsFeedPostsResponseDto>>(posts);
-
-            }
+            List<GetNewsFeedPostsResponseDto>?posts = await _repository.GetNewsFeedPostsAsync(requestDto.UserId);
             return new ResponseModel<List<GetNewsFeedPostsResponseDto>>()
             {
                 Success = true,
                 Message = null,
-                Data = postsResponse
+                Data = posts
             };
 
         }

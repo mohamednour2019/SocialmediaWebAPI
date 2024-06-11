@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SocialMedia.Core.Domain.Entities;
 using SocialMedia.Core.Domain.RepositoriesInterfaces;
+using SocialMedia.Core.DTO_S.Comment.ResponseDTOs;
 using SocialMedia.Core.DTO_S.RequestDto_S;
 using SocialMedia.Infrastructure.DatabaseContext;
 using System;
@@ -26,5 +27,22 @@ namespace SocialMedia.Infrastructure.Repositories.CommentRepository
                                    .FirstOrDefaultAsync(x => x.Id == id);
             return comment;
         }
+
+        public async Task<List<GetCommentResponseDto>> GetComments(Guid postId)
+            => await _context.Comments
+                .Include(x=>x.User)
+                .Where(x=>x.PostId==postId)
+                .Select(x=>new GetCommentResponseDto()
+                {
+                    CommentId=x.Id,
+                    PostId=postId,
+                    UserId=x.UserId,
+                    Content=x.Content,
+                    DateCreated=x.DateCreated,
+                    FirstName=x.User.FirstName,
+                    LastName=x.User.LastName,
+                    ProfilePictureUrl=x.User.ProfilePicture
+                }).OrderBy(x=>x.DateCreated).ToListAsync();
+
     }
 }

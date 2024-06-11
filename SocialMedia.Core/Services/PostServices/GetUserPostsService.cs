@@ -23,7 +23,7 @@ namespace SocialMedia.Core.Services.PostServices
         }
         public async Task<ResponseModel<List<GetUserPostsResponseDto>>> Perform(GetUserPostsRequestDto requestDto)
         {
-            List<Post>userPosts=await _repository.GetPostsAsync(requestDto.UserId);
+            List<GetUserPostsResponseDto>userPosts=await _repository.GetPostsAsync(requestDto.UserId);
             var responseResult=new ResponseModel<List<GetUserPostsResponseDto>>()
             {
                 Success = true,
@@ -35,8 +35,7 @@ namespace SocialMedia.Core.Services.PostServices
                 responseResult.Message = new List<string>() { "you don't have any posts." };
                 return responseResult;
             }
-            List<GetUserPostsResponseDto>response=_mapper.Map<List<GetUserPostsResponseDto>>(userPosts);
-            responseResult.Data = response;
+            responseResult.Data = userPosts;
             return responseResult;
         }
     }

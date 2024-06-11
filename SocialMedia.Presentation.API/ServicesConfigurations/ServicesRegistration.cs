@@ -4,9 +4,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.IdentityModel.Tokens;
 using SocialMedia.Core.Domain.Entities;
 using SocialMedia.Core.Domain.RepositoriesInterfaces;
+using SocialMedia.Core.DTO_S.Like.ResponseDTOs;
 using SocialMedia.Core.Services.AzureBlobServices;
 using SocialMedia.Core.Services.EmailServices;
 using SocialMedia.Core.Services.FriendshipServices;
@@ -18,6 +20,8 @@ using SocialMedia.Core.Services.PostServices;
 using SocialMedia.Core.Services.PostServices.CommentServices;
 using SocialMedia.Core.Services.PostServices.LikeServices;
 using SocialMedia.Core.Services.SSEServices;
+using SocialMedia.Core.Services.TokenHanlderService;
+using SocialMedia.Core.Services.TokenServices;
 using SocialMedia.Core.Services.UserServices;
 using SocialMedia.Core.ServicesInterfaces;
 using SocialMedia.Core.ServicesInterfaces.AzureBlobInterfaces;
@@ -32,12 +36,15 @@ using SocialMedia.Core.ServicesInterfaces.PostInterfaces;
 using SocialMedia.Core.ServicesInterfaces.PostInterfaces.CommentInterfaces;
 using SocialMedia.Core.ServicesInterfaces.PostInterfaces.LikeInterfaces;
 using SocialMedia.Core.ServicesInterfaces.SSEInterfaces;
+using SocialMedia.Core.ServicesInterfaces.TokenHandler;
+using SocialMedia.Core.ServicesInterfaces.TokenInterfaces;
 using SocialMedia.Core.ServicesInterfaces.UserInterfaces;
 using SocialMedia.Infrastructure.DatabaseContext;
 using SocialMedia.Infrastructure.Mapper;
 using SocialMedia.Infrastructure.Repositories;
 using SocialMedia.Infrastructure.Repositories.CommentRepository;
 using SocialMedia.Infrastructure.Repositories.Friendship;
+using SocialMedia.Infrastructure.Repositories.LikeRepository;
 using SocialMedia.Infrastructure.Repositories.MessegesRepository;
 using SocialMedia.Infrastructure.Repositories.MessengerHubRepository;
 using SocialMedia.Infrastructure.Repositories.NotificationRepository;
@@ -53,10 +60,18 @@ namespace SocialMedia.Presentation.API.ServicesConfigurations
         public static IServiceCollection RegisterServices(this IServiceCollection services,IConfiguration configuration)
         {
             // Add controllers with custom model state validation
-            services.AddControllers().ConfigureApiBehaviorOptions(options =>
+            services.AddControllers(options =>
+            {
+                var policy = new AuthorizationPolicyBuilder()
+                .RequireAuthenticatedUser()
+                .RequireRole("RiverUser").Build();
+                options.Filters.Add(new AuthorizeFilter(policy));
+
+            }).ConfigureApiBehaviorOptions(options =>
             {
                 options.InvalidModelStateResponseFactory = context =>
                     RequestDtoValidationActionFilter.OnActionExecuting(context);
+
             });
 
             // Add HttpClient
@@ -173,8 +188,15 @@ namespace SocialMedia.Presentation.API.ServicesConfigurations
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ISearchUserService, SearchUserService>();
             services.AddScoped<IUploadImageServie, UploadImageServie>();
+            services.AddScoped<IGetCommentsService, GetCommentsService>();  
+            services.AddScoped<ILikesRepository,LikesRepository>();
+            services.AddScoped<IGetLikesService, GetLikesService>();    
             services.AddScoped<IAddProfilePictureService, AddProfilePictureService>();
             services.AddScoped<IAddCoverPictureService, AddCoverPictureService>();
+            services.AddScoped<ITokenHandlerService, TokenHandlerService>();
+            services.AddScoped<IGetClaimsFromToken,GetClaimsFromToken>();
+            services.AddScoped<IRefreshTokenService, RefreshTokenService>();    
+            services.AddScoped<IGenericRepository<UserRefreshToken>, GenericRepository<UserRefreshToken>>();
         }
 
         public static void AddCustomAuthentication(IServiceCollection services, string Audience,string Issuer,string key)
@@ -187,12 +209,12 @@ namespace SocialMedia.Presentation.API.ServicesConfigurations
             {
                 options.TokenValidationParameters = new TokenValidationParameters()
                 {
-                    ValidateActor = true,
                     ValidateIssuer = true,
                     ValidateLifetime = true,
                     ValidAudience = Audience,
                     ValidIssuer = Issuer,
                     ValidateIssuerSigningKey = true,
+                    ClockSkew=TimeSpan.Zero,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key))
                 };
             });

@@ -35,22 +35,19 @@ namespace SocialMedia.Core.Services.SSEServices
                 string jsonData = JsonSerializer.Serialize(notificationResponse);
                 await response.WriteAsync($"data:{jsonData}\n\n");
                 await response.Body.FlushAsync();
-                //try
-                //{
-                   
-                //}
-                //catch (Exception ex)
-                //{
-                //    _connections.TryRemove(userId, out _);
-                //}
-                //if (!response.HttpContext.RequestAborted.IsCancellationRequested)
-                //{
-                    
-                //}
-                //else
-                //{
-                //    _connections.TryRemove(userId, out _);
-                //}
+              
+            }
+        }
+
+        public async Task Disconnect(Guid userId)
+        {
+            try
+            {
+                _connections.TryRemove(userId, out _);
+            }
+            catch (Exception ex)
+            {
+
             }
         }
 

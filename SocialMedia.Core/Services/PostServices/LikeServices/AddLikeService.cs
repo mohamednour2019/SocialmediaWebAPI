@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using SocialMedia.Core.Domain.Entities;
 using SocialMedia.Core.Domain.RepositoriesInterfaces;
+using SocialMedia.Core.DTO_S.Like.ResponseDTOs;
 using SocialMedia.Core.DTO_S.RequestDto_S;
 using SocialMedia.Core.DTO_S.ResponseDto_S;
 using SocialMedia.Core.Services.SSEServices;
@@ -29,7 +30,7 @@ namespace SocialMedia.Core.Services.PostServices.LikeServices
             _mapper = mapper;
             _repository = repository;
         }
-        public async Task<ResponseModel<AddLikeResponseDto>> Perform(AddLikeRequestDto requestDto)
+        public async Task<ResponseModel<LikeResponseDto>> Perform(AddLikeRequestDto requestDto)
         {
             Like like = _mapper.Map<Like>(requestDto);
             Post post = await _postRepository.FindAsync(requestDto.PostId);
@@ -62,7 +63,7 @@ namespace SocialMedia.Core.Services.PostServices.LikeServices
                 }
             }
          
-            return new ResponseModel<AddLikeResponseDto>() { Success = true };
+            return new ResponseModel<LikeResponseDto>() { Success = true };
         }
     }
 }

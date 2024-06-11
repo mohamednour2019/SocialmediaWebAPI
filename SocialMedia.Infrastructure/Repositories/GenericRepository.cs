@@ -28,8 +28,12 @@ namespace SocialMedia.Infrastructure.Repositories
         public async Task Delete(Guid id)
         {
             T result = await FindAsync(id);
-            _set.Remove(result);
-            await _context.SaveChangesAsync();
+            if(result is not null)
+            {
+                _set.Remove(result);
+                await _context.SaveChangesAsync();
+            }
+
         }
 
 

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.IdentityModel.Tokens;
 using SocialMedia.Core.Domain.Entities;
 using SocialMedia.SharedKernel.CustomExceptions;
 using System.Net;
@@ -36,6 +37,11 @@ namespace SocialMedia.Presentation.API.Middlewares
                 {
                     httpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                     response.Message=new List<string>() {ex.Message};
+                }
+                else if(ex is SecurityTokenExpiredException)
+                {
+                    httpContext.Response.StatusCode=(int)HttpStatusCode.Unauthorized;
+                    response.Message = new List<string>() { ex.Message };
                 }
                 else
                 {

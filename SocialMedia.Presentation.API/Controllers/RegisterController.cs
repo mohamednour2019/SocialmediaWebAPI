@@ -1,4 +1,5 @@
 ﻿using Asp.Versioning;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SocialMedia.Core.Domain.Entities;
 using SocialMedia.Core.DTO_S.RequestDto_S;
@@ -8,6 +9,7 @@ using SocialMedia.Core.ServicesInterfaces.UserInterfaces;
 namespace SocialMedia.Presentation.API.Controllers
 {
     [ApiVersion("1.0")]
+    [AllowAnonymous]
     public class RegisterController:BaseController
     {
         [HttpPost]

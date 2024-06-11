@@ -7,18 +7,18 @@ namespace SocialMedia.Presentation.API.Initializer
     {
         public static WebApplication Initialize(this WebApplication app)
         {
-            app.MapHub<MessengerHubService>("/messenger");
             app.UseGlobalExciptionHandler();
             app.UseHsts();
+            app.UseHttpsRedirection();
             app.UseRouting();
             app.UseCors(options =>
             {
                 options.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
             });
-            app.MapControllers();
-            app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseAuthorization();
+            app.MapControllers();
+            app.MapHub<MessengerHubService>("/messenger");
             app.UseSwagger();
             app.UseSwaggerUI(options =>
             {

@@ -42,5 +42,7 @@ namespace SocialMedia.Core.Domain.Entities
         public string OTP { get; set; }
         public DateTime OtpExpiration { get; set; }
 
+        public UserRefreshToken? RefreshToken { get; set; }
+
     }
 }

@@ -1,14 +1,15 @@
 ﻿using Asp.Versioning;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SocialMedia.Core.Domain.Entities;
 using SocialMedia.Core.DTO_S.RequestDto_S;
 using SocialMedia.Core.DTO_S.ResponseDto_S;
 using SocialMedia.Core.ServicesInterfaces.UserInterfaces;
-using SocialMedia.Presentation.API.ControllerPresenter;
 
 namespace SocialMedia.Presentation.API.Controllers
 {
     [ApiVersion("1.0")]
+    [AllowAnonymous]
     public class SignInController:BaseController
     {
 

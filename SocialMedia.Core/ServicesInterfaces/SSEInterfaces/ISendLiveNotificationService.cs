@@ -10,5 +10,6 @@ namespace SocialMedia.Core.ServicesInterfaces.SSEInterfaces
     public interface ISendLiveNotificationService
     {
         Task Connect(HttpContext context, Guid UserConnectionId);
+        Task Disconnect(Guid userId);
     }
 }

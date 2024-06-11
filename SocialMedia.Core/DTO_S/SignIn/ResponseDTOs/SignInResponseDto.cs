@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,6 +21,9 @@ namespace SocialMedia.Core.DTO_S.ResponseDto_S
 
         public string? Education { get; set; }
 
+        public string Token {  get; set; }
+        public string RefreshToken {  get; set; }
+        public DateTime ExpiresIn {  get; set; }
         public string? Work { get; set; }
 
         public string? ProfilePictureUrl { get; set; }

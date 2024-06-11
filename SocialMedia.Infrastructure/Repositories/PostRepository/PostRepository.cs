@@ -7,6 +7,8 @@ using System.Security.Cryptography.X509Certificates;
 using BenchmarkDotNet;
 using BenchmarkDotNet.Attributes;
 using Microsoft.Diagnostics.Tracing.Parsers.Tpl;
+using SocialMedia.Core.DTO_S.ResponseDto_S;
+using SocialMedia.Core.DTO_S.Like.ResponseDTOs;
 
 namespace SocialMedia.Infrastructure.Repositories.PostRepository
 {
@@ -27,7 +29,7 @@ namespace SocialMedia.Infrastructure.Repositories.PostRepository
                 .Include(x => x.Comments)
                 .ThenInclude(x => x.User)
                 .Include(x => x.User)
-                 .Select(x=>new
+                .Select(x=>new
                  Post()
                  {
                      Id = x.Id,
@@ -43,40 +45,30 @@ namespace SocialMedia.Infrastructure.Repositories.PostRepository
                 .FirstOrDefaultAsync(x => x.Id == postId);
 
 
-        public async Task<List<Post>> GetPostsAsync(Guid userId) =>
+        public async Task<List<GetUserPostsResponseDto>> GetPostsAsync(Guid userId) =>
             await _context.Posts
+                .Include(x=>x.User)
                 .Include(x => x.Likes)
-                .Include(x => x.Comments) // Select specific properties
+                .Include(x=>x.Comments)
                 .Where(x => x.UserId == userId)
-                .Select(x=>new Post()
+                .Select(x=>new GetUserPostsResponseDto()
                 {
-                    Id = x.Id,
-                    UserId = x.UserId,
-                    ImageUrl=x.ImageUrl,
-                    Likes = x.Likes.Select(x => new Like() {PostId = x.PostId,
-                        UserId=x.UserId,
-                        User=new User()
-                        {
-                            FirstName = x.User.FirstName,
-                            LastName = x.User.LastName,
-                            ProfilePicture = x.User.ProfilePicture
-                        }
-                    }).ToList(),
-                    Content = x.Content,
+                    PostId = x.Id,
                     DateTime = x.DateTime,
-                    User = new User() { FirstName = x.User.FirstName, LastName = x.User.LastName, ProfilePicture = x.User.ProfilePicture },
-                    Comments = x.Comments.Select(x => new Comment() 
-                    { Id = x.Id, DateCreated = x.DateCreated, UserId = x.UserId
-                        , Content = x.Content, PostId = x.PostId
-                        , User = new User() 
-                        { FirstName = x.User.FirstName, LastName = x.User.LastName
-                            , ProfilePicture = x.User.ProfilePicture } }).ToList()
+                    Content = x.Content,
+                    PostImageUrl = x.ImageUrl,
+                    UserId = x.UserId,
+                    UserFirstName = x.User.FirstName,
+                    UserLastName = x.User.LastName,
+                    UserProfilePictureUrl = x.User.ProfilePicture,
+                    LikesCount =x.Likes.Count(),
+                    CommentsCount=x.Comments.Count(),
+                    isLiked=x.Likes.Any(x=>x.UserId == userId),
                 })
-                .OrderByDescending(x => x.DateTime)
+                .OrderBy(x => x.DateTime)
                 .ToListAsync();
-        public async Task<List<Post>> GetNewsFeedPostsAsync(Guid userId)
-        {
-            var newsFeedPosts = _context.Friends
+        public async Task<List<GetNewsFeedPostsResponseDto>> GetNewsFeedPostsAsync(Guid userId)
+         => await _context.Friends
             .Include(x => x.SecondUser)
             .ThenInclude(x => x.Posts)
             .ThenInclude(x => x.Comments)
@@ -84,31 +76,22 @@ namespace SocialMedia.Infrastructure.Repositories.PostRepository
             .ThenInclude(x => x.Posts)
             .ThenInclude(x => x.Likes)
             .Where(x => x.FirstUserId == userId && x.Type == FriendshipStatus.Friends)
-            .SelectMany(x => x.SecondUser.Posts.Select(x=>new Post()
+            .SelectMany(x => x.SecondUser.Posts.Select(x => new GetNewsFeedPostsResponseDto()
             {
-                Id       = x.Id,
-                UserId   = x.UserId,
-                ImageUrl = x.ImageUrl,
-                Likes = x.Likes.Select(x => new Like()
-                {
-                    PostId = x.PostId,
-                    UserId = x.UserId,
-                    User = new User()
-                    {
-                        FirstName = x.User.FirstName,
-                        LastName = x.User.LastName,
-                        ProfilePicture = x.User.ProfilePicture
-                    }
-                }).ToList(),
-                Content  = x.Content,
+                PostId = x.Id,
                 DateTime = x.DateTime,
-                User     = new User(){FirstName=x.User.FirstName, LastName=x.User.LastName, ProfilePicture= x.User.ProfilePicture},
-                Comments = x.Comments.Select(x => new Comment() { Id = x.Id, DateCreated = x.DateCreated, UserId = x.UserId, Content = x.Content, PostId = x.PostId, User = new User() { FirstName = x.User.FirstName, LastName = x.User.LastName, ProfilePicture = x.User.ProfilePicture } }).ToList()
+                Content = x.Content,
+                PostImageUrl = x.ImageUrl,
+                UserId = x.UserId,
+                UserFirstName = x.User.FirstName,
+                UserLastName = x.User.LastName,
+                UserProfilePictureUrl = x.User.ProfilePicture,
+                LikesCount = x.Likes.Count(),
+                CommentsCount = x.Comments.Count(),
+                isLiked = x.Likes.Any(x => x.UserId == userId),
             }))
-            .OrderByDescending(x => x.DateTime);
-
-            return await newsFeedPosts.ToListAsync();
-        }
+            .OrderBy(x => x.DateTime)
+            .ToListAsync();
 
                 
     }

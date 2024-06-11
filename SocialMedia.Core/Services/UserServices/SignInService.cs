@@ -3,7 +3,8 @@ using Microsoft.AspNetCore.Identity;
 using SocialMedia.Core.Domain.Entities;
 using SocialMedia.Core.DTO_S.RequestDto_S;
 using SocialMedia.Core.DTO_S.ResponseDto_S;
-using SocialMedia.Core.Services.SSEServices;
+using SocialMedia.Core.DTO_S.Token.OutputDTOs;
+using SocialMedia.Core.ServicesInterfaces.TokenHandler;
 using SocialMedia.Core.ServicesInterfaces.UserInterfaces;
 using SocialMedia.SharedKernel.CustomExceptions;
 
@@ -11,11 +12,16 @@ namespace SocialMedia.Core.Services.UserServices
 {
     public class SignInService : ISignInService
     {
+        private ITokenHandlerService _tokenHandler;
         private SignInManager<User> _signInManager;
         private UserManager<User> _userManager;
         private IMapper _mapper;
-        public SignInService(SignInManager<User> signInManager, UserManager<User> userManager, IMapper mapper)
+        public SignInService(SignInManager<User> signInManager
+            , UserManager<User> userManager
+            , IMapper mapper
+            , ITokenHandlerService tokenHandler)
         {
+            _tokenHandler = tokenHandler;
             _userManager = userManager;
             _signInManager = signInManager;
             _mapper = mapper;
@@ -34,6 +40,10 @@ namespace SocialMedia.Core.Services.UserServices
                     throw new ViolenceValidationException("incorrect password!");
                 }
                 SignInResponseDto response = _mapper.Map<SignInResponseDto>(user);
+                TokenOutputDto token = _tokenHandler.CreateToken(user);
+                response.Token = token.Token;
+                response.ExpiresIn=token.ExpiresIn;
+                response.RefreshToken= await _tokenHandler.CreateRefreshToken(user.Id);   
                 return new ResponseModel<SignInResponseDto>()
                 {
                     Success = true,
