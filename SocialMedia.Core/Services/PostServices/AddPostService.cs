@@ -13,12 +13,14 @@ namespace SocialMedia.Core.Services.PostServices
         private IMapper _mapper;
         private IGenericRepository<Post> _repository;
         private IUploadImageServie _uploadImageServie;
-        public AddPostService(IMapper mapper,IGenericRepository<Post>repository
-            ,IUploadImageServie uploadImageServie) 
+        private IGenericRepository<User> _userRepository;
+        public AddPostService(IMapper mapper, IGenericRepository<Post> repository
+            , IUploadImageServie uploadImageServie, IGenericRepository<User> userRepository)
         {
             _mapper = mapper;
-            _repository = repository;   
-            _uploadImageServie = uploadImageServie; 
+            _repository = repository;
+            _uploadImageServie = uploadImageServie;
+            _userRepository = userRepository;
         }
 
         public async Task<ResponseModel<AddPostResponseDto>> Perform(AddPostRequestDto requestDto)
@@ -42,7 +44,11 @@ namespace SocialMedia.Core.Services.PostServices
             {
                 throw new Exception(ex.Message);
             }
+            User user=await _userRepository.FindAsync(requestDto.UserId);
             AddPostResponseDto responseDto = _mapper.Map<AddPostResponseDto>(post);
+            responseDto.UserFirstName=user.FirstName;
+            responseDto.UserLastName = user.LastName;
+            responseDto.UserProfilePictureUrl = user.ProfilePicture;
             return new ResponseModel<AddPostResponseDto>()
             {
                 Success = true,

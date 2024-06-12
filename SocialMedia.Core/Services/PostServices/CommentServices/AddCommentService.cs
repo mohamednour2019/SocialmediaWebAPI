@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using SocialMedia.Core.Domain.Entities;
 using SocialMedia.Core.Domain.RepositoriesInterfaces;
+using SocialMedia.Core.DTO_S.Comment.ResponseDTOs;
 using SocialMedia.Core.DTO_S.RequestDto_S;
 using SocialMedia.Core.DTO_S.ResponseDto_S;
 using SocialMedia.Core.Services.SSEServices;
@@ -26,7 +27,7 @@ namespace SocialMedia.Core.Services.PostServices.CommentServices
             _userRepository = userRepository;
             _mapper=mapper;
         }
-        public async Task<ResponseModel<AddCommentResponseDto>> Perform(AddCommentRequestDto requestDto)
+        public async Task<ResponseModel<CommentResponseDto>> Perform(AddCommentRequestDto requestDto)
         {
             Comment comment=_mapper.Map<Comment>(requestDto);
             User user = await _userRepository.FindAsync(requestDto.UserId);
@@ -63,8 +64,8 @@ namespace SocialMedia.Core.Services.PostServices.CommentServices
                     throw new Exception("Something Went Wrong!");
                 }
             }
-            AddCommentResponseDto responseDto = _mapper.Map<AddCommentResponseDto>(comment);
-            return new ResponseModel<AddCommentResponseDto>()
+            CommentResponseDto responseDto = _mapper.Map<CommentResponseDto>(comment);
+            return new ResponseModel<CommentResponseDto>()
             {
                 Success = true,
                 Message = null,

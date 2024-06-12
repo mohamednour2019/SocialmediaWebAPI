@@ -7,5 +7,3 @@ builder.Services.RegisterServices(builder.Configuration);
 var app = builder.Build();
 app.Initialize();
 app.Run();
-
-

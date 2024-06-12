@@ -13,7 +13,7 @@ namespace SocialMedia.Presentation.API.Controllers
     public class CommentController : BaseController
     {
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseModel<AddCommentResponseDto>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseModel<CommentResponseDto>))]
         public async Task<IActionResult> addComment(AddCommentRequestDto requestDto,
             [FromServices] IAddCommentService addCommentService) =>
             await _presenter.Handle(requestDto, addCommentService);

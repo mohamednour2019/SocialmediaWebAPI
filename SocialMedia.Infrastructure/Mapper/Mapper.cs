@@ -2,6 +2,7 @@
 using Microsoft.Data.SqlClient;
 using SendGrid.Helpers.Mail;
 using SocialMedia.Core.Domain.Entities;
+using SocialMedia.Core.DTO_S.Comment.ResponseDTOs;
 using SocialMedia.Core.DTO_S.RequestDto_S;
 using SocialMedia.Core.DTO_S.ResponseDto_S;
 
@@ -60,8 +61,9 @@ namespace SocialMedia.Infrastructure.Mapper
                 .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId))
                 .ForMember(dest => dest.Content, opt => opt.MapFrom(src => src.Content))
                 .ForMember(dest => dest.DateTime, opt => opt.MapFrom(src => src.DateTime))
-                .ForMember(dest=>dest.ImageUrl,opt=>opt.MapFrom(src=>src.ImageUrl))
-                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id));
+                .ForMember(dest=>dest.PostImageUrl,opt=>opt.MapFrom(src=>src.ImageUrl))
+                .ForMember(dest => dest.PostImageUrl, opt => opt.MapFrom(src => src.ImageUrl))
+                .ForMember(dest => dest.PostId, opt => opt.MapFrom(src => src.Id));
 
             CreateMap<UpdatePostRequestDto, Post>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.PostId))
@@ -83,18 +85,15 @@ namespace SocialMedia.Infrastructure.Mapper
                 .ForMember(dest => dest.Content, opt => opt.MapFrom(src => src.Content));
 
 
-            CreateMap<Comment, AddCommentResponseDto>()
+            CreateMap<Comment, CommentResponseDto>()
                .ForMember(dest => dest.PostId, opt => opt.MapFrom(src => src.PostId))
                .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId))
                .ForMember(dest => dest.Content, opt => opt.MapFrom(src => src.Content))
                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
-               .ForMember(dest => dest.User, opt => opt.MapFrom(src => new User()
-               {
-                   FirstName = src.User.FirstName,
-                   LastName = src.User.LastName,
-                   ProfilePicture = src.User.ProfilePicture
-               }))
-               .ForMember(dest => dest.DateCreated, opt => opt.MapFrom(src => src.DateCreated));
+               .ForMember(dest => dest.DateCreated, opt => opt.MapFrom(src => src.DateCreated))
+               .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.User.FirstName))
+               .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.User.LastName))
+               .ForMember(dest => dest.ProfilePictureUrl, opt => opt.MapFrom(src => src.User.ProfilePicture));
 
             CreateMap<Comment, UpdateCommentResponseDto>()
                .ForMember(dest => dest.PostId, opt => opt.MapFrom(src => src.PostId))

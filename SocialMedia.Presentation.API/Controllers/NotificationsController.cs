@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SocialMedia.Core.Domain.Entities;
 using SocialMedia.Core.DTO_S.RequestDto_S;
 using SocialMedia.Core.DTO_S.ResponseDto_S;
@@ -13,8 +14,10 @@ namespace SocialMedia.Presentation.API.Controllers
         private static readonly ConcurrentDictionary<Guid, HttpResponse> _connections = new();
 
         [HttpGet("{UserConnectionId}")]
+        [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task Connect([FromRoute]Guid UserConnectionId, [FromServices]ISendLiveNotificationService sendLiveNotificationService)
+        public async Task Connect([FromRoute]Guid UserConnectionId
+            , [FromServices]ISendLiveNotificationService sendLiveNotificationService)
         {
           await sendLiveNotificationService.Connect(HttpContext, UserConnectionId);
         }
