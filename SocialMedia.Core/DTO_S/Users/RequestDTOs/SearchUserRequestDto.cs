@@ -8,6 +8,6 @@ namespace SocialMedia.Core.DTO_S.RequestDto_S
 {
     public class SearchUserRequestDto
     {
-        public string searchKeyWord {  get; set; }
+       public string searchKeyWord {  get; set; }
     }
 }

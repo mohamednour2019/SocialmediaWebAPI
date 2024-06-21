@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SocialMedia.Core.DTO_S.ResponseDto_S
+namespace SocialMedia.Core.DTO_S.Friendship.ResponseDTOs
 {
-    public class SearchUserResponseDto
+    public class GetFriendRequestsResponseDto
     {
         public Guid Id { get; set; }
         public string FirstName { get; set; }

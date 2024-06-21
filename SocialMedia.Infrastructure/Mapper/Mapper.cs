@@ -3,6 +3,7 @@ using Microsoft.Data.SqlClient;
 using SendGrid.Helpers.Mail;
 using SocialMedia.Core.Domain.Entities;
 using SocialMedia.Core.DTO_S.Comment.ResponseDTOs;
+using SocialMedia.Core.DTO_S.Friendship.ResponseDTOs;
 using SocialMedia.Core.DTO_S.RequestDto_S;
 using SocialMedia.Core.DTO_S.ResponseDto_S;
 
@@ -164,9 +165,16 @@ namespace SocialMedia.Infrastructure.Mapper
                 .ForMember(dest => dest.ProfilePictureUrl, opt => opt.MapFrom(src => src.ProfilePicture))
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id));
 
+            CreateMap<User, GetFriendRequestsResponseDto>()
+                 .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.FirstName))
+                 .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.LastName))
+                 .ForMember(dest => dest.ProfilePictureUrl, opt => opt.MapFrom(src => src.ProfilePicture))
+                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id));
+
             CreateMap<User, SearchUserResponseDto>()
-                .ForMember(dest => dest.UserId, otp => otp.MapFrom(src => src.Id))
+                .ForMember(dest => dest.Id, otp => otp.MapFrom(src => src.Id))
                 .ForMember(dest => dest.FirstName, otp => otp.MapFrom(src => src.FirstName))
+                .ForMember(dest => dest.ProfilePictureUrl, otp => otp.MapFrom(src => src.ProfilePicture))
                 .ForMember(dest => dest.LastName, otp => otp.MapFrom(src => src.LastName));
 
         }

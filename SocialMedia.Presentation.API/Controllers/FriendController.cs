@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using SocialMedia.Core.Domain.Entities;
 using SocialMedia.Core.Domain.Enums;
+using SocialMedia.Core.DTO_S.Friendship.ResponseDTOs;
 using SocialMedia.Core.DTO_S.RequestDto_S;
 using SocialMedia.Core.DTO_S.ResponseDto_S;
 using SocialMedia.Core.ServicesInterfaces.FriendshipInterfaces;
@@ -23,7 +24,7 @@ namespace SocialMedia.Presentation.API.Controllers
 
 
         [HttpGet("requests/{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseModel<List<GetFriendGenericResposneDto>>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseModel<List<GetFriendRequestsResponseDto>>))]
         public async Task<IActionResult> getFriendRequests(Guid id
             , [FromServices] IGetFriendRequests getFriendRequestsService) =>
             await _presenter.Handle(id, getFriendRequestsService);

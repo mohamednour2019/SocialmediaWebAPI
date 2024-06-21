@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using SocialMedia.Core.Domain.Entities;
 using SocialMedia.Core.Domain.RepositoriesInterfaces;
+using SocialMedia.Core.DTO_S.Friendship.ResponseDTOs;
 using SocialMedia.Core.DTO_S.ResponseDto_S;
 using SocialMedia.Core.ServicesInterfaces.FriendshipInterfaces;
 using System;
@@ -20,16 +21,16 @@ namespace SocialMedia.Core.Services.FriendshipServices
             _repository = repository;
             _mapper = mapper;
         }
-        public async Task<ResponseModel<List<GetFriendGenericResposneDto>>> Perform(Guid requestDto)
+        public async Task<ResponseModel<List<GetFriendRequestsResponseDto>>> Perform(Guid requestDto)
         {
             List<User> requests=await _repository.GetFriendRequests(requestDto);
-            List<GetFriendGenericResposneDto> response=null;
+            List<GetFriendRequestsResponseDto> response=null;
             if (requests is not null)
             {
-                response = _mapper.Map<List<GetFriendGenericResposneDto>>(requests);
+                response = _mapper.Map<List<GetFriendRequestsResponseDto>>(requests);
             }
 
-            return new ResponseModel<List<GetFriendGenericResposneDto>>()
+            return new ResponseModel<List<GetFriendRequestsResponseDto>>()
             {
                 Success = true,
                 Message = null,
