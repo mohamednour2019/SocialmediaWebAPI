@@ -12,5 +12,6 @@ namespace SocialMedia.Core.DTO_S.ResponseDto_S
         public string FirstName {  get; set; }
         public string LastName { get; set; }
 
+
     }
 }
