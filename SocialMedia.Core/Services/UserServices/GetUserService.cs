@@ -41,8 +41,9 @@ namespace SocialMedia.Core.Services.UserServices
                     Type = FriendshipStatus.NotFriends
                 };
             }
-            response.FriendsRelationship = relationship;
-
+            response.FirstUserId=relationship.FirstUserId;
+            response.SecondUserId=relationship.SecondUserId;
+            response.Type = relationship.Type;
             return new ResponseModel<GetUserResponseDto>()
             {
                 Success = true,

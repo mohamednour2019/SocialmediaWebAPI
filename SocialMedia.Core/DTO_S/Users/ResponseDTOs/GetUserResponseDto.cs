@@ -23,6 +23,9 @@ namespace SocialMedia.Core.DTO_S.ResponseDto_S
 
         public string? ProfilePictureUrl { get; set; }
 
-        public FriendsRelationship? FriendsRelationship { get; set; }
+        public FriendshipStatus? Type { get; set; }
+
+        public Guid SecondUserId { get; set; }
+        public Guid FirstUserId { get; set; }
     }
 }
