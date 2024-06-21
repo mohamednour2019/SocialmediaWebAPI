@@ -79,10 +79,11 @@ namespace SocialMedia.Core.Services.TokenHanlderService
 
         public async Task<string> CreateRefreshToken(Guid userId)
         {
+            double refreshTokenExpirationDays = Convert.ToDouble(_configuration["JWT:REFRESH_TOKEN_EXPIRATION_DAYS"]);
             UserRefreshToken refreshToken = new UserRefreshToken()
             {
                 UserId = userId,
-                ExpiresIn = DateTime.UtcNow.AddDays(30),
+                ExpiresIn = DateTime.UtcNow.AddDays(refreshTokenExpirationDays),
                 RefreshToken = GenerateRefreshToken()
             };
             await _userRefreshTokenRepository.Delete(userId);
