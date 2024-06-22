@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using SocialMedia.Core.Domain.Entities;
 using SocialMedia.Core.DTO_S.RequestDto_S;
 using SocialMedia.Core.DTO_S.ResponseDto_S;
@@ -20,10 +21,13 @@ namespace SocialMedia.Core.Services.UserServices
         private IGenerateOtpService _generateOtpService;
         private IAddSelfRelationFriendshipService _addSelfRelationFriendshipService;
         private ISendEmailService _sendEmailService;
+        private IConfiguration _configuration;
+
         public RegisterService(UserManager<User> userManager
             , IMapper mapper,IGenerateOtpService generateOtpService
             ,ISendEmailService sendEmailService,
-            IAddSelfRelationFriendshipService addSelfRelationFriendshipService)
+            IAddSelfRelationFriendshipService addSelfRelationFriendshipService
+            ,IConfiguration configuration)
         {
             _addSelfRelationFriendshipService = addSelfRelationFriendshipService;
             _sendEmailService = sendEmailService;
@@ -31,6 +35,7 @@ namespace SocialMedia.Core.Services.UserServices
             _generateOtpService = generateOtpService;
             _userManager = userManager;
             _mapper = mapper;
+            _configuration = configuration;
 
         }
         public async Task<ResponseModel<RegisterResponseDto>> Perform(RegisterRequestDto requestDto)
@@ -40,6 +45,8 @@ namespace SocialMedia.Core.Services.UserServices
             GenerateOtpResponseDto otpInfo = _generateOtpService.GenerateOTP();
             user.OTP = otpInfo.OTP;
             user.OtpExpiration = otpInfo.ExpireyDate;
+            user.ProfilePicture =_configuration["UserDefaultImages:DefaultProfilePicureUrl"] ;
+            user.CoverPictureUrl = _configuration["UserDefaultImages:DefaultCoverPictureUrl"];
             IdentityResult result = await _userManager.CreateAsync(user, requestDto.Password);
             if (!result.Succeeded)
             {

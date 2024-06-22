@@ -29,7 +29,7 @@ namespace SocialMedia.Infrastructure.Repositories.NotificationRepository
         }
         public async Task<List<Notification>> GetNotifications(Guid userId)
         {
-            List<Notification> notifications=
+                List<Notification> notifications=
                 await _set.Where(x=> x.UserId == userId)
                 .Join(_appDbContext.Users,x=>x.EmmiterId,x=>x.Id,
                 (notification,user)=> new Notification()
@@ -43,8 +43,8 @@ namespace SocialMedia.Infrastructure.Repositories.NotificationRepository
                     UserId = notification.UserId,
                     EmmiterName = notification.EmmiterName,
                     NotificationImage = user.ProfilePicture
-                }).ToListAsync();
-            return notifications;   
+                }).OrderByDescending(x=>x.DateTime).ToListAsync();
+                return notifications;   
         }
 
     }
