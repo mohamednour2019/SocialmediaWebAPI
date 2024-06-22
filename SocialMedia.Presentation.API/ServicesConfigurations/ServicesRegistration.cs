@@ -81,7 +81,10 @@ namespace SocialMedia.Presentation.API.ServicesConfigurations
             services.AddDbContext<AppDbContext>();
             services.AddIdentity<User, Role>(options =>
             {
-                options.Password.RequiredLength = 10;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequiredLength = 8;
             })
             .AddEntityFrameworkStores<AppDbContext>()
             .AddUserStore<UserStore<User, Role, AppDbContext, Guid>>()

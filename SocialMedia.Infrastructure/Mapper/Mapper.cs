@@ -157,6 +157,7 @@ namespace SocialMedia.Infrastructure.Mapper
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Work, opt => opt.MapFrom(src => src.Work))
                 .ForMember(dest => dest.Education, opt => opt.MapFrom(src => src.Education))
+                .ForMember(dest => dest.CoverPictureUrl, opt => opt.MapFrom(src => src.CoverPictureUrl))
                 .ForMember(dest => dest.ProfilePictureUrl, opt => opt.MapFrom(src => src.ProfilePicture));
 
            CreateMap<User,GetFriendsSuggestionsResponseDto>()

@@ -45,8 +45,15 @@ namespace SocialMedia.Core.Services.UserServices
             GenerateOtpResponseDto otpInfo = _generateOtpService.GenerateOTP();
             user.OTP = otpInfo.OTP;
             user.OtpExpiration = otpInfo.ExpireyDate;
-            user.ProfilePicture =_configuration["UserDefaultImages:DefaultProfilePicureUrl"] ;
-            user.CoverPictureUrl = _configuration["UserDefaultImages:DefaultCoverPictureUrl"];
+            if (user.Gender == "male")
+            {
+                user.ProfilePicture = _configuration["UserDefaultImages:DefaultMaleProfilePicureUrl"];
+            }
+            else
+            {
+                user.ProfilePicture = _configuration["UserDefaultImages:DefaultFemaleProfilePicureUrl"];
+            }
+            user.CoverPictureUrl= _configuration["UserDefaultImages:DefaultCoverPictureUrl"];
             IdentityResult result = await _userManager.CreateAsync(user, requestDto.Password);
             if (!result.Succeeded)
             {

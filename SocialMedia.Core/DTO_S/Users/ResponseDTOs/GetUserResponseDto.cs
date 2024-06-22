@@ -22,7 +22,7 @@ namespace SocialMedia.Core.DTO_S.ResponseDto_S
         public string? Work { get; set; }
 
         public string? ProfilePictureUrl { get; set; }
-
+        public string? CoverPictureUrl {  get; set; }
         public FriendshipStatus? Type { get; set; }
 
         public Guid SecondUserId { get; set; }
