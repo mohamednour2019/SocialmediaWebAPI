@@ -12,9 +12,7 @@ namespace SocialMedia.Core.DTO_S.RequestDto_S
     {
         [Required]
         public Guid UserId { get; set; }
-
-        [Required(ErrorMessage = "Post Should Have Content!")]
-        public string Content { get; set; }
+        public string? Content { get; set; }
 
         public IFormFile? Image {  get; set; }
     }

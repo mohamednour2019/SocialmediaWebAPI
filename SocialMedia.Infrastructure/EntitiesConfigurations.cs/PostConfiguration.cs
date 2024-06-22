@@ -14,6 +14,7 @@ namespace SocialMedia.Infrastructure.EntitiesConfigurations.cs
         public void Configure(EntityTypeBuilder<Post> builder)
         {
             builder.Property(x=>x.Id).ValueGeneratedNever();
+            builder.Property(x => x.Content).IsRequired(false);
 
             builder.HasMany(x=>x.Comments).WithOne(x=>x.Post).HasForeignKey(x=>x.PostId)
                 .OnDelete(DeleteBehavior.Cascade);

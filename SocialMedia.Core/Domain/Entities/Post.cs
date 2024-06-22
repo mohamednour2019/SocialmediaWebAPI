@@ -13,7 +13,6 @@ namespace SocialMedia.Core.Domain.Entities
         [Required(ErrorMessage ="Post Should Have Id!")]
         public Guid Id { get; set; }
 
-        [Required(ErrorMessage ="Post Should Have Content!")]
         public string Content {  get; set; }
 
         [Required(ErrorMessage ="Post Should Have Date and Time of Creation!")]

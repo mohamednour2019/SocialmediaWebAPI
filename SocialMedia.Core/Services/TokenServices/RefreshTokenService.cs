@@ -49,12 +49,12 @@ namespace SocialMedia.Core.Services.TokenServices
             }
 
             TokenOutputDto newToken=_tokenHandlerService.CreateToken(user);
-            string newRefreshToken=await _tokenHandlerService.CreateRefreshToken(user.Id);
+            //string newRefreshToken=await _tokenHandlerService.CreateRefreshToken(user.Id);
 
             RefreshTokenResponseDto response = new RefreshTokenResponseDto()
             {
                 Token = newToken.Token,
-                RefreshToken = newRefreshToken,
+                RefreshToken = refreshToken.RefreshToken,
                 ExpiresIn = newToken.ExpiresIn
             };
 

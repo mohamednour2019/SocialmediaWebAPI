@@ -86,8 +86,15 @@ namespace SocialMedia.Core.Services.TokenHanlderService
                 ExpiresIn = DateTime.UtcNow.AddDays(refreshTokenExpirationDays),
                 RefreshToken = GenerateRefreshToken()
             };
-            await _userRefreshTokenRepository.Delete(userId);
-            await _userRefreshTokenRepository.AddAsync(refreshToken);
+            try
+            {
+                await _userRefreshTokenRepository.Delete(userId);
+                await _userRefreshTokenRepository.AddAsync(refreshToken);
+            }catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
             return refreshToken.RefreshToken;
         }
 
