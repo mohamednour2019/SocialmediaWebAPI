@@ -73,6 +73,12 @@ namespace SocialMedia.Infrastructure.Repositories.Friendship
         => _context.Friends.Any(x => (x.FirstUserId == CurrentUser && x.SecondUserId == FriendUser) ||
             (x.SecondUserId == CurrentUser && x.FirstUserId == FriendUser));
 
-
+        public async Task<List<User>> GetOnlineFriends(Guid userId)
+        {
+            return await _context.Friends.Include(x => x.SecondUser)
+                .Where(x => x.FirstUserId == userId && x.SecondUserId != userId)
+                ?.Join(_context.MessengerHub, x => x.SecondUserId, x => x.UserId
+                , (friend, hub) =>friend.SecondUser)?.ToListAsync();
+        }
     }
 }

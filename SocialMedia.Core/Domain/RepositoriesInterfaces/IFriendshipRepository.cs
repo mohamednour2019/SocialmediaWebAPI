@@ -16,7 +16,7 @@ namespace SocialMedia.Core.Domain.RepositoriesInterfaces
         Task<FriendsRelationship?> GetFriendShipStatus(AddFriendRequestDto requestDto);
         Task<List<User>> GetFriendRequests(Guid userId);
         Task<List<User>> GetFirendSuggestions(Guid userId);
-
+        Task<List<User>> GetOnlineFriends(Guid userId);
         Task RemoveFriendAsync(Guid FirstUserId, Guid SecondUserId);
         //Task DeleteFriendWithType(DeleteFriendshipRequestDto requestDto, FriendshipStatus type);
     }

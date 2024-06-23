@@ -71,6 +71,13 @@ namespace SocialMedia.Presentation.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK,Type =typeof(ResponseModel<List<GetFriendsSuggestionsResponseDto>>))]
         public async Task<IActionResult> getSuggestions(Guid userId
             , [FromServices]IGetFriendSuggestionsService getFriendSuggestionsService)
-            =>await _presenter.Handle(userId, getFriendSuggestionsService);   
+            =>await _presenter.Handle(userId, getFriendSuggestionsService);
+
+
+        [HttpGet("online/{userId}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseModel<List<GetOnlineFriendsResponseDto>>))]
+        public async Task<IActionResult> getOnlineFriends(Guid userId
+            , [FromServices] IGetOnlineFriendsService getOnlineFriendsService)
+            => await _presenter.Handle(userId, getOnlineFriendsService);
     }
 }
