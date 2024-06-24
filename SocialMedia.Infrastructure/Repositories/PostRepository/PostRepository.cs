@@ -25,23 +25,9 @@ namespace SocialMedia.Infrastructure.Repositories.PostRepository
 
         public async Task<Post> GetPostAsync(Guid postId) =>
                  await _context.Posts
+                .Include(x => x.User)
                 .Include(x => x.Likes)
                 .Include(x => x.Comments)
-                .ThenInclude(x => x.User)
-                .Include(x => x.User)
-                .Select(x=>new
-                 Post()
-                 {
-                     Id = x.Id,
-                     UserId = x.UserId,
-                     ImageUrl = x.ImageUrl,
-                     Likes = x.Likes.Select(x => new Like() { UserId = x.UserId, PostId = x.PostId }).ToList(),
-                     Content = x.Content,
-                     DateTime = x.DateTime,
-                     User = new User() { FirstName = x.User.FirstName, LastName = x.User.LastName, ProfilePicture = x.User.ProfilePicture },
-                     Comments = x.Comments.Select(x => new Comment() { Id = x.Id, DateCreated = x.DateCreated, UserId = x.UserId, Content = x.Content, PostId = x.PostId, User = new User() { FirstName = x.User.FirstName, LastName = x.User.LastName, ProfilePicture = x.User.ProfilePicture } }).ToList()
-
-                 })
                 .FirstOrDefaultAsync(x => x.Id == postId);
 
 

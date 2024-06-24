@@ -131,6 +131,19 @@ namespace SocialMedia.Infrastructure.Mapper
             //    .ForMember(dest => dest.ImageUrl, opt => opt.MapFrom(src => src.ImageUrl))
             //    .ForMember(dest => dest.Comments, opt => opt.MapFrom(src => src.Comments));
 
+            CreateMap<Post, GetUserPostsResponseDto>()
+               .ForMember(dest => dest.PostId, opt => opt.MapFrom(src => src.Id))
+               .ForMember(dest => dest.DateTime, opt => opt.MapFrom(src => src.DateTime))
+               .ForMember(dest => dest.Content, opt => opt.MapFrom(src => src.Content))
+               .ForMember(dest => dest.PostImageUrl, opt => opt.MapFrom(src => src.ImageUrl))
+               .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId))
+               .ForMember(dest => dest.UserFirstName, opt => opt.MapFrom(src => src.User.FirstName))
+               .ForMember(dest => dest.UserLastName, opt => opt.MapFrom(src => src.User.LastName))
+               .ForMember(dest => dest.UserProfilePictureUrl, opt => opt.MapFrom(src => src.User.ProfilePicture))
+               .ForMember(dest => dest.LikesCount, opt => opt.MapFrom(src => src.Likes.Count()))
+               .ForMember(dest => dest.CommentsCount, opt => opt.MapFrom(src => src.Comments.Count()))
+               .ForMember(dest => dest.isLiked, opt => opt.MapFrom(src => src.Likes.Any(x => x.UserId == src.UserId)));
+
 
             CreateMap<Notification, GetNotificationResponseDto>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
