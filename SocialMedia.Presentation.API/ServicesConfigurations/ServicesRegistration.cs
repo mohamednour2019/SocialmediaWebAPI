@@ -201,6 +201,7 @@ namespace SocialMedia.Presentation.API.ServicesConfigurations
             services.AddScoped<IRefreshTokenService, RefreshTokenService>();    
             services.AddScoped<IGetOnlineFriendsService, GetOnlineFriendsService>();
             services.AddScoped<IGenericRepository<UserRefreshToken>, GenericRepository<UserRefreshToken>>();
+           
         }
 
         public static void AddCustomAuthentication(IServiceCollection services, string Audience,string Issuer,string key)
