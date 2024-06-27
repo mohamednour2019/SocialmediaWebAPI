@@ -11,8 +11,8 @@ namespace SocialMedia.Core.Domain.RepositoriesInterfaces
     public interface IPostRepository
     {
         Task AddPost(Post post);
-        Task<List<GetUserPostsResponseDto>> GetPostsAsync(Guid userId);
-        Task<List<GetNewsFeedPostsResponseDto>> GetNewsFeedPostsAsync(Guid userId);
+        Task<List<GetUserPostsResponseDto>> GetPostsAsync(Guid userId,int pageNumber);
+        Task<List<GetNewsFeedPostsResponseDto>> GetNewsFeedPostsAsync(Guid userId,int pageNumber);
 
         Task<Post> GetPostAsync(Guid postId);
     }

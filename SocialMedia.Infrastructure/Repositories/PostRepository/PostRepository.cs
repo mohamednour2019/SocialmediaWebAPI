@@ -14,6 +14,7 @@ namespace SocialMedia.Infrastructure.Repositories.PostRepository
 {
     public class PostRepository : IPostRepository
     {
+        private int _pageSize = 5;
         private AppDbContext _context;
         public PostRepository(AppDbContext context)
         {
@@ -31,7 +32,7 @@ namespace SocialMedia.Infrastructure.Repositories.PostRepository
                 .FirstOrDefaultAsync(x => x.Id == postId);
 
 
-        public async Task<List<GetUserPostsResponseDto>> GetPostsAsync(Guid userId) =>
+        public async Task<List<GetUserPostsResponseDto>> GetPostsAsync(Guid userId, int pageNumber) =>
             await _context.Posts
                 .Include(x=>x.User)
                 .Include(x => x.Likes)
@@ -51,9 +52,10 @@ namespace SocialMedia.Infrastructure.Repositories.PostRepository
                     CommentsCount=x.Comments.Count(),
                     isLiked=x.Likes.Any(x=>x.UserId == userId),
                 })
-                .OrderBy(x => x.DateTime)
+                .OrderByDescending(x => x.DateTime)
+                .Skip((pageNumber* _pageSize) - _pageSize).Take(_pageSize)
                 .ToListAsync();
-        public async Task<List<GetNewsFeedPostsResponseDto>> GetNewsFeedPostsAsync(Guid userId)
+        public async Task<List<GetNewsFeedPostsResponseDto>> GetNewsFeedPostsAsync(Guid userId, int pageNumber)
          => await _context.Friends
             .Include(x => x.SecondUser)
             .ThenInclude(x => x.Posts)
@@ -76,7 +78,8 @@ namespace SocialMedia.Infrastructure.Repositories.PostRepository
                 CommentsCount = x.Comments.Count(),
                 isLiked = x.Likes.Any(x => x.UserId == userId),
             }))
-            .OrderBy(x => x.DateTime)
+            .OrderByDescending(x => x.DateTime)
+            .Skip((pageNumber * _pageSize) - _pageSize).Take(_pageSize)
             .ToListAsync();
 
                 

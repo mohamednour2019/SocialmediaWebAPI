@@ -16,14 +16,18 @@ namespace SocialMedia.Core.Services.PostServices
     {
         private IMapper _mapper;
         private IGenericRepository<Post> _repository;
-        public DeletePostService(IMapper mapper,IGenericRepository<Post>repository)
+        private INotificationRepository _notificationRepository;
+        public DeletePostService(IMapper mapper,IGenericRepository<Post>repository
+            ,INotificationRepository notificationRepository)
         {
             _mapper = mapper;
             _repository = repository;
+            _notificationRepository = notificationRepository;
         }
         public async Task<ResponseModel<DeletePostResponseDto>> Perform(DeletePostRequestDto requestDto)
         {
            await _repository.Delete(requestDto.PostId);
+           await _notificationRepository.DeletePostNotifications(requestDto.PostId);
             return new ResponseModel<DeletePostResponseDto>
             {
                 Success = true,

@@ -11,5 +11,6 @@ namespace SocialMedia.Core.Domain.RepositoriesInterfaces
     {
         Task<List<Notification>>GetNotifications(Guid userId);
         Task<Notification> GetNotification(Guid NotificationId);
+        Task DeletePostNotifications(Guid PostId);
     }
 }

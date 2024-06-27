@@ -23,7 +23,7 @@ namespace SocialMedia.Core.Services.PostServices
         }
         public async Task<ResponseModel<List<GetUserPostsResponseDto>>> Perform(GetUserPostsRequestDto requestDto)
         {
-            List<GetUserPostsResponseDto>userPosts=await _repository.GetPostsAsync(requestDto.UserId);
+            List<GetUserPostsResponseDto>userPosts=await _repository.GetPostsAsync(requestDto.UserId,requestDto.PageNumber);
             var responseResult=new ResponseModel<List<GetUserPostsResponseDto>>()
             {
                 Success = true,

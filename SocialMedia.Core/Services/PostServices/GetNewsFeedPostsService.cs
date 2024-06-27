@@ -22,7 +22,7 @@ namespace SocialMedia.Core.Services.PostServices
         }
         public async Task<ResponseModel<List<GetNewsFeedPostsResponseDto>>> Perform(GetNewsFeedPostsRequestDto requestDto)
         {
-            List<GetNewsFeedPostsResponseDto>?posts = await _repository.GetNewsFeedPostsAsync(requestDto.UserId);
+            List<GetNewsFeedPostsResponseDto>?posts = await _repository.GetNewsFeedPostsAsync(requestDto.UserId,requestDto.PageNumber);
             return new ResponseModel<List<GetNewsFeedPostsResponseDto>>()
             {
                 Success = true,

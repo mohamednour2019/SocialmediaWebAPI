@@ -47,5 +47,7 @@ namespace SocialMedia.Infrastructure.Repositories.NotificationRepository
                 return notifications;   
         }
 
+        public async Task DeletePostNotifications(Guid PostId)
+            => await _appDbContext.Notifications.Where(x => x.PostId == PostId).ExecuteDeleteAsync();
     }
 }

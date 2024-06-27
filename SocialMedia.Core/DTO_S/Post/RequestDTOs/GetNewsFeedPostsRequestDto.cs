@@ -9,5 +9,6 @@ namespace SocialMedia.Core.DTO_S.RequestDto_S
     public class GetNewsFeedPostsRequestDto
     {
         public Guid UserId { get; set; }
+        public int PageNumber {  get; set; }
     }
 }
