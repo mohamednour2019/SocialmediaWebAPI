@@ -1,5 +1,6 @@
 ﻿using SocialMedia.Core.Domain.Entities;
 using SocialMedia.Core.Domain.RepositoriesInterfaces;
+using SocialMedia.Core.DTO_S.Like.RequestDTOs;
 using SocialMedia.Core.DTO_S.Like.ResponseDTOs;
 using SocialMedia.Core.ServicesInterfaces.PostInterfaces.LikeInterfaces;
 using System;
@@ -19,9 +20,10 @@ namespace SocialMedia.Core.Services.PostServices.LikeServices
             _likesRepository = likesRepository;
         }
 
-        public async Task<ResponseModel<List<LikeResponseDto>>> Perform(Guid requestDto)
+        public async Task<ResponseModel<List<LikeResponseDto>>> Perform(GetLikesRequestDto requestDto)
         {
-            List<LikeResponseDto> likes = await _likesRepository.getLikes(requestDto);
+            List<LikeResponseDto> likes = await _likesRepository
+                .getLikes(requestDto.PostId,requestDto.PageNumber);
 
             return new ResponseModel<List<LikeResponseDto>>()
             {

@@ -13,13 +13,14 @@ namespace SocialMedia.Infrastructure.Repositories.LikeRepository
     public class LikesRepository:ILikesRepository
     {
         private AppDbContext _appDbContext;
+        private const int PageSize = 10;
 
         public LikesRepository(AppDbContext appDbContext)
         {
             _appDbContext = appDbContext;
         }
 
-        public async Task<List<LikeResponseDto>>getLikes(Guid postId)
+        public async Task<List<LikeResponseDto>>getLikes(Guid postId, int pageNumber)
         => await _appDbContext.Likes.Include(x=>x.User).Where(x=>x.PostId== postId)
             .Select(x=>new LikeResponseDto()
             {
@@ -29,6 +30,7 @@ namespace SocialMedia.Infrastructure.Repositories.LikeRepository
                 LastName=x.User.LastName,
                 UserProfilePictureUrl=x.User.ProfilePicture
             })
+            .Skip((pageNumber*PageSize)-PageSize).Take(PageSize)
             .ToListAsync();
     }
 }

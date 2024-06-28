@@ -1,6 +1,7 @@
 ﻿using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 using SocialMedia.Core.Domain.Entities;
+using SocialMedia.Core.DTO_S.Comment.RequestDTOs;
 using SocialMedia.Core.DTO_S.Comment.ResponseDTOs;
 using SocialMedia.Core.DTO_S.RequestDto_S;
 using SocialMedia.Core.DTO_S.ResponseDto_S;
@@ -33,9 +34,10 @@ namespace SocialMedia.Presentation.API.Controllers
 
         [HttpGet("{postId}")]
         [ProducesResponseType(StatusCodes.Status200OK,Type =typeof(ResponseModel<List<GetCommentResponseDto>>))]
-        public async Task<IActionResult>getComments(Guid postId
+        public async Task<IActionResult>getComments(Guid postId,[FromQuery]int pageNumber
             , [FromServices] IGetCommentsService getCommentsService)
-            =>await _presenter.Handle(postId, getCommentsService);
+            =>await _presenter.Handle(new GetCommentsRequestDto() { PostId=postId,PageNumber=pageNumber}
+            , getCommentsService);
 
 
     }

@@ -3,18 +3,13 @@ using SocialMedia.Core.Domain.Entities;
 using SocialMedia.Core.Domain.Enums;
 using SocialMedia.Core.Domain.RepositoriesInterfaces;
 using SocialMedia.Infrastructure.DatabaseContext;
-using System.Security.Cryptography.X509Certificates;
-using BenchmarkDotNet;
-using BenchmarkDotNet.Attributes;
-using Microsoft.Diagnostics.Tracing.Parsers.Tpl;
 using SocialMedia.Core.DTO_S.ResponseDto_S;
-using SocialMedia.Core.DTO_S.Like.ResponseDTOs;
 
 namespace SocialMedia.Infrastructure.Repositories.PostRepository
 {
     public class PostRepository : IPostRepository
     {
-        private int _pageSize = 5;
+        private int _pageSize = 10;
         private AppDbContext _context;
         public PostRepository(AppDbContext context)
         {

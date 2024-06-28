@@ -15,6 +15,7 @@ namespace SocialMedia.Infrastructure.Repositories.CommentRepository
     public class CommentRepository : ICommentRepository
     {
         private AppDbContext _context;
+        private const int PageSize = 10;
         public CommentRepository(AppDbContext context)
         {
             _context= context;
@@ -28,7 +29,7 @@ namespace SocialMedia.Infrastructure.Repositories.CommentRepository
             return comment;
         }
 
-        public async Task<List<GetCommentResponseDto>> GetComments(Guid postId)
+        public async Task<List<GetCommentResponseDto>> GetComments(Guid postId, int pageNumber)
             => await _context.Comments
                 .Include(x=>x.User)
                 .Where(x=>x.PostId==postId)
@@ -42,7 +43,10 @@ namespace SocialMedia.Infrastructure.Repositories.CommentRepository
                     FirstName=x.User.FirstName,
                     LastName=x.User.LastName,
                     ProfilePictureUrl=x.User.ProfilePicture
-                }).OrderBy(x=>x.DateCreated).ToListAsync();
+                })
+                .OrderByDescending(x=>x.DateCreated)
+                .Skip((pageNumber*PageSize)-PageSize).Take(PageSize)
+                .ToListAsync();
 
     }
 }

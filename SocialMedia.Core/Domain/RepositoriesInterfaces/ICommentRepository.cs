@@ -13,7 +13,7 @@ namespace SocialMedia.Core.Domain.RepositoriesInterfaces
     {
         Task<Comment> FindAsyncWithDependent(Guid id, string dependent);
 
-        Task<List<GetCommentResponseDto>> GetComments(Guid postId);
+        Task<List<GetCommentResponseDto>> GetComments(Guid postId,int pageNumber);
 
     }
 }

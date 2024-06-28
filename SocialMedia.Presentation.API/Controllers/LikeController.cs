@@ -1,6 +1,7 @@
 ﻿using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 using SocialMedia.Core.Domain.Entities;
+using SocialMedia.Core.DTO_S.Like.RequestDTOs;
 using SocialMedia.Core.DTO_S.Like.ResponseDTOs;
 using SocialMedia.Core.DTO_S.RequestDto_S;
 using SocialMedia.Core.ServicesInterfaces.PostInterfaces.LikeInterfaces;
@@ -26,7 +27,7 @@ namespace SocialMedia.Presentation.API.Controllers
 
         [HttpGet("{postId}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseModel<List<LikeResponseDto>>))]
-        public async Task<IActionResult> getLikes(Guid postId, [FromServices] IGetLikesService getLikesService)
-            => await _presenter.Handle(postId, getLikesService);    
+        public async Task<IActionResult> getLikes(Guid postId,[FromQuery]int pageNumber, [FromServices] IGetLikesService getLikesService)
+            => await _presenter.Handle(new GetLikesRequestDto() { PostId=postId,PageNumber=pageNumber}, getLikesService);    
     }
 }

@@ -1,4 +1,5 @@
 ﻿using SocialMedia.Core.Domain.Entities;
+using SocialMedia.Core.DTO_S.Comment.RequestDTOs;
 using SocialMedia.Core.DTO_S.Comment.ResponseDTOs;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SocialMedia.Core.ServicesInterfaces.PostInterfaces.CommentInterfaces
 {
-    public interface IGetCommentsService:IGenericService<Guid,ResponseModel<List<GetCommentResponseDto>>>
+    public interface IGetCommentsService:IGenericService<GetCommentsRequestDto,ResponseModel<List<GetCommentResponseDto>>>
     {
     }
 }

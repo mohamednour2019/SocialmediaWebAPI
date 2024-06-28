@@ -1,5 +1,6 @@
 ﻿using SocialMedia.Core.Domain.Entities;
 using SocialMedia.Core.Domain.RepositoriesInterfaces;
+using SocialMedia.Core.DTO_S.Comment.RequestDTOs;
 using SocialMedia.Core.DTO_S.Comment.ResponseDTOs;
 using SocialMedia.Core.ServicesInterfaces.PostInterfaces.CommentInterfaces;
 using System;
@@ -19,9 +20,10 @@ namespace SocialMedia.Core.Services.PostServices.CommentServices
             _commentRepository = commentRepository;
         }
 
-        public async Task<ResponseModel<List<GetCommentResponseDto>>> Perform(Guid requestDto)
+        public async Task<ResponseModel<List<GetCommentResponseDto>>> Perform(GetCommentsRequestDto requestDto)
         {
-            List<GetCommentResponseDto>comments= await _commentRepository.GetComments(requestDto);
+            List<GetCommentResponseDto>comments= await _commentRepository
+                .GetComments(requestDto.PostId,requestDto.PageNumber);
             return new ResponseModel<List<GetCommentResponseDto>>()
             {
                 Data = comments,

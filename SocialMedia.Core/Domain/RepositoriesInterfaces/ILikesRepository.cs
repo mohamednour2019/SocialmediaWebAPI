@@ -9,6 +9,6 @@ namespace SocialMedia.Core.Domain.RepositoriesInterfaces
 {
     public interface ILikesRepository
     {
-        Task<List<LikeResponseDto>> getLikes(Guid postId);
+        Task<List<LikeResponseDto>> getLikes(Guid postId,int pageNumber);
     }
 }
