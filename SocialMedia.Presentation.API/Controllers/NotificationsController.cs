@@ -25,8 +25,10 @@ namespace SocialMedia.Presentation.API.Controllers
 
         [HttpGet("list/{userId}")]
         [ProducesResponseType(StatusCodes.Status200OK,Type =typeof(ResponseModel<List<GetNotificationResponseDto>>))]
-        public async Task<IActionResult> getNotifications(Guid userId, [FromServices]IGetNotificationsService getNotificationsService)
-            =>await _presenter.Handle(new GetNotificationsRequestDto() { UserId=userId}, getNotificationsService);
+        public async Task<IActionResult> getNotifications(Guid userId,[FromQuery]int pageNumber 
+            ,[FromServices]IGetNotificationsService getNotificationsService)
+            =>await _presenter.Handle(new GetNotificationsRequestDto() { UserId=userId,PageNumber=pageNumber}
+            , getNotificationsService);
 
 
 

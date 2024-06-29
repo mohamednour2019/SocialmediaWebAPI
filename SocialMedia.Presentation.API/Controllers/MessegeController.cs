@@ -11,8 +11,9 @@ namespace SocialMedia.Presentation.API.Controllers
         [HttpGet("{firstUserId}/{secondUserId}")]
         [ProducesResponseType(StatusCodes.Status200OK,Type =typeof(ResponseModel<List<GetChatMessegesResponseDto>>))]
         public async Task<IActionResult> GetChatMesseges(Guid firstUserId,Guid secondUserId
+            , [FromQuery]int pageNumber
             , [FromServices] IGetChatMessegesService getChatMessegesService)
             =>await _presenter.Handle(new GetChatMessegesRequestDto() 
-            { FirstUserId=firstUserId,SedondUserId=secondUserId}, getChatMessegesService);    
+            { FirstUserId=firstUserId,SedondUserId=secondUserId,PageNumber=pageNumber}, getChatMessegesService);    
     }
 }

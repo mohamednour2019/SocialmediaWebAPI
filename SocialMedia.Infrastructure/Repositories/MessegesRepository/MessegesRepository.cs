@@ -14,6 +14,7 @@ namespace SocialMedia.Infrastructure.Repositories.MessegesRepository
     public class MessegesRepository : IMessegesRepository
     {
         private AppDbContext _appDbContext;
+        private const int PAGE_SIZE = 15;
         public MessegesRepository(AppDbContext appDbContext)
         {
             _appDbContext = appDbContext;
@@ -29,7 +30,9 @@ namespace SocialMedia.Infrastructure.Repositories.MessegesRepository
                await _appDbContext.Messages
                 .Where(x => (x.SenderId == requestDto.FirstUserId && x.ReciverId == requestDto.SedondUserId) ||
                 (x.SenderId == requestDto.SedondUserId && x.ReciverId == requestDto.FirstUserId))
-                .OrderBy(x=>x.CreatedDate)
+                .OrderByDescending(x=>x.CreatedDate)   
+                .Skip((requestDto.PageNumber*PAGE_SIZE) - PAGE_SIZE)
+                .Take(PAGE_SIZE)
                 .ToListAsync();
     }
 }

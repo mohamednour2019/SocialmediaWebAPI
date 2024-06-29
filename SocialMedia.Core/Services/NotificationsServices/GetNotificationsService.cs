@@ -24,7 +24,8 @@ namespace SocialMedia.Core.Services.NotificationsServices
         }
         public async Task<ResponseModel<List<GetNotificationResponseDto>>> Perform(GetNotificationsRequestDto requestDto)
         {
-            List<Notification> notifications = await _notificationRepository.GetNotifications(requestDto.UserId);
+            List<Notification> notifications = await _notificationRepository
+                .GetNotifications(requestDto.UserId,requestDto.PageNumber);
             List<GetNotificationResponseDto>response=_mapper.Map<List<GetNotificationResponseDto>>(notifications);
             return new ResponseModel<List<GetNotificationResponseDto>>()
             {

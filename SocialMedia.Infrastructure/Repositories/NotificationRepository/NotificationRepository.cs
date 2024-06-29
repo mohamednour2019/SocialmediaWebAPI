@@ -13,7 +13,8 @@ namespace SocialMedia.Infrastructure.Repositories.NotificationRepository
     public class NotificationRepository : INotificationRepository
     {
         private AppDbContext _appDbContext;
-        private DbSet<Notification> _set; 
+        private DbSet<Notification> _set;
+        private const int PAGE_SIZE = 10;
         public NotificationRepository(AppDbContext context)
         {
             _appDbContext=context;
@@ -27,7 +28,7 @@ namespace SocialMedia.Infrastructure.Repositories.NotificationRepository
             notification.NotificationImage = emmiter.ProfilePicture;
             return notification;
         }
-        public async Task<List<Notification>> GetNotifications(Guid userId)
+        public async Task<List<Notification>> GetNotifications(Guid userId, int pageNumber)
         {
                 List<Notification> notifications=
                 await _set.Where(x=> x.UserId == userId)
@@ -43,7 +44,10 @@ namespace SocialMedia.Infrastructure.Repositories.NotificationRepository
                     UserId = notification.UserId,
                     EmmiterName = notification.EmmiterName,
                     NotificationImage = user.ProfilePicture
-                }).OrderByDescending(x=>x.DateTime).ToListAsync();
+                }).OrderByDescending(x=>x.DateTime)
+                .Skip((pageNumber*PAGE_SIZE)-PAGE_SIZE)
+                .Take(PAGE_SIZE)
+                .ToListAsync();
                 return notifications;   
         }
 

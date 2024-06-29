@@ -9,7 +9,7 @@ namespace SocialMedia.Core.Domain.RepositoriesInterfaces
 {
     public interface INotificationRepository
     {
-        Task<List<Notification>>GetNotifications(Guid userId);
+        Task<List<Notification>>GetNotifications(Guid userId,int pageNumber);
         Task<Notification> GetNotification(Guid NotificationId);
         Task DeletePostNotifications(Guid PostId);
     }
