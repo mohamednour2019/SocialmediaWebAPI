@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using SocialMedia.Core.Domain.Entities;
 using SocialMedia.Core.Domain.RepositoriesInterfaces;
+using SocialMedia.Core.DTO_S.Post.RequestDTOs;
 using SocialMedia.Core.DTO_S.ResponseDto_S;
 using SocialMedia.Core.ServicesInterfaces.PostInterfaces;
 using System;
@@ -20,10 +21,9 @@ namespace SocialMedia.Core.Services.PostServices
              _mapper=mapper;
             _repository = repository;
         }
-        public async Task<ResponseModel<GetUserPostsResponseDto>> Perform(Guid requestDto)
+        public async Task<ResponseModel<GetUserPostsResponseDto>> Perform(GetPostRequestDto requestDto)
         {
-            Post post= await _repository.GetPostAsync(requestDto);
-            GetUserPostsResponseDto response= _mapper.Map<GetUserPostsResponseDto>(post);
+            GetUserPostsResponseDto response = await _repository.GetPostAsync(requestDto.PostId,requestDto.UserId);
             return new ResponseModel<GetUserPostsResponseDto>()
             {
                 Message = null,

@@ -14,6 +14,6 @@ namespace SocialMedia.Core.Domain.RepositoriesInterfaces
         Task<List<GetUserPostsResponseDto>> GetPostsAsync(Guid userId,int pageNumber);
         Task<List<GetNewsFeedPostsResponseDto>> GetNewsFeedPostsAsync(Guid userId,int pageNumber);
 
-        Task<Post> GetPostAsync(Guid postId);
+        Task<GetUserPostsResponseDto> GetPostAsync(Guid postId, Guid userId);
     }
 }

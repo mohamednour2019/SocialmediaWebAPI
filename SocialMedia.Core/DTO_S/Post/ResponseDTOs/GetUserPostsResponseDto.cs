@@ -1,6 +1,7 @@
 ﻿using SocialMedia.Core.Domain.Entities;
 using SocialMedia.Core.DTO_S.Comment.ResponseDTOs;
 using SocialMedia.Core.DTO_S.Like.ResponseDTOs;
+using SocialMedia.Core.DTO_S.Post.ResponseDTOs;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -24,5 +25,8 @@ namespace SocialMedia.Core.DTO_S.ResponseDto_S
 
         public int CommentsCount { get; set; }
         public bool isLiked { get; set; }
+
+        public bool isShared { get; set; }
+        public PostSharingResponseDto? PostSharingData { get; set; }
     }
 }

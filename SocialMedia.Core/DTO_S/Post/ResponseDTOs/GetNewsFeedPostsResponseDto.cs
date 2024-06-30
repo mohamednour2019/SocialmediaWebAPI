@@ -1,4 +1,6 @@
-﻿namespace SocialMedia.Core.DTO_S.ResponseDto_S
+﻿using SocialMedia.Core.DTO_S.Post.ResponseDTOs;
+
+namespace SocialMedia.Core.DTO_S.ResponseDto_S
 {
     public class GetNewsFeedPostsResponseDto
     {
@@ -14,5 +16,8 @@
 
         public int CommentsCount {  get; set; }
         public bool isLiked {  get; set; }
+        public bool isShared {  get; set; }
+        public PostSharingResponseDto? PostSharingData { get; set; }
+
     }
 }

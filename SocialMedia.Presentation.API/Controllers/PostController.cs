@@ -1,6 +1,7 @@
 ﻿using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 using SocialMedia.Core.Domain.Entities;
+using SocialMedia.Core.DTO_S.Post.RequestDTOs;
 using SocialMedia.Core.DTO_S.RequestDto_S;
 using SocialMedia.Core.DTO_S.ResponseDto_S;
 using SocialMedia.Core.ServicesInterfaces.PostInterfaces;
@@ -49,10 +50,10 @@ namespace SocialMedia.Presentation.API.Controllers
             , [FromServices]IGetNewsFeedPostsService getNewsFeedPostsService)=>
             await _presenter.Handle(new GetNewsFeedPostsRequestDto() { UserId =userId,PageNumber=pageNumber},getNewsFeedPostsService);
 
-        [HttpGet("{postId}")]
+        [HttpGet("{postId}/{userId}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseModel<GetUserPostsResponseDto>))]
-        public async Task<IActionResult> getPost(Guid postId, [FromServices] IGetPostService getPostService)
-            => await _presenter.Handle(postId, getPostService);
+        public async Task<IActionResult> getPost(Guid postId,Guid userId ,[FromServices] IGetPostService getPostService)
+            => await _presenter.Handle(new GetPostRequestDto() { PostId=postId,UserId=userId}, getPostService);
 
     }
 }

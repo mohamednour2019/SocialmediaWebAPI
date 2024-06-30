@@ -1,4 +1,5 @@
 ﻿using SocialMedia.Core.Domain.Entities;
+using SocialMedia.Core.DTO_S.Post.RequestDTOs;
 using SocialMedia.Core.DTO_S.ResponseDto_S;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SocialMedia.Core.ServicesInterfaces.PostInterfaces
 {
-    public interface IGetPostService:IGenericService<Guid,ResponseModel<GetUserPostsResponseDto>>
+    public interface IGetPostService:IGenericService<GetPostRequestDto,ResponseModel<GetUserPostsResponseDto>>
     {
     }
 }
