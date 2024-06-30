@@ -1,4 +1,5 @@
 ﻿using Asp.Versioning;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using SocialMedia.Core.Domain.Entities;
@@ -72,7 +73,6 @@ namespace SocialMedia.Presentation.API.Controllers
         public async Task<IActionResult> getSuggestions(Guid userId
             , [FromServices]IGetFriendSuggestionsService getFriendSuggestionsService)
             =>await _presenter.Handle(userId, getFriendSuggestionsService);
-
 
         [HttpGet("online/{userId}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseModel<List<GetOnlineFriendsResponseDto>>))]

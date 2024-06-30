@@ -12,5 +12,6 @@ namespace SocialMedia.Core.Domain.RepositoriesInterfaces
         Task AddConnectionAsync(MessengerHub userConnection);
         Task DeleteConnectionAsync(Guid userId);
         Task<MessengerHub> GetConnectionAsync(Guid userId);
+        Task DeleteUserConnection(Guid userId);
     }
 }

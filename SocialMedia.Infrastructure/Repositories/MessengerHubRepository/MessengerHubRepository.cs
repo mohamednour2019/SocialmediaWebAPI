@@ -1,7 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.EntityFrameworkCore;
 using SocialMedia.Core.Domain.Entities;
 using SocialMedia.Core.Domain.RepositoriesInterfaces;
 using SocialMedia.Infrastructure.DatabaseContext;
+using SocialMedia.SharedKernel.CustomExceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,6 +41,20 @@ namespace SocialMedia.Infrastructure.Repositories.MessengerHubRepository
         {
            MessengerHub userConnectoin= await _messengerHubs.FindAsync(userId);
             return userConnectoin;
+        }
+
+        public async Task DeleteUserConnection(Guid userId)
+        {
+            MessengerHub messengerHub= await _appDbContext.MessengerHub.FindAsync(userId);
+            try
+            {
+                _appDbContext.MessengerHub.Remove(messengerHub);
+                await _appDbContext.SaveChangesAsync();
+  
+            }catch(Exception ex)
+            {
+                throw new ViolenceValidationException("user not connented!");
+            }
         }
     }
 }

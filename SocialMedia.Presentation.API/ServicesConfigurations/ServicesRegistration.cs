@@ -194,6 +194,7 @@ namespace SocialMedia.Presentation.API.ServicesConfigurations
             services.AddScoped<IGetCommentsService, GetCommentsService>();  
             services.AddScoped<ILikesRepository,LikesRepository>();
             services.AddScoped<IGetLikesService, GetLikesService>();    
+            services.AddScoped<IDeleteUserConnectionService, DeleteUserConnectionService>();
             services.AddScoped<IAddProfilePictureService, AddProfilePictureService>();
             services.AddScoped<IAddCoverPictureService, AddCoverPictureService>();
             services.AddScoped<ITokenHandlerService, TokenHandlerService>();

@@ -78,7 +78,7 @@ namespace SocialMedia.Infrastructure.Repositories.Friendship
             return await _context.Friends.Include(x => x.SecondUser)
                 .Where(x => x.FirstUserId == userId && x.SecondUserId != userId)
                 ?.Join(_context.MessengerHub, x => x.SecondUserId, x => x.UserId
-                , (friend, hub) =>friend.SecondUser)?.ToListAsync();
+                ,(friend, hub) => friend.SecondUser).ToListAsync();
         }
     }
 }
