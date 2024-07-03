@@ -142,8 +142,8 @@ namespace SocialMedia.Infrastructure.Mapper
                .ForMember(dest => dest.UserProfilePictureUrl, opt => opt.MapFrom(src => src.User.ProfilePicture))
                .ForMember(dest => dest.LikesCount, opt => opt.MapFrom(src => src.Likes.Count()))
                .ForMember(dest => dest.CommentsCount, opt => opt.MapFrom(src => src.Comments.Count()))
-               .ForMember(dest => dest.isLiked, opt => opt.MapFrom(src => src.Likes.Any(x => x.UserId == src.UserId)))
-               .ForMember(dest => dest.isShared, opt => opt.MapFrom(src => src.IsShared));
+               .ForMember(dest => dest.isLiked, opt => opt.MapFrom(src => src.Likes.Any(x => x.UserId == src.UserId)));
+
 
 
             CreateMap<Notification, GetNotificationResponseDto>()

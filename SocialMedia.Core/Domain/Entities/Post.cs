@@ -19,9 +19,10 @@ namespace SocialMedia.Core.Domain.Entities
         public User User { get; set; }
         public Guid UserId { get; set; }
         public string? ImageUrl {  get; set; }
-        public bool IsShared { get; set; }
-        public User? SharedFromUser {  get; set; }
-        public Guid? ShareFromUserId {  get; set; }
+        public Guid? SharedFromPostId { get; set; }
+
+        public Post? SharedPost { get; set; }
+        public ICollection<Post>?SharedPosts { get; set; }
         public ICollection<Comment>?Comments { get; set; }
         public ICollection<Like>?Likes { get; set; }
 

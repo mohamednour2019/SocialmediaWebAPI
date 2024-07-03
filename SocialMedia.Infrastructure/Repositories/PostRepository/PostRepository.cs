@@ -36,13 +36,16 @@ namespace SocialMedia.Infrastructure.Repositories.PostRepository
                     LikesCount = x.Likes.Count(),
                     CommentsCount = x.Comments.Count(),
                     isLiked = x.Likes.Any(x => x.UserId == userId),
-                    isShared = x.IsShared,
-                    PostSharingData = x.IsShared == true ? new PostSharingResponseDto()
+                    PostSharingData = x.SharedFromPostId != null ? new PostSharingResponseDto()
                     {
-                        UserFirstName = x.SharedFromUser.FirstName,
-                        UserLastName = x.SharedFromUser.LastName,
-                        UserId = x.ShareFromUserId,
-                        UserProfilePictureUrl = x.SharedFromUser.ProfilePicture
+                         PostId = x.SharedPost.Id,
+                         DateTime = x.SharedPost.DateTime,
+                         Content = x.SharedPost.Content,
+                         UserId = x.SharedPost.UserId,
+                         PostImageUrl = x.SharedPost.ImageUrl,
+                         UserFirstName = x.SharedPost.User.FirstName,
+                         UserLastName = x.SharedPost.User.LastName,
+                         UserProfilePictureUrl = x.SharedPost.User.ProfilePicture,
                     } : null
                 })
                 .FirstOrDefaultAsync();
@@ -64,14 +67,17 @@ namespace SocialMedia.Infrastructure.Repositories.PostRepository
                     LikesCount = x.Likes.Count(),
                     CommentsCount = x.Comments.Count(),
                     isLiked = x.Likes.Any(x => x.UserId == userId),
-                    isShared = x.IsShared,
-                    PostSharingData=x.IsShared==true?new PostSharingResponseDto()
+                    PostSharingData = x.SharedFromPostId != null ? new PostSharingResponseDto()
                     {
-                        UserFirstName=x.SharedFromUser.FirstName,
-                        UserLastName=x.SharedFromUser.LastName,
-                        UserId=x.ShareFromUserId,
-                        UserProfilePictureUrl=x.SharedFromUser.ProfilePicture
-                    }:null
+                        PostId = x.SharedPost.Id,
+                        DateTime = x.SharedPost.DateTime,
+                        Content = x.SharedPost.Content,
+                        UserId = x.SharedPost.UserId,
+                        PostImageUrl = x.SharedPost.ImageUrl,
+                        UserFirstName = x.SharedPost.User.FirstName,
+                        UserLastName = x.SharedPost.User.LastName,
+                        UserProfilePictureUrl = x.SharedPost.User.ProfilePicture,
+                    } : null
                 })
                 .OrderByDescending(x => x.DateTime)
                 .Skip((pageNumber* _pageSize) - _pageSize).Take(_pageSize)
@@ -93,15 +99,19 @@ namespace SocialMedia.Infrastructure.Repositories.PostRepository
                 LikesCount = x.Likes.Count(),
                 CommentsCount = x.Comments.Count(),
                 isLiked = x.Likes.Any(x => x.UserId == userId),
-                isShared = x.IsShared,
-                PostSharingData = x.IsShared == true ? new PostSharingResponseDto()
+                PostSharingData = x.SharedFromPostId != null ? new PostSharingResponseDto()
                 {
-                    UserFirstName = x.SharedFromUser.FirstName,
-                    UserLastName = x.SharedFromUser.LastName,
-                    UserId = x.ShareFromUserId,
-                    UserProfilePictureUrl = x.SharedFromUser.ProfilePicture
+                    PostId = x.SharedPost.Id,
+                    DateTime = x.SharedPost.DateTime,
+                    Content = x.SharedPost.Content,
+                    UserId = x.SharedPost.UserId,
+                    PostImageUrl = x.SharedPost.ImageUrl,
+                    UserFirstName = x.SharedPost.User.FirstName,
+                    UserLastName = x.SharedPost.User.LastName,
+                    UserProfilePictureUrl = x.SharedPost.User.ProfilePicture,
                 } : null
-            }))
+            }
+            ))
             .OrderByDescending(x => x.DateTime)
             .Skip((pageNumber * _pageSize) - _pageSize).Take(_pageSize)
             .ToListAsync();

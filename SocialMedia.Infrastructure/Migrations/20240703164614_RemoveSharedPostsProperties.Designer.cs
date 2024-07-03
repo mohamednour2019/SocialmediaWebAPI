@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SocialMedia.Infrastructure.DatabaseContext;
 
@@ -11,9 +12,11 @@ using SocialMedia.Infrastructure.DatabaseContext;
 namespace SocialMedia.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240703164614_RemoveSharedPostsProperties")]
+    partial class RemoveSharedPostsProperties
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -283,15 +286,10 @@ namespace SocialMedia.Infrastructure.Migrations
                     b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("SharedFromPostId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("SharedFromPostId");
 
                     b.HasIndex("UserId");
 
@@ -598,17 +596,11 @@ namespace SocialMedia.Infrastructure.Migrations
 
             modelBuilder.Entity("SocialMedia.Core.Domain.Entities.Post", b =>
                 {
-                    b.HasOne("SocialMedia.Core.Domain.Entities.Post", "SharedPost")
-                        .WithMany("SharedPosts")
-                        .HasForeignKey("SharedFromPostId");
-
                     b.HasOne("SocialMedia.Core.Domain.Entities.User", "User")
                         .WithMany("Posts")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("SharedPost");
 
                     b.Navigation("User");
                 });
@@ -629,8 +621,6 @@ namespace SocialMedia.Infrastructure.Migrations
                     b.Navigation("Comments");
 
                     b.Navigation("Likes");
-
-                    b.Navigation("SharedPosts");
                 });
 
             modelBuilder.Entity("SocialMedia.Core.Domain.Entities.User", b =>

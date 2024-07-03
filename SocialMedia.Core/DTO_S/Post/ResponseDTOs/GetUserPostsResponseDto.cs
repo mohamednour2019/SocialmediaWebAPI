@@ -25,8 +25,6 @@ namespace SocialMedia.Core.DTO_S.ResponseDto_S
 
         public int CommentsCount { get; set; }
         public bool isLiked { get; set; }
-
-        public bool isShared { get; set; }
         public PostSharingResponseDto? PostSharingData { get; set; }
     }
 }

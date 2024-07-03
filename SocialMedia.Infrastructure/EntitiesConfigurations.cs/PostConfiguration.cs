@@ -22,8 +22,8 @@ namespace SocialMedia.Infrastructure.EntitiesConfigurations.cs
             builder.HasMany(x=>x.Likes).WithOne(x=>x.Post).HasForeignKey(x=>x.PostId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            builder.HasOne(x => x.SharedFromUser).WithMany(x => x.SharedPosts)
-                .HasForeignKey(x => x.ShareFromUserId).IsRequired(false);
+            builder.HasMany(x => x.SharedPosts).WithOne(x => x.SharedPost).HasForeignKey(x => x.SharedFromPostId).IsRequired(false);
+
         }
     }
 }
