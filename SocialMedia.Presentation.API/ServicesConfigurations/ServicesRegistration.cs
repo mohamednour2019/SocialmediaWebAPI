@@ -199,6 +199,7 @@ namespace SocialMedia.Presentation.API.ServicesConfigurations
             services.AddScoped<IAddCoverPictureService, AddCoverPictureService>();
             services.AddScoped<ITokenHandlerService, TokenHandlerService>();
             services.AddScoped<IGetClaimsFromToken,GetClaimsFromToken>();
+            services.AddScoped<ISharePostService, SharePostService>();
             services.AddScoped<IRefreshTokenService, RefreshTokenService>();    
             services.AddScoped<IGetOnlineFriendsService, GetOnlineFriendsService>();
             services.AddScoped<IGenericRepository<UserRefreshToken>, GenericRepository<UserRefreshToken>>();

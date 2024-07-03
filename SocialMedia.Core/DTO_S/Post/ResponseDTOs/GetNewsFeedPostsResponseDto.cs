@@ -13,7 +13,6 @@ namespace SocialMedia.Core.DTO_S.ResponseDto_S
         public string UserLastName { get; set; }
         public string? UserProfilePictureUrl { get; set; }
         public int LikesCount {  get; set; }
-
         public int CommentsCount {  get; set; }
         public bool isLiked {  get; set; }
         public PostSharingResponseDto? PostSharingData { get; set; }

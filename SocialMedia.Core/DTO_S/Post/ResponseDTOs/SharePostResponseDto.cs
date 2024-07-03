@@ -1,19 +1,16 @@
-﻿using SocialMedia.Core.Domain.Entities;
-using SocialMedia.Core.DTO_S.Post.ResponseDTOs;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SocialMedia.Core.DTO_S.ResponseDto_S
+namespace SocialMedia.Core.DTO_S.Post.ResponseDTOs
 {
-    public class AddPostResponseDto
+    public class SharePostResponseDto
     {
         public Guid PostId { get; set; }
         public DateTime DateTime { get; set; }
-        public string Content { get; set; }
+        public string? Content { get; set; }
         public string? PostImageUrl { get; set; }
         public Guid? UserId { get; set; }
         public string UserFirstName { get; set; }
@@ -22,5 +19,6 @@ namespace SocialMedia.Core.DTO_S.ResponseDto_S
         public int LikesCount { get; set; } = 0;
         public int CommentsCount { get; set; } = 0;
         public bool isLiked { get; set; } = false;
+        public PostSharingResponseDto? PostSharingData { get; set; }
     }
 }

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SocialMedia.Core.Domain.Entities;
 using SocialMedia.Core.DTO_S.Post.RequestDTOs;
+using SocialMedia.Core.DTO_S.Post.ResponseDTOs;
 using SocialMedia.Core.DTO_S.RequestDto_S;
 using SocialMedia.Core.DTO_S.ResponseDto_S;
 using SocialMedia.Core.ServicesInterfaces.PostInterfaces;
@@ -54,6 +55,13 @@ namespace SocialMedia.Presentation.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseModel<GetUserPostsResponseDto>))]
         public async Task<IActionResult> getPost(Guid postId,Guid userId ,[FromServices] IGetPostService getPostService)
             => await _presenter.Handle(new GetPostRequestDto() { PostId=postId,UserId=userId}, getPostService);
+
+
+        [HttpPost("share")]
+        [ProducesResponseType(StatusCodes.Status200OK,Type =typeof(ResponseModel<SharePostResponseDto>))]
+        public async Task<IActionResult> sharePost(SharePostRequestDto requestDto
+            , [FromServices] ISharePostService sharePostService)
+            =>await _presenter.Handle(requestDto, sharePostService);
 
     }
 }
