@@ -12,8 +12,8 @@ using SocialMedia.Infrastructure.DatabaseContext;
 namespace SocialMedia.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240529175502_LikeNotificationTrigger")]
-    partial class LikeNotificationTrigger
+    [Migration("20240704162528_add like id")]
+    partial class addlikeid
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -141,9 +141,6 @@ namespace SocialMedia.Infrastructure.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("NotificationId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid>("PostId")
                         .HasColumnType("uniqueidentifier");
 
@@ -186,7 +183,7 @@ namespace SocialMedia.Infrastructure.Migrations
                     b.Property<Guid>("PostId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("NotificationId")
+                    b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("UserId", "PostId");
@@ -253,6 +250,9 @@ namespace SocialMedia.Infrastructure.Migrations
                     b.Property<string>("EmmiterName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("NotificationImage")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("NotificationType")
                         .HasColumnType("nvarchar(max)");
 
@@ -275,7 +275,6 @@ namespace SocialMedia.Infrastructure.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Content")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("DateTime")
@@ -284,10 +283,15 @@ namespace SocialMedia.Infrastructure.Migrations
                     b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid?>("SharedFromPostId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("SharedFromPostId");
 
                     b.HasIndex("UserId");
 
@@ -424,6 +428,23 @@ namespace SocialMedia.Infrastructure.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("Users", (string)null);
+                });
+
+            modelBuilder.Entity("SocialMedia.Core.Domain.Entities.UserRefreshToken", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("ExpiresIn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("RefreshToken")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("UsersRefreshTokens", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -577,9 +598,26 @@ namespace SocialMedia.Infrastructure.Migrations
 
             modelBuilder.Entity("SocialMedia.Core.Domain.Entities.Post", b =>
                 {
+                    b.HasOne("SocialMedia.Core.Domain.Entities.Post", "SharedPost")
+                        .WithMany("SharedPosts")
+                        .HasForeignKey("SharedFromPostId");
+
                     b.HasOne("SocialMedia.Core.Domain.Entities.User", "User")
                         .WithMany("Posts")
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("SharedPost");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("SocialMedia.Core.Domain.Entities.UserRefreshToken", b =>
+                {
+                    b.HasOne("SocialMedia.Core.Domain.Entities.User", "User")
+                        .WithOne("RefreshToken")
+                        .HasForeignKey("SocialMedia.Core.Domain.Entities.UserRefreshToken", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -591,6 +629,8 @@ namespace SocialMedia.Infrastructure.Migrations
                     b.Navigation("Comments");
 
                     b.Navigation("Likes");
+
+                    b.Navigation("SharedPosts");
                 });
 
             modelBuilder.Entity("SocialMedia.Core.Domain.Entities.User", b =>
@@ -609,6 +649,8 @@ namespace SocialMedia.Infrastructure.Migrations
                     b.Navigation("Posts");
 
                     b.Navigation("ReciverMessages");
+
+                    b.Navigation("RefreshToken");
 
                     b.Navigation("SecondUserFriends");
 

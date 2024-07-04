@@ -9,7 +9,8 @@ namespace SocialMedia.Core.Domain.Enums
     public enum NotificationType{
         Like=0,
         Comment=1,
-        FriendRequest=2,
-        FriendRequestAccepted=3
+        Share=2,
+        FriendRequest=3,
+        FriendRequestAccepted=4
     }
 }

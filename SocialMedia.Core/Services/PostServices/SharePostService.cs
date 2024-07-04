@@ -3,6 +3,8 @@ using SocialMedia.Core.Domain.RepositoriesInterfaces;
 using SocialMedia.Core.DTO_S.Post.RequestDTOs;
 using SocialMedia.Core.DTO_S.Post.ResponseDTOs;
 using SocialMedia.Core.DTO_S.ResponseDto_S;
+using SocialMedia.Core.Services.SSEServices;
+using SocialMedia.Core.ServicesInterfaces.NotificatinosInterfaces;
 using SocialMedia.Core.ServicesInterfaces.PostInterfaces;
 using System;
 using System.Collections.Generic;
@@ -15,9 +17,15 @@ namespace SocialMedia.Core.Services.PostServices
     public class SharePostService : ISharePostService
     {
         private IPostRepository _postRepository;
+        private IGetNotificationService _notificationService;
+        private IGenericRepository<Post> _genericRepository;
 
-        public SharePostService(IPostRepository postRepository)
+        public SharePostService(IPostRepository postRepository
+            ,IGetNotificationService getNotificationService
+            ,IGenericRepository<Post>genericRepository)
         {
+            _genericRepository = genericRepository;
+            _notificationService = getNotificationService;
             _postRepository = postRepository;
         }
 
@@ -31,8 +39,14 @@ namespace SocialMedia.Core.Services.PostServices
                 UserId = requestDto.UserId,
                 DateTime = DateTime.Now
             };
+            SharePostResponseDto response = await _postRepository.SharePost(sharedPost);
+            Post MainSharedPost = await _genericRepository.FindAsync(sharedPost.SharedFromPostId);
+            if (sharedPost.UserId!= MainSharedPost.UserId)
+            {
+                var notification = await _notificationService.Perform((Guid)sharedPost.Id);
+                await SendLiveNotificationService.SendNotification(notification.Data.UserId, notification);
+            }
 
-            SharePostResponseDto response= await _postRepository.SharePost(sharedPost);
 
             return new ResponseModel<SharePostResponseDto>
             {

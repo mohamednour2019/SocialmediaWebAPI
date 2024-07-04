@@ -33,9 +33,10 @@ namespace SocialMedia.Core.Services.PostServices.LikeServices
         public async Task<ResponseModel<LikeResponseDto>> Perform(AddLikeRequestDto requestDto)
         {
             Like like = _mapper.Map<Like>(requestDto);
+            like.Id = Guid.NewGuid();
             Post post = await _postRepository.FindAsync(requestDto.PostId);
             if(post.UserId != requestDto.UserId) {
-                like.NotificationId = Guid.NewGuid();
+
                 try
                 {
                     await _repository.AddAsync(like);
@@ -46,7 +47,7 @@ namespace SocialMedia.Core.Services.PostServices.LikeServices
                 }
                 try
                 {
-                    var notification = await _notificationService.Perform((Guid)like.NotificationId);
+                    var notification = await _notificationService.Perform((Guid)like.Id);
                     await SendLiveNotificationService.SendNotification(notification.Data.UserId, notification);
                 }
                 catch (Exception ex) { }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SocialMedia.Infrastructure.DatabaseContext;
 
@@ -11,9 +12,11 @@ using SocialMedia.Infrastructure.DatabaseContext;
 namespace SocialMedia.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240704161700_RemoveNotificationIdFromLikeAndCommentAndPost")]
+    partial class RemoveNotificationIdFromLikeAndCommentAndPost
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -178,9 +181,6 @@ namespace SocialMedia.Infrastructure.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("PostId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("UserId", "PostId");

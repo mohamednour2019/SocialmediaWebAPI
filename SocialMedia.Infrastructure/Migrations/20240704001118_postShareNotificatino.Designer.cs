@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SocialMedia.Infrastructure.DatabaseContext;
 
@@ -11,9 +12,11 @@ using SocialMedia.Infrastructure.DatabaseContext;
 namespace SocialMedia.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240704001118_postShareNotificatino")]
+    partial class postShareNotificatino
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -138,6 +141,9 @@ namespace SocialMedia.Infrastructure.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
+                    b.Property<Guid?>("NotificationId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid>("PostId")
                         .HasColumnType("uniqueidentifier");
 
@@ -180,7 +186,7 @@ namespace SocialMedia.Infrastructure.Migrations
                     b.Property<Guid>("PostId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("Id")
+                    b.Property<Guid?>("NotificationId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("UserId", "PostId");
@@ -279,6 +285,9 @@ namespace SocialMedia.Infrastructure.Migrations
 
                     b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("NotificationId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("SharedFromPostId")
                         .HasColumnType("uniqueidentifier");

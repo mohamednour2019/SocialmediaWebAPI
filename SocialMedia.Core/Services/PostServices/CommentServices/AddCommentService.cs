@@ -37,7 +37,6 @@ namespace SocialMedia.Core.Services.PostServices.CommentServices
             Post post = await _postRepository.FindAsync(requestDto.PostId);
             if (post.UserId != requestDto.UserId)
             {
-                comment.NotificationId = Guid.NewGuid();
                 try
                 {
                     await _repository.AddAsync(comment);
@@ -48,7 +47,7 @@ namespace SocialMedia.Core.Services.PostServices.CommentServices
                 }
                 try
                 {
-                    var notification = await _notificationService.Perform((Guid)comment.NotificationId);
+                    var notification = await _notificationService.Perform((Guid)comment.Id);
                     await SendLiveNotificationService.SendNotification(notification.Data.UserId, notification);
                 }
                 catch (Exception ex) { }

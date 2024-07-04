@@ -20,7 +20,6 @@ namespace SocialMedia.Core.Domain.Entities
         public Guid UserId { get; set; }
         public string? ImageUrl {  get; set; }
         public Guid? SharedFromPostId { get; set; }
-
         public Post? SharedPost { get; set; }
         public ICollection<Post>?SharedPosts { get; set; }
         public ICollection<Comment>?Comments { get; set; }

@@ -1,16 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using SocialMedia.Core.Domain.Entities;
 using SocialMedia.Core.DTO_S.ResponseDto_S;
-using SocialMedia.Core.ServicesInterfaces.NotificatinosInterfaces;
 using SocialMedia.Core.ServicesInterfaces.SSEInterfaces;
-using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace SocialMedia.Core.Services.SSEServices
 {
