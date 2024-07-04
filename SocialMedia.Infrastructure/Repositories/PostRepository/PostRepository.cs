@@ -75,7 +75,7 @@ namespace SocialMedia.Infrastructure.Repositories.PostRepository
                 .FirstOrDefaultAsync();
 
 
-        public async Task<List<GetUserPostsResponseDto>> GetPostsAsync(Guid userId, int pageNumber) =>
+        public async Task<List<GetUserPostsResponseDto>> GetPostsAsync(Guid userId, int pageNumber, Guid requestedUserId) =>
             await _context.Posts
                 .Where(x => x.UserId == userId)
                 .Select(x=>new GetUserPostsResponseDto()
@@ -90,7 +90,7 @@ namespace SocialMedia.Infrastructure.Repositories.PostRepository
                     UserProfilePictureUrl = x.User.ProfilePicture,
                     LikesCount = x.Likes.Count(),
                     CommentsCount = x.Comments.Count(),
-                    isLiked = x.Likes.Any(x => x.UserId == userId),
+                    isLiked = x.Likes.Any(x => x.UserId == requestedUserId),
                     PostSharingData = x.SharedFromPostId != null ? new PostSharingResponseDto()
                     {
                         PostId = x.SharedPost.Id,

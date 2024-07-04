@@ -10,5 +10,6 @@ namespace SocialMedia.Core.DTO_S.RequestDto_S
     {
         public Guid UserId {  get; set; }
         public int PageNumber {  get; set; }
+        public Guid RequestedUserId {  get; set; }
     }
 }

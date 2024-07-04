@@ -13,7 +13,7 @@ namespace SocialMedia.Core.Domain.RepositoriesInterfaces
     {
         Task<AddPostResponseDto> AddPost(Post post);
         Task<SharePostResponseDto> SharePost(Post post);
-        Task<List<GetUserPostsResponseDto>> GetPostsAsync(Guid userId,int pageNumber);
+        Task<List<GetUserPostsResponseDto>> GetPostsAsync(Guid userId,int pageNumber,Guid requestedUserId);
         Task<List<GetNewsFeedPostsResponseDto>> GetNewsFeedPostsAsync(Guid userId,int pageNumber);
 
         Task<GetUserPostsResponseDto> GetPostAsync(Guid postId, Guid userId);

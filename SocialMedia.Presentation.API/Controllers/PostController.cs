@@ -38,12 +38,12 @@ namespace SocialMedia.Presentation.API.Controllers
           await _presenter.Handle(new DeletePostRequestDto() { PostId=id}, addPostService);
 
 
-        [HttpGet("profile/{userId}")]
+        [HttpGet("profile/{userId}/{requestedUserId}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseModel<List<GetUserPostsResponseDto>>))]
 
-        public async Task<IActionResult> getUserPosts(Guid userId,[FromQuery]int pageNumber
+        public async Task<IActionResult> getUserPosts(Guid userId,Guid requestedUserId,[FromQuery]int pageNumber
             , [FromServices]IGetUserPostsService getUserPostsService)=>
-            await _presenter.Handle(new GetUserPostsRequestDto() { UserId=userId,PageNumber=pageNumber},getUserPostsService);
+            await _presenter.Handle(new GetUserPostsRequestDto() { UserId=userId,PageNumber=pageNumber,RequestedUserId= requestedUserId },getUserPostsService);
 
         [HttpGet("newsfeed/{userId}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseModel<List<GetNewsFeedPostsResponseDto>>))]
@@ -53,7 +53,7 @@ namespace SocialMedia.Presentation.API.Controllers
 
         [HttpGet("{postId}/{userId}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseModel<GetUserPostsResponseDto>))]
-        public async Task<IActionResult> getPost(Guid postId,Guid userId ,[FromServices] IGetPostService getPostService)
+        public async Task<IActionResult> getPost(Guid postId,Guid userId,[FromServices] IGetPostService getPostService)
             => await _presenter.Handle(new GetPostRequestDto() { PostId=postId,UserId=userId}, getPostService);
 
 
