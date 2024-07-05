@@ -42,6 +42,7 @@ using SocialMedia.Core.ServicesInterfaces.UserInterfaces;
 using SocialMedia.Infrastructure.DatabaseContext;
 using SocialMedia.Infrastructure.Mapper;
 using SocialMedia.Infrastructure.Repositories;
+using SocialMedia.Infrastructure.Repositories.ChatRepository;
 using SocialMedia.Infrastructure.Repositories.CommentRepository;
 using SocialMedia.Infrastructure.Repositories.Friendship;
 using SocialMedia.Infrastructure.Repositories.LikeRepository;
@@ -201,6 +202,8 @@ namespace SocialMedia.Presentation.API.ServicesConfigurations
             services.AddScoped<IGetClaimsFromToken,GetClaimsFromToken>();
             services.AddScoped<ISharePostService, SharePostService>();
             services.AddScoped<IRefreshTokenService, RefreshTokenService>();    
+            services.AddScoped<IChatRepository,ChatRepository>();
+            services.AddScoped<IGetUserChatsService, GetUserChatsService>();
             services.AddScoped<IGetOnlineFriendsService, GetOnlineFriendsService>();
             services.AddScoped<IGenericRepository<UserRefreshToken>, GenericRepository<UserRefreshToken>>();
            

@@ -15,5 +15,6 @@ namespace SocialMedia.Core.Domain.Entities
         public Guid SenderId { get; set; }
         public User Reciver { get; set; }
         public Guid ReciverId { get; set; }
+        public ICollection<Chat> Chat { get; set; }
     }
 }

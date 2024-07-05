@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SocialMedia.Infrastructure.DatabaseContext;
 
@@ -11,9 +12,11 @@ using SocialMedia.Infrastructure.DatabaseContext;
 namespace SocialMedia.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240705031233_AddChatEntity")]
+    partial class AddChatEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -138,11 +141,10 @@ namespace SocialMedia.Infrastructure.Migrations
 
                     b.HasKey("FirstUserId", "SecondUserId");
 
-                    b.HasIndex("LastMessegeId");
+                    b.HasIndex("LastMessegeId")
+                        .IsUnique();
 
-                    b.HasIndex("SecondUserId");
-
-                    b.ToTable("Chats");
+                    b.ToTable("Chat");
                 });
 
             modelBuilder.Entity("SocialMedia.Core.Domain.Entities.Comment", b =>
@@ -517,29 +519,13 @@ namespace SocialMedia.Infrastructure.Migrations
 
             modelBuilder.Entity("SocialMedia.Core.Domain.Entities.Chat", b =>
                 {
-                    b.HasOne("SocialMedia.Core.Domain.Entities.User", "FirstUser")
-                        .WithMany("FirstUserChats")
-                        .HasForeignKey("FirstUserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("SocialMedia.Core.Domain.Entities.Message", "Message")
-                        .WithMany("Chat")
-                        .HasForeignKey("LastMessegeId")
+                        .WithOne("Chat")
+                        .HasForeignKey("SocialMedia.Core.Domain.Entities.Chat", "LastMessegeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SocialMedia.Core.Domain.Entities.User", "SecondUser")
-                        .WithMany("SecondUserChats")
-                        .HasForeignKey("SecondUserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("FirstUser");
-
                     b.Navigation("Message");
-
-                    b.Navigation("SecondUser");
                 });
 
             modelBuilder.Entity("SocialMedia.Core.Domain.Entities.Comment", b =>
@@ -670,7 +656,8 @@ namespace SocialMedia.Infrastructure.Migrations
 
             modelBuilder.Entity("SocialMedia.Core.Domain.Entities.Message", b =>
                 {
-                    b.Navigation("Chat");
+                    b.Navigation("Chat")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("SocialMedia.Core.Domain.Entities.Post", b =>
@@ -686,8 +673,6 @@ namespace SocialMedia.Infrastructure.Migrations
                 {
                     b.Navigation("Comments");
 
-                    b.Navigation("FirstUserChats");
-
                     b.Navigation("FirstUserFriends");
 
                     b.Navigation("Like");
@@ -702,8 +687,6 @@ namespace SocialMedia.Infrastructure.Migrations
                     b.Navigation("ReciverMessages");
 
                     b.Navigation("RefreshToken");
-
-                    b.Navigation("SecondUserChats");
 
                     b.Navigation("SecondUserFriends");
 

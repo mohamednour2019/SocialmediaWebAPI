@@ -15,5 +15,6 @@ namespace SocialMedia.Presentation.API.Controllers
             , [FromServices] IGetChatMessegesService getChatMessegesService)
             =>await _presenter.Handle(new GetChatMessegesRequestDto() 
             { FirstUserId=firstUserId,SedondUserId=secondUserId,PageNumber=pageNumber}, getChatMessegesService);    
+
     }
 }

@@ -37,6 +37,9 @@ namespace SocialMedia.Core.Domain.Entities
         public ICollection<FriendsRelationship>? SecondUserFriends { get; set; }
         public ICollection<Message>? SenderMessages { get; set;}
         public ICollection<Message>? ReciverMessages {  get; set; }
+
+        public ICollection<Chat>? FirstUserChats { get; set; }
+        public ICollection<Chat>? SecondUserChats { get; set; }
         public ICollection<Notification>? Notifications { get; set; }
         public MessengerHub MessengerHub { get; set; }
         public string OTP { get; set; }
