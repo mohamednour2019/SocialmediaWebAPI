@@ -26,6 +26,8 @@ namespace SocialMedia.Infrastructure.DatabaseContext
         public DbSet<Like>Likes { get; set; }
 
         public DbSet<Chat> Chats { get; set; }
+        
+        public DbSet<Reply> Replies { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

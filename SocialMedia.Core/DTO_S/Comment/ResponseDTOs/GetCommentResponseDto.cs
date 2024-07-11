@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SocialMedia.Core.DTO_S.Reply.ResponseDTOs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,5 +19,8 @@ namespace SocialMedia.Core.DTO_S.Comment.ResponseDTOs
         public string FirstName {  get; set; }
         public string LastName { get; set; }
         public string ? ProfilePictureUrl {  get; set; }
+
+        public List<AddReplyResponseDto> Replies { get; set; }
+        public int RepliesCount {  get; set; }
     }
 }

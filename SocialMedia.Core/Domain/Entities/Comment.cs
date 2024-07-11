@@ -18,5 +18,7 @@ namespace SocialMedia.Core.Domain.Entities
         public Guid PostId { get; set; }
         public User User { get; set; }
         public Guid UserId { get; set; }
+        public ICollection<Reply>? Replies { get; set; }
+        public ICollection<CommentLike>? Likes { get; set; }
     }
 }

@@ -24,4 +24,9 @@
     <ProjectReference Include="..\SocialMedia.SharedKernel\SocialMedia.SharedKernel.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DTO_S\Settings\ResponseDTOs\" />
+    <Folder Include="DTO_S\Settings\RequestDTOs\" />
+  </ItemGroup>
+
 </Project>

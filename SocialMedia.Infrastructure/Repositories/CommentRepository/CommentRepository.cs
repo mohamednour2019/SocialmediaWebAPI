@@ -2,6 +2,7 @@
 using SocialMedia.Core.Domain.Entities;
 using SocialMedia.Core.Domain.RepositoriesInterfaces;
 using SocialMedia.Core.DTO_S.Comment.ResponseDTOs;
+using SocialMedia.Core.DTO_S.Reply.ResponseDTOs;
 using SocialMedia.Core.DTO_S.RequestDto_S;
 using SocialMedia.Infrastructure.DatabaseContext;
 using System;
@@ -42,7 +43,21 @@ namespace SocialMedia.Infrastructure.Repositories.CommentRepository
                     DateCreated=x.DateCreated,
                     FirstName=x.User.FirstName,
                     LastName=x.User.LastName,
-                    ProfilePictureUrl=x.User.ProfilePicture
+                    ProfilePictureUrl=x.User.ProfilePicture,
+                    Replies=x.Replies.Take(1).Select(x => new AddReplyResponseDto()
+                    {
+                        Id = x.Id,
+                        Content = x.Content,
+                        DateCreated = x.DateCreated,
+                        FirstName = x.User.FirstName,
+                        LastName = x.User.LastName,
+                        ProfilePictureUrl = x.User.ProfilePicture,
+                        ReplyId = x.ReplyId,
+                        UserId = x.UserId,
+                        CommentId = x.CommentId,
+                        Depth = 1
+                    }).ToList(),
+                    RepliesCount=x.Replies.Count()
                 })
                 .OrderByDescending(x=>x.DateCreated)
                 .Skip((pageNumber*PageSize)-PageSize).Take(PageSize)
