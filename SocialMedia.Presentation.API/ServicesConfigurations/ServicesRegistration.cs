@@ -52,7 +52,6 @@ using SocialMedia.Infrastructure.Repositories.MessegesRepository;
 using SocialMedia.Infrastructure.Repositories.MessengerHubRepository;
 using SocialMedia.Infrastructure.Repositories.NotificationRepository;
 using SocialMedia.Infrastructure.Repositories.PostRepository;
-using SocialMedia.Infrastructure.Repositories.ReplyRepository;
 using SocialMedia.Infrastructure.Repositories.UserRepository;
 using SocialMedia.Presentation.API.Filters;
 using System.Text;
@@ -207,8 +206,8 @@ namespace SocialMedia.Presentation.API.ServicesConfigurations
             services.AddScoped<IRefreshTokenService, RefreshTokenService>();    
             services.AddScoped<IChatRepository,ChatRepository>();
             services.AddScoped<IGetUserChatsService, GetUserChatsService>();
-            services.AddScoped<IReplyRepository, ReplyRepository>();
-            services.AddScoped<IAddReplyService,AddReplyService>();
+            services.AddScoped<IAddReplyService, AddReplyService>();
+            services.AddScoped<IGetRepliesService, GetRepliesService>();
             services.AddScoped<IGetOnlineFriendsService, GetOnlineFriendsService>();
             services.AddScoped<IGenericRepository<UserRefreshToken>, GenericRepository<UserRefreshToken>>();
            

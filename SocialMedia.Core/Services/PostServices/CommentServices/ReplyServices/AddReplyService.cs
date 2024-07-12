@@ -1,5 +1,6 @@
 ﻿using SocialMedia.Core.Domain.Entities;
 using SocialMedia.Core.Domain.RepositoriesInterfaces;
+using SocialMedia.Core.DTO_S.Comment.ResponseDTOs;
 using SocialMedia.Core.DTO_S.Reply.RequestDTOs;
 using SocialMedia.Core.DTO_S.Reply.ResponseDTOs;
 using SocialMedia.Core.ServicesInterfaces.PostInterfaces.CommentInterfaces.ReplyInterfaces;
@@ -13,35 +14,37 @@ namespace SocialMedia.Core.Services.PostServices.CommentServices.ReplyServices
 {
     public class AddReplyService : IAddReplyService
     {
-        private IReplyRepository _replyRepository;
+        private ICommentRepository _commentRepository;
 
-        public AddReplyService(IReplyRepository replyRepository)
+        public AddReplyService(ICommentRepository commentRepository)
         {
-            _replyRepository = replyRepository;
+            _commentRepository = commentRepository;
         }
 
-        public async Task<ResponseModel<AddReplyResponseDto>> Perform(AddReplyRequestDto requestDto)
+        public async Task<ResponseModel<GetCommentResponseDto>> Perform(AddReplyRequestDto requestDto)
         {
-            Reply reply = new Reply()
+            Comment reply = new Comment()
             {
                 Id = Guid.NewGuid(),
                 Content = requestDto.Content,
-                CommentId = requestDto.CommentId,
+                CommentParentId = requestDto.CommentParentId,
                 UserId = requestDto.UserId,
-                ReplyId = requestDto.ReplyId,
+                PostId = requestDto.PostId,
                 DateCreated = DateTime.Now,
+                
             };
-            AddReplyResponseDto response;
+            GetCommentResponseDto response;
 
             try
             {
-                response=await _replyRepository.AddReplyAsync(reply);
-            }catch(Exception ex)
+                response = await _commentRepository.AddReplyAsync(reply);
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
 
-            return new ResponseModel<AddReplyResponseDto>
+            return new ResponseModel<GetCommentResponseDto>
             {
                 Data = response,
                 Message = null,

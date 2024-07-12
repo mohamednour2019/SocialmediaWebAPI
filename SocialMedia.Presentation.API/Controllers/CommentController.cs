@@ -3,9 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 using SocialMedia.Core.Domain.Entities;
 using SocialMedia.Core.DTO_S.Comment.RequestDTOs;
 using SocialMedia.Core.DTO_S.Comment.ResponseDTOs;
+using SocialMedia.Core.DTO_S.Reply.RequestDTOs;
 using SocialMedia.Core.DTO_S.RequestDto_S;
 using SocialMedia.Core.DTO_S.ResponseDto_S;
 using SocialMedia.Core.ServicesInterfaces.PostInterfaces.CommentInterfaces;
+using SocialMedia.Core.ServicesInterfaces.PostInterfaces.CommentInterfaces.ReplyInterfaces;
 using SocialMedia.Presentation.API.Filters;
 
 namespace SocialMedia.Presentation.API.Controllers
@@ -32,13 +34,27 @@ namespace SocialMedia.Presentation.API.Controllers
         [FromServices] IUpdateCommentService updateCommentService) =>
         await _presenter.Handle(requestDto, updateCommentService);
 
-        [HttpGet("{postId}")]
-        [ProducesResponseType(StatusCodes.Status200OK,Type =typeof(ResponseModel<List<GetCommentResponseDto>>))]
-        public async Task<IActionResult>getComments(Guid postId,[FromQuery]int pageNumber
+        [HttpGet("{postId}/{userId}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseModel<List<GetCommentResponseDto>>))]
+        public async Task<IActionResult> getComments(Guid postId, Guid userId, [FromQuery] int pageNumber
             , [FromServices] IGetCommentsService getCommentsService)
-            =>await _presenter.Handle(new GetCommentsRequestDto() { PostId=postId,PageNumber=pageNumber}
+            => await _presenter.Handle(new GetCommentsRequestDto() { PostId = postId, UserId = userId, PageNumber = pageNumber }
             , getCommentsService);
 
+
+        [HttpPost("reply")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseModel<GetCommentResponseDto>))]
+        public async Task<IActionResult> addReply(AddReplyRequestDto requestDto, [FromServices] IAddReplyService addReplyService)
+            => await _presenter.Handle(requestDto, addReplyService);
+
+
+
+        [HttpGet("replies/{CommentParentId}/user/{userId}")]
+        public async Task<IActionResult> getReplies(Guid commentParentId, Guid userId
+            , [FromServices] IGetRepliesService getRepliesService)
+            => await _presenter.Handle(new GetCommentRepliesRequestDto()
+            { UserId = userId, CommentParentId = commentParentId }
+            , getRepliesService);
 
     }
 }

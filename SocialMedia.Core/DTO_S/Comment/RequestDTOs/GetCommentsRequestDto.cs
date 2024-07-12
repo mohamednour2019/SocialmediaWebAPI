@@ -9,6 +9,8 @@ namespace SocialMedia.Core.DTO_S.Comment.RequestDTOs
     public class GetCommentsRequestDto
     {
         public Guid PostId {  get; set; }
+
+        public Guid UserId { get; set; }
         public int PageNumber {  get; set; }
     }
 }

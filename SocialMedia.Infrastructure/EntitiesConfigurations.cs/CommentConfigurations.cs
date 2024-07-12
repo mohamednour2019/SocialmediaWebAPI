@@ -17,6 +17,9 @@ namespace SocialMedia.Infrastructure.EntitiesConfigurations.cs
             builder.Property(x=>x.UserId).ValueGeneratedNever();
             builder.Property(x=>x.PostId).ValueGeneratedNever();
             builder.HasKey(x =>x.Id);
+
+            builder.HasOne(x => x.comment).WithMany(x => x.Replies)
+                .HasForeignKey(x => x.CommentParentId).IsRequired(false);
         }
     }
 }

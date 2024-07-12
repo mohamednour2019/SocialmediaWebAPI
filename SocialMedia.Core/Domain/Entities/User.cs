@@ -42,8 +42,6 @@ namespace SocialMedia.Core.Domain.Entities
         public ICollection<Chat>? SecondUserChats { get; set; }
         public ICollection<Notification>? Notifications { get; set; }
         public ICollection<CommentLike> CommentLikes { get; set; }
-
-        public ICollection<ReplyLike> ReplyLikes {  get; set; }
         public MessengerHub MessengerHub { get; set; }
         public string OTP { get; set; }
         public DateTime OtpExpiration { get; set; }

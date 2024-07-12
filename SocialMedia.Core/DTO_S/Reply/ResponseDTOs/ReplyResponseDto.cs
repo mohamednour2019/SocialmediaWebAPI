@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SocialMedia.Core.DTO_S.Reply.ResponseDTOs
 {
-    public class AddReplyResponseDto
+    public class ReplyResponseDto
     {
         public Guid Id { get; set; }
         public DateTime DateCreated { get; set; }
@@ -16,7 +16,7 @@ namespace SocialMedia.Core.DTO_S.Reply.ResponseDTOs
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string? ProfilePictureUrl { get; set; }
-        public Guid? ReplyId {  get; set; }
-        public int? Depth {  get; set; }
+        public Guid?ParentCommentId { get; set; }
+        public bool? isLiked { get; set; }
     }
 }

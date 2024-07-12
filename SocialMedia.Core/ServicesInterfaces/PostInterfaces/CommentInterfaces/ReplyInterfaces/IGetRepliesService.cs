@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace SocialMedia.Core.ServicesInterfaces.PostInterfaces.CommentInterfaces.ReplyInterfaces
 {
-    public interface IAddReplyService:IGenericService<AddReplyRequestDto,ResponseModel<GetCommentResponseDto>>
+    public interface IGetRepliesService:IGenericService<GetCommentRepliesRequestDto,ResponseModel<List<GetCommentResponseDto>>>
     {
     }
 }

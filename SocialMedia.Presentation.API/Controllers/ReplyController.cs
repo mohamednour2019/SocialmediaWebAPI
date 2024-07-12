@@ -8,9 +8,17 @@ namespace SocialMedia.Presentation.API.Controllers
 {
     public class ReplyController:BaseController
     {
-        [HttpPost]
-        [ProducesResponseType(StatusCodes.Status200OK,Type=typeof(ResponseModel<AddReplyResponseDto>))]
-        public async Task<IActionResult> addReply(AddReplyRequestDto requestDto, [FromServices]IAddReplyService addReplyService)
-            =>await _presenter.Handle(requestDto, addReplyService); 
+        //[HttpPost]
+        //[ProducesResponseType(StatusCodes.Status200OK,Type=typeof(ResponseModel<ReplyResponseDto>))]
+        //public async Task<IActionResult> addReply(AddReplyRequestDto requestDto, [FromServices]IAddReplyService addReplyService)
+        //    =>await _presenter.Handle(requestDto, addReplyService);
+
+        //[HttpGet("replies/{commentId}/user/{userId}")]
+        //public async Task<IActionResult> getReplies(Guid commentId, Guid userId
+        //    , [FromServices] IGetRepliesService getRepliesService)
+        //    => await _presenter.Handle(new GetCommentRepliesRequestDto() 
+        //    { UserId = userId, CommentId = commentId}
+        //    , getRepliesService);
+
     }
 }

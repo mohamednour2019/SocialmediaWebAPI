@@ -23,7 +23,7 @@ namespace SocialMedia.Core.Services.PostServices.CommentServices
         public async Task<ResponseModel<List<GetCommentResponseDto>>> Perform(GetCommentsRequestDto requestDto)
         {
             List<GetCommentResponseDto>comments= await _commentRepository
-                .GetComments(requestDto.PostId,requestDto.PageNumber);
+                .GetComments(requestDto);
             return new ResponseModel<List<GetCommentResponseDto>>()
             {
                 Data = comments,

@@ -8,7 +8,7 @@ namespace SocialMedia.Core.DTO_S.Comment.ResponseDTOs
 {
     public class CommentResponseDto
     {
-        public Guid Id { get; set; }
+        public Guid CommentId { get; set; }
         public DateTime DateCreated { get; set; }
         public string Content { get; set; }
         public Guid PostId { get; set; }
