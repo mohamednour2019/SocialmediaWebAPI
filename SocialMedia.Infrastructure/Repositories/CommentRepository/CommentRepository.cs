@@ -59,7 +59,8 @@ namespace SocialMedia.Infrastructure.Repositories.CommentRepository
                         CommentParentId = x.CommentParentId,
                         PostId = requestDto.PostId,
                         UserId = x.UserId,
-                        isLiked=x.Likes.Any(x=>x.UserId==x.UserId)
+                        RepliesCount = x.Replies.Count(),
+                        isLiked =x.Likes.Any(x=>x.UserId==x.UserId)
                     }).ToList()
                 })
                 .OrderByDescending(x=>x.DateCreated)
@@ -99,7 +100,21 @@ namespace SocialMedia.Infrastructure.Repositories.CommentRepository
                     LastName = x.User.LastName,
                     ProfilePictureUrl = x.User.ProfilePicture,
                     isLiked = x.Likes.Any(x => x.UserId == x.UserId),
-                    RepliesCount = x.Replies.Count()
+                    RepliesCount = x.Replies.Count(),
+                    Replies = x.Replies.Take(1).Select(x => new GetCommentResponseDto()
+                    {
+                        CommentId = x.Id,
+                        Content = x.Content,
+                        DateCreated = x.DateCreated,
+                        FirstName = x.User.FirstName,
+                        LastName = x.User.LastName,
+                        ProfilePictureUrl = x.User.ProfilePicture,
+                        CommentParentId = x.CommentParentId,
+                        PostId = x.PostId,
+                        UserId = x.UserId,
+                        RepliesCount = x.Replies.Count(),
+                        isLiked = x.Likes.Any(x => x.UserId == x.UserId)
+                    }).ToList()
                 }).OrderByDescending(x=>x.DateCreated).ToListAsync();
         }
     }
