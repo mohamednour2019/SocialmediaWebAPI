@@ -11,6 +11,7 @@ namespace SocialMedia.Core.Domain.Enums
         Comment=1,
         Share=2,
         FriendRequest=3,
-        FriendRequestAccepted=4
+        FriendRequestAccepted=4,
+        Reply=5
     }
 }
