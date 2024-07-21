@@ -18,12 +18,15 @@ namespace SocialMedia.Core.Services.PostServices.CommentServices.ReplyServices
     {
         private ICommentRepository _commentRepository;
         private IGetNotificationService _notificationService;
+        private IGenericRepository<Comment> _genericRepository;
 
         public AddReplyService(ICommentRepository commentRepository
-            ,IGetNotificationService getNotificationService)
+            ,IGetNotificationService getNotificationService,
+            IGenericRepository<Comment> genericRepository)
         {
             _commentRepository = commentRepository;
             _notificationService = getNotificationService;
+            _genericRepository = genericRepository;
         }
 
         public async Task<ResponseModel<GetCommentResponseDto>> Perform(AddReplyRequestDto requestDto)
@@ -39,7 +42,6 @@ namespace SocialMedia.Core.Services.PostServices.CommentServices.ReplyServices
                 
             };
             GetCommentResponseDto response;
-
             try
             {
                 response = await _commentRepository.AddReplyAsync(reply);
@@ -51,8 +53,14 @@ namespace SocialMedia.Core.Services.PostServices.CommentServices.ReplyServices
 
             try
             {
-                var notification = await _notificationService.Perform((Guid)reply.Id);
-                await SendLiveNotificationService.SendNotification(notification.Data.UserId, notification);
+                Comment ParentComment = await _genericRepository.FindAsync(reply.CommentParentId);
+                if (reply.UserId != ParentComment.UserId)
+                {
+                    var notification = await _notificationService.Perform((Guid)reply.Id);
+                    await SendLiveNotificationService.SendNotification(notification.Data.UserId, notification);
+                }
+
+
             }
             catch(Exception ex)
             {
